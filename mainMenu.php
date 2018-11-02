@@ -9,7 +9,17 @@ $title="Main Menu";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
-else{?>
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
+}
+?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/mainMenuStyle.css">
 	<body>
@@ -65,7 +75,4 @@ else{?>
 		</div>
 		<?php include("./templates/footer.php"); ?>
 	</body>
-	<?php
-}
-?>
 </html>

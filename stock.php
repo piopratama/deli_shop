@@ -3,7 +3,6 @@ session_start();
 
 $title="Stock";
 
-session_start();
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }

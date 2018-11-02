@@ -6,6 +6,16 @@ $title="Payment Undirect";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
+}
 require 'koneksi.php';
 $sql = "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice;";
 $result = $conn->query($sql);
