@@ -3,14 +3,16 @@
 <html>
 <?php
 session_start();
+
+$title="Main Menu";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
-else{?>
-	<?php 
-		include "koneksi.php";
-		$user = mysqli_query($conn, "SELECT nama FROM tb_employee where online_status=1");
-	?>
+else{
+	include "koneksi.php";
+	$user = mysqli_query($conn, "SELECT nama FROM tb_employee where online_status=1");
+?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/mainMenuStyle.css">
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>

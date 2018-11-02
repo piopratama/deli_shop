@@ -2,10 +2,13 @@
 <html>
 <?php
 session_start();
+
+$title="Update Expense";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-}?>
-<?php 
+}
+
 include 'koneksi.php';
 $id=$_GET['id'];
 $expenses = mysqli_query($conn, "SELECT * FROM tb_expenses WHERE id='$id'");

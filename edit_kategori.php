@@ -2,10 +2,13 @@
 <html>
 <?php
 session_start();
+
+$title="Update Category";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-}?>
-<?php 
+}
+
 include 'koneksi.php';
 $id=$_GET['id'];
 $kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id='$id';");
@@ -58,13 +61,14 @@ $kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id='$id';");
 							<div class="col-md-12" style="margin: 10px 0px">
 								<?php while($d=mysqli_fetch_array($kategori)){?>
 								<form action="update_kategori.php" method="POST" role="form" id="directPay_div">
+								<input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
 									<table>
 											<tr>
 												<td>	<div class="form-group">
 											      <label for="usr">Date Insert :</label>
-											      <input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
-											      <input type="date" style="padding-bottom: 30px" class="form-control" name="date_insert" value="<?php echo $d['date_insert'];?>">
-											    </div></td>
+											      <input type="date" class="form-control" name="date_insert" value="<?php echo $d['date_insert'];?>">
+											    </div>
+												</td>
 											</tr>
 											<tr>
 												
@@ -75,15 +79,18 @@ $kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id='$id';");
 											</tr>
 											<tr>
 												
-												<td>	<div class="form-group">
-											      <label for="usr">Description :</label>
-											      <input type="text" style="width: 200%; margin-bottom: 5px;" class="form-control" name="description" id="usr" value="<?php echo $d['description'];?>">
-											    </div></td>
+												<td>	
+													<div class="form-group">
+														<label for="usr">Description :</label>
+														<input type="text" style="width: 200%; margin-bottom: 5px;" class="form-control" name="description" id="usr" value="<?php echo $d['description'];?>">
+													</div>
+												</td>
 											</tr>
 
 											<tr>
-												<td><button type="submit" class="btn btn-success" id="add_item_btn" name=Submit>Submit</button></td>
-												
+												<td>
+													<button type="submit" class="btn btn-success" id="add_item_btn" name=Submit>Submit</button>
+												</td>
 											</tr>
 										
 									</table>

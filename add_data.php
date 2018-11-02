@@ -2,14 +2,15 @@
 <html>
 <?php
 session_start();
+
+$title="Add Stock";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-	
 }
 require('koneksi.php');
-	$sql = "SELECT * FROM tb_kategori";
-	$result = $conn->query($sql);
-	
+$sql = "SELECT * FROM tb_kategori";
+$result = $conn->query($sql);
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">

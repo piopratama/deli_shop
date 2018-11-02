@@ -2,18 +2,20 @@
 <html>
 <?php
 session_start();
+
+$title="Update Stock";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-}?>
-<?php include "koneksi.php";?>
-<?php
+}
+
+include "koneksi.php";
 $id=$_GET['id'];
 
 $data = mysqli_query($conn, "SELECT id, price, item, stock, unit, description FROM tb_barang WHERE id='$id'");
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
-
- ?>
+?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 

@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$title="Payment Undirect";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
@@ -56,7 +59,7 @@ $result = $conn->query($sql);
 					</div>
 					<div class="form-group">
 						<select class="form-control" id="invoice" name="invoice" required="required">
-							<option value="">-- Select Invoice --</option>
+							<option value="">-- Select Name --</option>
 							<?php
 							if ($result->num_rows > 0) {
 								// output data of each row

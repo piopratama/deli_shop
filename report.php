@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$title="Report";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }

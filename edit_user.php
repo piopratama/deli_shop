@@ -2,15 +2,16 @@
 <html>
 <?php
 session_start();
+
+$title="Update User";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-}?>
-<?php 
+}
+
 include 'koneksi.php';
 $id=$_GET['id'];
 $data = mysqli_query($conn, "SELECT * FROM tb_employee WHERE id='$id'")
-
-
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
