@@ -3,8 +3,19 @@ session_start();
 
 $title="Stock";
 
+session_start();
 if(empty($_SESSION['username'])){
 	header("location:index.php");
+}
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
 }
 include_once 'koneksi.php';
 $barang = mysqli_query($conn, "SELECT id, item, price, stock, unit, description FROM tb_barang;");
@@ -15,7 +26,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 <html>
 	
 	<?php include("./templates/header.php"); ?>
-	<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
+	<link rel="stylesheet" type="text/css" href="./css/stockStyle.css">
 
 	<body>
 		
@@ -45,7 +56,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								</ul> -->
 								
 								<ul class="nav navbar-nav navbar-right">
-									<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+									<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 									<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 									
 									<!-- <li class="">

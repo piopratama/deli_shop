@@ -8,6 +8,16 @@ $title="Update User";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
+}
 
 include 'koneksi.php';
 $id=$_GET['id'];
@@ -18,7 +28,7 @@ $data = mysqli_query($conn, "SELECT * FROM tb_employee WHERE id='$id'")
 
 	<body>
 		
-			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+			<div class="container-fluid">
 
 				<div class="row">
 					<div class="col-md-12 header">
@@ -43,7 +53,7 @@ $data = mysqli_query($conn, "SELECT * FROM tb_employee WHERE id='$id'")
 									</ul> -->
 									
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 										
 										<!-- <li class="">

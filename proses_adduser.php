@@ -1,5 +1,19 @@
 <?php
-								// Check If form submitted, insert form data into users table.
+	session_start();
+	if(empty($_SESSION['username'])){
+		header("location:index.php");
+	}
+	else
+	{
+		if(!empty($_SESSION['level_user']))
+		{
+			if($_SESSION["level_user"]==0)
+			{
+				header("location:index.php");
+			}
+		}
+	}
+	// Check If form submitted, insert form data into users table.
 	$name = $_POST['name'];
 	$address = $_POST['address'];
 	$sallary = $_POST['sallary'];
@@ -20,6 +34,6 @@
 		}else{
 		
 		echo "<script>alert('username $usernamed sudah digunakan, Gunakan yang lain');history.go(-1);</script>";
-		 }							
+	}							
 	 
-	?>
+?>

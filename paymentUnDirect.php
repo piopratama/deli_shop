@@ -16,7 +16,7 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/paymentUnDirectStyle.css">
 	<body>
 		<form method="POST" action="finishTransaction.php" target="_blank">
-		<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+		<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
 						<nav class="navbar navbar-default" role="navigation">
@@ -33,7 +33,7 @@ $result = $conn->query($sql);
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 									</ul>
 								</div><!-- /.navbar-collapse -->

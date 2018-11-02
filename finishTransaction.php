@@ -1,8 +1,8 @@
 <?php
 session_start();
-	if(empty($_SESSION['username'])){
-		header("location:index.php");
-	}
+if(empty($_SESSION['username'])){
+	header("location:index.php");
+}
 
 $invoice=$_POST['invoice'];
 require 'koneksi.php';

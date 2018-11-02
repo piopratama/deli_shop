@@ -1,8 +1,8 @@
 <?php
 session_start();
-	if(empty($_SESSION['username'])){
-		header("location:index.php");
-	}
+if(empty($_SESSION['username'])){
+	header("location:index.php");
+}
 ini_set("session.auto_start", 0);
 require('./fpdf181/fpdf.php');
 $start = $_POST['start'];

@@ -8,6 +8,16 @@ $title="Update Expense";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
+}
 
 include 'koneksi.php';
 $id=$_GET['id'];
@@ -41,7 +51,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
 								<div class="collapse navbar-collapse navbar-ex1-collapse">
 					
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 									</ul>
 								</div><!-- /.navbar-collapse -->
 							</div>
