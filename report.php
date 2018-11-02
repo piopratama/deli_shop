@@ -20,7 +20,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 		<link rel="stylesheet" type="text/css" href="./assets/jquery.dataTables.min.css">
 		<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
 		<link rel="stylesheet" href="assets/chart.css">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="./assets/jquery-ui.css">
     	<style>
 		.ct-label {
 			font-size: 12px;
@@ -163,7 +163,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 		<script src="./assets/bootstrap3.3.7/js/bootstrap.min.js"></script>
 		<script src="./assets/jquery.dataTables.min.js"></script>
 		<script src="assets/chart.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="./assets/jquery-ui.js"></script>
 		<script>
 			$(document).ready(function() {
 				$('#year').datepicker({
