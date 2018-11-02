@@ -10,11 +10,10 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 	$sql = mysqli_query($conn, "SELECT level FROM tb_employee where username='$usernamed';");
 	$no=1;
+	$b=-1;
 	foreach($sql as $a){
 		$b = $a['level'];
 	}
-	echo $b;
-
 	  
 	if($b=='1'){
 		
@@ -47,6 +46,11 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 			$_SESSION["message"]="Login Failed";
 			header("location:index.php");
 		}
+	}
+	else
+	{
+		$_SESSION["message"]="Login Failed";
+		header("location:index.php");
 	}
 	
 	$conn->close();
