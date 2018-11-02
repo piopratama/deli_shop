@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+$title="Login";
+?>
 <!DOCTYPE html>
 <html>
 	<?php include("./templates/header.php"); ?>
