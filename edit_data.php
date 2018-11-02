@@ -14,16 +14,8 @@ $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
 
  ?>
-
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title></title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/directPayStyle.css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-	</head>
+	<?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>
 		
@@ -154,7 +146,7 @@ $result = $conn->query($sql);
 					</div>
 				</div>
 			</div>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+			<?php include("./templates/footer.php"); ?>
 			<script>
 				$(document).ready(function() {
 					$(".myItem2").select2();

@@ -11,18 +11,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 <!DOCTYPE html>
 <html>
 
-
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-		<link rel="stylesheet" href="./assets/bootstrap3.3.7/css/bootstrap.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./assets/jquery.dataTables.min.css">
-		<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
-	
-	</head>
+	<?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
 	<body>
 		
 		<form action="transactionUnDirect.php" method="POST" accept-charset="utf-8">

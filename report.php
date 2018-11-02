@@ -11,26 +11,20 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 <html>
 
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title></title>
-		<link rel="stylesheet" href="./assets/bootstrap3.3.7/css/bootstrap.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./assets/jquery.dataTables.min.css">
-		<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
-		<link rel="stylesheet" href="assets/chart.css">
-		<link rel="stylesheet" href="./assets/jquery-ui.css">
-    	<style>
-		.ct-label {
-			font-size: 12px;
-		}
+	<?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="./css/stockStyle.css">
+		
+	<link rel="stylesheet" href="./assets/jquery-ui.css">
+	<style>
+	.ct-label {
+		font-size: 12px;
+	}
 
-		#chart-div {
-			margin-top: 50px;
-		}
-		</style>
-	</head>
+	#chart-div {
+		margin-top: 50px;
+	}
+	</style>
+
 	<body>
 		
 		<form action="finishReport.php" method="POST" accept-charset="utf-8">
@@ -158,11 +152,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 			unset($_SESSION['message']);
 		?>
 
-		<script src="./assets/jquery.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="./assets/bootstrap3.3.7/js/bootstrap.min.js"></script>
-		<script src="./assets/jquery.dataTables.min.js"></script>
-		<script src="assets/chart.js"></script>
+		<?php include("./templates/footer.php"); ?>
 		<script src="./assets/jquery-ui.js"></script>
 		<script>
 			$(document).ready(function() {

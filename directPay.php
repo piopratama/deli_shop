@@ -9,18 +9,10 @@ $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-		<link rel="stylesheet" href="./assets/bootstrap3.3.7/css/bootstrap.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/directPayStyle.css">
-		<link href="./assets/select2.min.css" rel="stylesheet" />
-	</head>
-	<body>
-		
+	<?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
+
+	<body>	
 		<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
 			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
 				<div class="row">
@@ -161,11 +153,7 @@ $result = $conn->query($sql);
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
 		?>
-		<script src="./assets/recta.js"></script>
-		<script src="./assets/jquery.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="./assets/bootstrap3.3.7/js/bootstrap.min.js"></script>
-		<script src="./assets/select2.min.js"></script>
+		<?php include('./templates/footer.php'); ?>
 		<script>
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';

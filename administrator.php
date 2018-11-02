@@ -7,21 +7,14 @@ if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
 else{?>
-
-	<head>
 	<?php 
 		include "koneksi.php";
 		$user = mysqli_query($conn, "SELECT nama FROM tb_employee where online_status=1");
 	?>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title></title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/mainMenuStyle.css">
-		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>  
-	</head>
+	<?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="./css/mainMenuStyle.css">
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+
 	<body>
 		
 		<div class="container-fluid">
@@ -102,9 +95,7 @@ else{?>
 				<div class="col-md-4"></div>
 			</div>
 		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<?php include('./templates/footer.php'); ?>
 	</body>
 	<?php
 }

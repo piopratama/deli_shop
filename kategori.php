@@ -2,23 +2,16 @@
 <html>
 <?php
 session_start();
-/*if(empty($_SESSION['username'])){
+if(empty($_SESSION['username'])){
 	header("location:index.php");
-}*/
+}
+
 include_once 'koneksi.php';
 $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
 
 ?>
-
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title></title>
-		<link rel="stylesheet" href="./assets/bootstrap3.3.7/css/bootstrap.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./assets/jquery.dataTables.min.css">
-		<link rel="stylesheet" type="text/css" href="css/stockStyle.css">
-	</head>
+    <?php include("./templates/header.php"); ?>
+	<link rel="stylesheet" type="text/css" href="./css/stockStyle.css">
 	<body>
         <div class="container-fluid" style="">
             <div class="row">
@@ -152,10 +145,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
 			unset($_SESSION['message']);
 		?>
 
-		<script src="./assets/jquery.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="./assets/bootstrap3.3.7/js/bootstrap.min.js"></script>
-		<script src="./assets/jquery.dataTables.min.js"></script>
+		<?php include("./templates/footer.php"); ?>
 
 		<script>
 			$(document).ready(function() {
