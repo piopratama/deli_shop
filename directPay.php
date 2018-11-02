@@ -13,8 +13,8 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>	
-		<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
-			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+	<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
 						<nav class="navbar navbar-default" role="navigation">
@@ -116,11 +116,11 @@ $result = $conn->query($sql);
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
-								<input type="number" class="form-control discount" placeholder="%" readonly="readonly">
+								<input type="number" class="form-control discount" placeholder="0%" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label for="">PPN</label>
-								<input type="number" class="form-control ppn" placeholder="10%" readonly="readonly">
+								<input type="number" class="form-control ppn" placeholder="0%" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -143,6 +143,7 @@ $result = $conn->query($sql);
 							<input type="text" class="form-control" id="grand">
 						</div>
 						
+						<button type="button"class="btn btn-success" id="printItem">Print</button>
 						<button type="submit"class="btn btn-primary" id="printBtn">End Transaction</button>
 
 					</div>
@@ -162,7 +163,20 @@ $result = $conn->query($sql);
 					alert(message);
 				}
 
-				$("#end_transaction").hide();
+				function numberToRupiah(bilangan)
+				{
+					var	number_string = bilangan.toString(),
+						sisa 	= number_string.length % 3,
+						rupiah 	= number_string.substr(0, sisa),
+						ribuan 	= number_string.substr(sisa).match(/\d{3}/g);
+							
+					if (ribuan) {
+						separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					return rupiah;
+				}
 
 				$("#printBtn").click(function(event) {
 					var printer = new Recta('3245260761', '1811');
@@ -209,9 +223,59 @@ $result = $conn->query($sql);
 				        
 				        printer.bold(true);
 				        printer.text("------------------------------")
-				        printer.text("Grand Total : "+$("#grandTotal").val()).bold(true);
-				        printer.text("Payment     : "+$("#payment").val()).bold(true);
-				        printer.text("Change : "+$("#change").val()).bold(true)
+				        printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+				        printer.text("Payment     : "+numberToRupiah(parseFloat($("#payment").val()))).bold(true);
+				        printer.text("Change : "+numberToRupiah(parseFloat($("#change").val()))).bold(true)
+				        .cut()
+				        .print();
+				    });
+				});
+
+				$("#printItem").click(function(event) {
+					var printer = new Recta('3245260761', '1811');
+					printer.open().then(function () {
+						var x=[];
+				        printer.align('center')	
+				        .text('DELI SHOP')
+				        .bold(true)
+				        .text($("#date").val())	
+				        .text('------------------------------');
+				        printer.align('left')
+						.text()
+				        .bold(true);
+				        
+				        $(".qtyItem").each(function() {
+				        	x.push({qty:$(this).val(),item:"",price:"",total:""});
+				        });
+				        var i=0;
+				        $(".myItem").each(function() {
+				        	x[i].item=$(this).find('option:selected').text();
+				        	i=i+1;
+				        });
+				        i=0;
+				        $(".price").each(function() {
+				        	x[i].price=$(this).val();
+				        	i=i+1;
+				        });
+				        i=0;
+				        $(".total").each(function() {
+				        	x[i].total=$(this).val();
+				        	i=i+1;
+				        });
+				        i=0;
+				        printer.text("Item").bold(true);
+				        printer.text("Qty     Price(Rp)     Total(Rp)")
+				        .bold(true);
+				        printer.text("");
+				        for(var j=0;j<x.length;j++)
+				        {
+				        	printer.text(x[j].item);
+				        	printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+				        	printer.text("");
+				        }
+				        
+				        printer.bold(true);
+				        printer.text("------------------------------")
 				        .cut()
 				        .print();
 				    });
@@ -273,7 +337,7 @@ $result = $conn->query($sql);
 							total=total+parseFloat($(this).val());
 							//total=total+0.1*total;
 							grand.val(total);
-							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0.1;
+							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
 							var payment=parseFloat($("#payment").val());
 							if(isNaN(payment)==false)

@@ -40,18 +40,18 @@
 				if($row["id"]==$item[$j])
 				{
 					$data[$k]["id_item"]=$item[$j];
-					$data[$k]["name"]=$name;
+					$data[$k]["nm_transaksi"]=$name;
 					$data[$k]["price"]=$row["price"];
 					$data[$k]["qty"]=$qty[$j];
 					$data[$k]["invoice"]=$invoice;
-					$data[$k]["date"]=$date;
+					$data[$k]["tnggl"]=$date;
 					$data[$k]["id_employee"]=$id_kasir;
 					$data[$k]["method"]=$method;
 					$data[$k]["total_price"]=$qty[$j]*$row["price"];
 					$data[$k]["deposit"]=$deposit;
 					$data[$k]["rest_total"]=$qty[$j]*$row["price"]-$deposit;
 					$data[$k]["description"]="";
-					$data[$k]["status"]=0;
+					$data[$k]["statuss"]=0;
 					$k=$k+1;
 				}
 			}
@@ -60,7 +60,7 @@
 		$check=0;
 		for($i=0;$i<count($data);$i++)
 		{
-			$sql = "INSERT INTO tb_transaksi (invoice, `name`, `tnggl`, id_employee, id_item, qty, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["name"]."','".$data[$i]["date"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["status"].")";
+			$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
 			if ($conn->query($sql) === TRUE) {
 			    $last_id = $conn->insert_id;
 			    //echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -72,7 +72,7 @@
 		echo $sql;
 		if($deposit!="" && $check==0)
 		{
-			$sql="INSERT INTO tb_deposit (invoice, deposit) VALUES ('".$invoice."', ".$deposit.")";
+			$sql="INSERT INTO tb_deposit (invoice, deposit, nm_transaksi) VALUES ('".$invoice."', ".$deposit.", ".$name.")";
 			if ($conn->query($sql) === TRUE) {
 			    $last_id = $conn->insert_id;
 			    //echo "New record created successfully. Last inserted ID is: " . $last_id;

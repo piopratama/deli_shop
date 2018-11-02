@@ -46,7 +46,7 @@ $result = $conn->query($sql);
 					<div class="col-md-4">
 						<div class="form-group">
 							<select class="form-control"  id="invoice" name="invoice" theme="google">
-								<option value="">-- Select Invoice --</option>
+								<option value="">-- Select Nama --</option>
 								<?php
 								if ($result->num_rows > 0) {
 									// output data of each row
@@ -158,6 +158,7 @@ $result = $conn->query($sql);
 							<label for=""></label>
 							<input type="text" class="form-control" id="grand">
 						</div>
+						<button type="button"class="btn btn-success" id="printBtn">Print</button>
 						<button type="submit"class="btn btn-primary" id="printBtn">End Transaction</button>
 					</div>
 				</div>
@@ -310,7 +311,7 @@ $result = $conn->query($sql);
 				    });
 				});
 
-				$("#parent_item_container").on('change','.myItem',function(event) {
+				$("#parent_item_container").on('change','.item',function(event) {
 					var id=$(this).val();
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
@@ -342,7 +343,7 @@ $result = $conn->query($sql);
 							total=total+parseFloat($(this).val());
 							//$("#grandTotal").val(total);
 							grand.val(total);
-							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0.1;
+							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
 							var payment=parseFloat($("#deposit").val());
 							/*if(isNaN(payment)==false)
