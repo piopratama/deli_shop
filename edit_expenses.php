@@ -17,7 +17,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
 
 	<body>
 		
-			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+			<div class="container-fluid">
 
 				<div class="row">
 					<div class="col-md-12 header">
