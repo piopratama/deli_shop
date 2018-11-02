@@ -14,7 +14,7 @@ $result = $conn->query($sql);
 
 	<body>	
 		<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
-			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
 						<nav class="navbar navbar-default" role="navigation">
