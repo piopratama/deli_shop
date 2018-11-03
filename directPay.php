@@ -6,6 +6,16 @@ $title="Direct Menu";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
+}
 require 'koneksi.php';
 $sql = "SELECT * FROM tb_barang";
 $result = $conn->query($sql);
@@ -16,7 +26,7 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>	
-		<form action="transactionProcess.php" method="POST" accept-charset="utf-8">
+		<form action="transactionProcess.php"  method="POST" accept-charset="utf-8">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">

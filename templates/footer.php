@@ -1,4 +1,4 @@
-<script src="./assets/recta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/recta/dist/recta.js"></script>
 <script src="./assets/jquery.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="./assets/bootstrap3.3.7/js/bootstrap.min.js"></script>

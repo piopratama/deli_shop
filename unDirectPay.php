@@ -6,6 +6,16 @@ $title="Undirect Menu";
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
+}
 require 'koneksi.php';
 $sql = "SELECT invoice, nm_transaksi FROM tb_transaksi where statuss='0' group by invoice;";
 $result = $conn->query($sql);
@@ -161,12 +171,13 @@ $result = $conn->query($sql);
 							<label for=""></label>
 							<input type="text" class="form-control" id="grand">
 						</div>
-						<button type="submit" formaction="transactionListControl.php" class="btn btn-success" id="printItem">Print</button>
+						<button type="button" class="btn btn-success" id="printItem">Print</button>
 						<button type="submit"class="btn btn-primary" id="printBtn">End Transaction</button>
 					</div>
 				</div>
 			</div>
 		</form>
+		<div id="history"></div>
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
@@ -189,6 +200,21 @@ $result = $conn->query($sql);
 					$("#parent_item_container").append(html);
 					$('.item').select2();
 				});
+
+				function numberToRupiah(bilangan)
+				{
+					var	number_string = bilangan.toString(),
+						sisa 	= number_string.length % 3,
+						rupiah 	= number_string.substr(0, sisa),
+						ribuan 	= number_string.substr(sisa).match(/\d{3}/g);
+							
+					if (ribuan) {
+						separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					return rupiah;
+				}
 				
 				$("#parent_item_container").on('click','.glyphicon-trash',function(event){
 					$(this).parent().remove();
@@ -278,7 +304,7 @@ $result = $conn->query($sql);
 				        	x.push({qty:$(this).val(),item:"",price:"",total:""});
 				        });
 				        var i=0;
-				        $(".myItem").each(function() {
+				        $(".item").each(function() {
 				        	x[i].item=$(this).find('option:selected').text();
 				        	i=i+1;
 				        });
@@ -306,8 +332,60 @@ $result = $conn->query($sql);
 				        
 				        printer.bold(true);
 				        printer.text("------------------------------")
-				        printer.text("Grand Total : "+$("#grandTotal").val()).bold(true);
-				        printer.text("Deposit : "+$("#deposit").val()).bold(true)
+				        printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+				        printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true)
+				        .cut()
+				        .print();
+				    });
+				});
+
+				$("#printItem").click(function(event) {
+					var printer = new Recta('3245260761', '1811');
+					printer.open().then(function () {
+						var x=[];
+				        printer.align('center')	
+				        .text('DELI SHOP')
+				        .bold(true)
+				        .text($("#date").val())	
+				        .text("Invoice : ")
+				        printer.text(invoice)
+				        .text('------------------------------');
+				        printer.align('left')
+						.text()
+				        .bold(true);
+				        
+				        $(".qtyItem").each(function() {
+				        	x.push({qty:$(this).val(),item:"",price:"",total:""});
+				        });
+				        var i=0;
+				        $(".item").each(function() {
+				        	x[i].item=$(this).find('option:selected').text();
+				        	i=i+1;
+				        });
+				        i=0;
+				        $(".price").each(function() {
+				        	x[i].price=$(this).val();
+				        	i=i+1;
+				        });
+				        i=0;
+				        $(".total").each(function() {
+				        	x[i].total=$(this).val();
+				        	i=i+1;
+				        });
+				        i=0;
+				        printer.text("Item").bold(true);
+				        printer.text("Qty     Price(Rp)     Total(Rp)")
+				        .bold(true);
+				        printer.text("");
+				        for(var j=0;j<x.length;j++)
+				        {
+				        	printer.text(x[j].item);
+				        	printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+				        	printer.text("");
+				        }
+				        
+				        printer.bold(true);
+				        printer.text("------------------------------")
 				        .cut()
 				        .print();
 				    });
