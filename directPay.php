@@ -13,11 +13,7 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>	
-<<<<<<< HEAD
-	<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
-=======
 		<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
->>>>>>> c319e7a7ed8059379e64b54bc19b74ac5620401f
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">

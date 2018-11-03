@@ -158,13 +158,12 @@ $result = $conn->query($sql);
 							<label for=""></label>
 							<input type="text" class="form-control" id="grand">
 						</div>
-						<button type="button"class="btn btn-success" id="printBtn">Print</button>
+						<button type="submit" formaction="transactionListControl.php" class="btn btn-success" id="printItem">Print</button>
 						<button type="submit"class="btn btn-primary" id="printBtn">End Transaction</button>
 					</div>
 				</div>
 			</div>
 		</form>
-		<div id="history"></div>
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
@@ -366,6 +365,21 @@ $result = $conn->query($sql);
 					{
 						$("#change").val("");
 					}*/
+				}); 
+
+				//+gusde - ajax print PDF
+				$("#printItem").click(function(event) {
+					var nama=$("#name").val();
+					$.ajax({
+							url: 'transactionListControl.php',
+							type: 'post',
+							data: {nama:nama},
+							dataType: 'json',
+							success: function (relust) {
+								//price_field.val(data);
+								alert(result);
+							}
+						});
 				});
 			});
 		</script>
