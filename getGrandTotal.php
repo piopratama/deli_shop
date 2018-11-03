@@ -25,7 +25,7 @@
 			$sum=$sum+$row['total_price'];
 
 		}
-		$sum=$sum+0.1*$sum;
+		$sum=$sum+0*$sum;
 		echo $sum;
 	}
 ?>

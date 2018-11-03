@@ -79,10 +79,10 @@
 			    $check=1;
 			}
 		}
-		echo $sql;
+	
 		if($deposit!="" && $check==0)
 		{
-			$sql="INSERT INTO tb_deposit (invoice, deposit, nm_transaksi) VALUES ('".$invoice."', ".$deposit.", ".$name.")";
+			$sql="INSERT INTO tb_deposit (invoice, deposit, nm_transaksi) VALUES ('".$invoice."', ".$deposit.", '".$name."')";
 			if ($conn->query($sql) === TRUE) {
 			    $last_id = $conn->insert_id;
 			    //echo "New record created successfully. Last inserted ID is: " . $last_id;

@@ -192,106 +192,114 @@ $result = $conn->query($sql);
 				}
 
 				$("#printBtn").click(function(event) {
-					var printer = new Recta('3245260761', '1811');
-					printer.open().then(function () {
-						var x=[];
-				        printer.align('center')	
-				        .text('DELI SHOP')
-				        .bold(true)
-				        .text($("#date").val())	
-				        .text('------------------------------');
-				        printer.align('left')
-						.text()
-				        .bold(true);
-				        
-				        $(".qtyItem").each(function() {
-				        	x.push({qty:$(this).val(),item:"",price:"",total:""});
-				        });
-				        var i=0;
-				        $(".myItem").each(function() {
-				        	x[i].item=$(this).find('option:selected').text();
-				        	i=i+1;
-				        });
-				        i=0;
-				        $(".price").each(function() {
-				        	x[i].price=$(this).val();
-				        	i=i+1;
-				        });
-				        i=0;
-				        $(".total").each(function() {
-				        	x[i].total=$(this).val();
-				        	i=i+1;
-				        });
-				        i=0;
-				        printer.text("Item").bold(true);
-				        printer.text("Qty     Price(Rp)     Total(Rp)")
-				        .bold(true);
-				        printer.text("");
-				        for(var j=0;j<x.length;j++)
-				        {
-				        	printer.text(x[j].item);
-				        	printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
-				        	printer.text("");
-				        }
-				        
-				        printer.bold(true);
-				        printer.text("------------------------------")
-				        printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
-				        printer.text("Payment     : "+numberToRupiah(parseFloat($("#payment").val()))).bold(true);
-				        printer.text("Change : "+numberToRupiah(parseFloat($("#change").val()))).bold(true)
-				        .cut()
-				        .print();
-				    });
+					var grandTotalCheck=$("#grandTotal").val();
+					if(grandTotalCheck!="" && grandTotalCheck!="0")
+					{
+						var printer = new Recta('3245260761', '1811');
+						printer.open().then(function () {
+							var x=[];
+							printer.align('center')	
+							.text('DELI SHOP')
+							.bold(true)
+							.text($("#date").val())	
+							.text('------------------------------');
+							printer.align('left')
+							.text()
+							.bold(true);
+							
+							$(".qtyItem").each(function() {
+								x.push({qty:$(this).val(),item:"",price:"",total:""});
+							});
+							var i=0;
+							$(".myItem").each(function() {
+								x[i].item=$(this).find('option:selected').text();
+								i=i+1;
+							});
+							i=0;
+							$(".price").each(function() {
+								x[i].price=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							$(".total").each(function() {
+								x[i].total=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							printer.text("Item").bold(true);
+							printer.text("Qty     Price(Rp)     Total(Rp)")
+							.bold(true);
+							printer.text("");
+							for(var j=0;j<x.length;j++)
+							{
+								printer.text(x[j].item);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text("");
+							}
+							
+							printer.bold(true);
+							printer.text("------------------------------")
+							printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+							printer.text("Payment     : "+numberToRupiah(parseFloat($("#payment").val()))).bold(true);
+							printer.text("Change : "+numberToRupiah(parseFloat($("#change").val()))).bold(true)
+							.cut()
+							.print();
+						});
+					}
 				});
 
 				$("#printItem").click(function(event) {
-					var printer = new Recta('3245260761', '1811');
-					printer.open().then(function () {
-						var x=[];
-				        printer.align('center')	
-				        .text('DELI SHOP')
-				        .bold(true)
-				        .text($("#date").val())	
-				        .text('------------------------------');
-				        printer.align('left')
-						.text()
-				        .bold(true);
-				        
-				        $(".qtyItem").each(function() {
-				        	x.push({qty:$(this).val(),item:"",price:"",total:""});
-				        });
-				        var i=0;
-				        $(".myItem").each(function() {
-				        	x[i].item=$(this).find('option:selected').text();
-				        	i=i+1;
-				        });
-				        i=0;
-				        $(".price").each(function() {
-				        	x[i].price=$(this).val();
-				        	i=i+1;
-				        });
-				        i=0;
-				        $(".total").each(function() {
-				        	x[i].total=$(this).val();
-				        	i=i+1;
-				        });
-				        i=0;
-				        printer.text("Item").bold(true);
-				        printer.text("Qty     Price(Rp)     Total(Rp)")
-				        .bold(true);
-				        printer.text("");
-				        for(var j=0;j<x.length;j++)
-				        {
-				        	printer.text(x[j].item);
-				        	printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
-				        	printer.text("");
-				        }
-				        
-				        printer.bold(true);
-				        printer.text("------------------------------")
-				        .cut()
-				        .print();
-				    });
+					var grandTotalCheck=$("#grandTotal").val();
+					if(grandTotalCheck!="" && grandTotalCheck!="0")
+					{
+						var printer = new Recta('3245260761', '1811');
+						printer.open().then(function () {
+							var x=[];
+							printer.align('center')	
+							.text('DELI SHOP')
+							.bold(true)
+							.text($("#date").val())	
+							.text('------------------------------');
+							printer.align('left')
+							.text()
+							.bold(true);
+							
+							$(".qtyItem").each(function() {
+								x.push({qty:$(this).val(),item:"",price:"",total:""});
+							});
+							var i=0;
+							$(".myItem").each(function() {
+								x[i].item=$(this).find('option:selected').text();
+								i=i+1;
+							});
+							i=0;
+							$(".price").each(function() {
+								x[i].price=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							$(".total").each(function() {
+								x[i].total=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							printer.text("Item").bold(true);
+							printer.text("Qty     Price(Rp)     Total(Rp)")
+							.bold(true);
+							printer.text("");
+							for(var j=0;j<x.length;j++)
+							{
+								printer.text(x[j].item);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text("");
+							}
+							
+							printer.bold(true);
+							printer.text("------------------------------")
+							.cut()
+							.print();
+						});
+					}
 				});
 
 				var html=$("#parent_item_container").html();
