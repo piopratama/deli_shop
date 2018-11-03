@@ -3,10 +3,23 @@
 <html>
 <?php
 session_start();
+
+$title="Main Menu";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
-else{?>
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
+}
+?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/mainMenuStyle.css">
 	<body>
@@ -28,7 +41,7 @@ else{?>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php?usernamed=<?php echo $_SESSION['username']?>">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php?usernamed=<?php echo $_SESSION['username']?>">Logout</a></li>
 										<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 									</ul>
 								</div><!-- /.navbar-collapse -->
@@ -62,7 +75,4 @@ else{?>
 		</div>
 		<?php include("./templates/footer.php"); ?>
 	</body>
-	<?php
-}
-?>
 </html>

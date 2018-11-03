@@ -1,7 +1,20 @@
 <?php
 session_start();
+
+$title="Payment Undirect";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
+}
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==1)
+		{
+			header("location:index.php");
+		}
+	}
 }
 require 'koneksi.php';
 $sql = "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice;";
@@ -13,7 +26,7 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/paymentUnDirectStyle.css">
 	<body>
 		<form method="POST" action="finishTransaction.php" target="_blank">
-		<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+		<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
 						<nav class="navbar navbar-default" role="navigation">
@@ -30,7 +43,7 @@ $result = $conn->query($sql);
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 									</ul>
 								</div><!-- /.navbar-collapse -->
@@ -56,7 +69,7 @@ $result = $conn->query($sql);
 					</div>
 					<div class="form-group">
 						<select class="form-control" id="invoice" name="invoice" required="required">
-							<option value="">-- Select Invoice --</option>
+							<option value="">-- Select Name --</option>
 							<?php
 							if ($result->num_rows > 0) {
 								// output data of each row

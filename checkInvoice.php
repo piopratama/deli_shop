@@ -3,6 +3,16 @@
 	if(empty($_SESSION['username'])){
 		header("location:index.php");
 	}
+	else
+	{
+		if(!empty($_SESSION['level_user']))
+		{
+			if($_SESSION["level_user"]==1)
+			{
+				header("location:index.php");
+			}
+		}
+	}
 	$invoice=$_POST['invoice'];
 	require 'koneksi.php';
 	$sql = "SELECT tb_barang.id,tb_barang.item,tb_barang.price,tb_transaksi.qty,tb_transaksi.total_price FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item WHERE invoice='".$invoice."';";

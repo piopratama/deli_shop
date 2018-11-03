@@ -1,8 +1,11 @@
 <?php
 session_start();
-/*if(empty($_SESSION['username'])){
+
+$title="Expense";
+
+if(empty($_SESSION['username'])){
 	header("location:index.php");
-}*/
+}
 include_once 'koneksi.php';
 $expenses = mysqli_query($conn, "SELECT tb_expenses.*, tb_employee.nama as buyer FROM tb_expenses LEFT JOIN tb_employee on tb_expenses.buyer=tb_employee.id;");
 $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb_employee");
@@ -32,7 +35,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse navbar-ex1-collapse">									
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+                                    <li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
                                     <li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
                                 </ul>
                             </div><!-- /.navbar-collapse -->
@@ -101,7 +104,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
                 <form action="insertExpense.php" method="POST">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -171,7 +174,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2">Delete Expense</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -207,10 +210,10 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
 				}
 				$("#example").DataTable();
 
-                $(".deleteExpense").click(function(){
-                    $("#id_delete").val($(this).attr('id'));
+                $("#example").on('click','.deleteExpense', function(){
+					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');
-                });
+				});
 			});
 		</script>
 	</body>

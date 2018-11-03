@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+$title="Login";
+?>
 <!DOCTYPE html>
 <html>
 	<?php include("./templates/header.php"); ?>
@@ -67,6 +70,27 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel2">Warning</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Login Failed.</p>
+					<p>Please check your username and password are correct</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+				</div>
+			</div>
+        </div>
+		
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
@@ -77,7 +101,7 @@
 				var message='<?php echo $session_value;?>';
 				if(message!="")
 				{
-					alert(message);
+					$("#exampleModal2").modal('show');
 				}
 			});
 		</script>

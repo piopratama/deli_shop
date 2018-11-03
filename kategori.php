@@ -2,8 +2,21 @@
 <html>
 <?php
 session_start();
+
+$title="Category";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
+}
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
 }
 
 include_once 'koneksi.php';
@@ -32,7 +45,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse navbar-ex1-collapse">									
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+                                    <li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
                                     <li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
                                 </ul>
                             </div><!-- /.navbar-collapse -->
@@ -91,7 +104,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
                 <form action="insertCategory.php" method="POST">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -120,7 +133,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2">Delete Category</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -156,10 +169,10 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
 				}
 				$("#example").DataTable();
 
-                $(".deleteCategory").click(function(){
-                    $("#id_delete").val($(this).attr('id'));
+                $("#example").on('click','.deleteCategory', function(){
+					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');
-                });
+				});
 			});
 		</script>
 	</body>

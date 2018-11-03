@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$title="Direct Menu";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
@@ -13,7 +16,7 @@ $result = $conn->query($sql);
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>	
-		<form action="transactionProcess.php" target="_blank" method="POST" accept-charset="utf-8">
+		<form action="transactionProcess.php" method="POST" accept-charset="utf-8">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
@@ -31,7 +34,7 @@ $result = $conn->query($sql);
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
-										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a type="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<li><a href=""><!-- <?php  echo $_SESSION['username'];  ?> --> </a></li>
 									</ul>
 								</div><!-- /.navbar-collapse -->

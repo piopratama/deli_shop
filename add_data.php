@@ -2,14 +2,26 @@
 <html>
 <?php
 session_start();
+
+$title="Add Stock";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-	
 }
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
+}
+
 require('koneksi.php');
-	$sql = "SELECT * FROM tb_kategori";
-	$result = $conn->query($sql);
-	
+$sql = "SELECT * FROM tb_kategori";
+$result = $conn->query($sql);
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
@@ -39,7 +51,7 @@ require('koneksi.php');
 									</ul> -->
 									
 									<ul class="nav navbar-nav navbar-right">
-										<li><a ype="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a ype="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<!-- <li><a href=""><?php  echo $_SESSION['username'];  ?> </a></li> -->
 										
 										<!-- <li class="">

@@ -2,24 +2,36 @@
 <html>
 <?php
 session_start();
+
+$title="Update Stock";
+
 if(empty($_SESSION['username'])){
 	header("location:index.php");
-}?>
-<?php include "koneksi.php";?>
-<?php
+}
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
+}
+
+include "koneksi.php";
 $id=$_GET['id'];
 
 $data = mysqli_query($conn, "SELECT id, price, item, stock, unit, description FROM tb_barang WHERE id='$id'");
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
-
- ?>
+?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
 
 	<body>
 		
-			<div class="container-fluid" style="margin-right: -15px; margin-left: -15px;">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
 						<nav class="navbar navbar-default" role="navigation">
@@ -42,7 +54,7 @@ $result = $conn->query($sql);
 									</ul> -->
 									
 									<ul class="nav navbar-nav navbar-right">
-										<li><a ype="button" class="btn btn-danger" style="margin: 10px; padding: 10px; color: white" href="logout.php">Logout</a></li>
+										<li><a ype="button" class="btn btn-danger" style="margin: 10px; padding: 10px;" href="logout.php">Logout</a></li>
 										<!-- <li><a href=""><?php  echo $_SESSION['username'];  ?> </a></li> -->
 										
 										<!-- <li class="">
