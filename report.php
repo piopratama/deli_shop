@@ -19,7 +19,6 @@ else
 include_once 'koneksi.php';
 $barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss FROM tb_transaksi WHERE statuss='0';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
-$customer = mysqli_query($conn, "SELECT nm_transaksi FROM tb_transaksi WHERE `nm_transaksi`<>'';");
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,7 +95,7 @@ $customer = mysqli_query($conn, "SELECT nm_transaksi FROM tb_transaksi WHERE `nm
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
 							Start: <input style="margin:10px; " type="date" name="start">
 							Until: <input style="margin:10px;" type="date" name="end">
-							Status: <select style="margin:10px; width:150px;height:28px" >
+							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid">
 								<option>--Select Status--</option>
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>
@@ -250,7 +249,7 @@ $customer = mysqli_query($conn, "SELECT nm_transaksi FROM tb_transaksi WHERE `nm
 				{
 					alert(message);
 				}
-				$("#example").DataTable();
+				var oTable=$("#example").dataTable();
 				var html=$("#parent_item_container").html();
 				$("#add_item_btn").click(function(event) {
 					$("#parent_item_container").append(html);
@@ -319,6 +318,33 @@ $customer = mysqli_query($conn, "SELECT nm_transaksi FROM tb_transaksi WHERE `nm
 					{
 						$("#change").val("");
 					}*/
+				});
+
+				$("#status_paid").change(function(){
+					var status=$(this).val();
+					$.ajax({
+						url: 'getStatusCustomer.php',
+						type: 'post',
+						data: {status: status},
+						dataType: 'json',
+						success: function (data) {
+							oTable.fnClearTable();
+							for(var i=0;i<data.length;i++)
+							{
+								oTable.fnAddData( [
+									data[i].no,
+									data[i].invoice,
+									data[i].nm_transaksi,
+									data[i].tnggl,
+									data[i].nama_pegawai,
+									data[i].item,
+									data[i].qty,
+									data[i].total_price,
+									data[i].status
+								]);
+							}
+						}
+					});
 				});
 			});
 		</script>
