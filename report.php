@@ -329,11 +329,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				});
 				
 				$("##date_start").change(function(){
-					getCustomerStatus()
+					getCustomerStatus();
 				});
 
 				$("##date_stop").change(function(){
-					getCustomerStatus()
+					getCustomerStatus();
 				});
 
 				function getCustomerStatus()
