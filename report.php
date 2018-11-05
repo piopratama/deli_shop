@@ -19,6 +19,7 @@ else
 include_once 'koneksi.php';
 $barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss FROM tb_transaksi WHERE statuss='0';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
+$customer = myqli_query($conn, "SELECT nm_transaksi FROM tb_transaksi WHERE `nm_transaksi` <>'';");
 ?>
 <!DOCTYPE html>
 <html>
@@ -101,9 +102,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<option value="0">Unpaid</option>
 							</select>
 							Customer: <select style="margin:10px; width:150px;height:28px" >
+							<?php while($pelanggan=mysqli_fetch_array($customer)){?>
 								<option>--Select Customer--</option>
-								<option value="#"></option>
 								
+								<option value="<?php ?>"><?php echo $pelanggan[0]?></option>
+							<?php }?>
 							</select>
 							<input type="submit" class="btn btn-success glyphicon glyphicon-print" style="margin:10px 0 10px 0" name="Submit" value="Print"></button>
 							<input type="submit" class="btn btn-success glyphicon glyphicon-print" style="margin:10px 0 10px 10px; " name="Submit" value="Pajak"></i></button>
