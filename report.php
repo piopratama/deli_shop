@@ -93,14 +93,14 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						
 						<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="start">
-							Until: <input style="margin:10px;" type="date" name="end">
+							Start: <input style="margin:10px; " type="date" name="start" id="date_start">
+							Until: <input style="margin:10px;" type="date" name="end" id="date_end">
 							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid">
 								<option>--Select Status--</option>
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>
 							</select>
-							Customer: <select style="margin:10px; width:150px;height:28px" >
+							Customer: <select style="margin:10px; width:150px;height:28px" id="customer">
 							<?php while($pelanggan=mysqli_fetch_array($customer)){?>
 								<option>--Select Customer--</option>
 								
@@ -321,31 +321,91 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				});
 
 				$("#status_paid").change(function(){
-					var status=$(this).val();
-					$.ajax({
-						url: 'getStatusCustomer.php',
-						type: 'post',
-						data: {status: status},
-						dataType: 'json',
-						success: function (data) {
-							oTable.fnClearTable();
-							for(var i=0;i<data.length;i++)
-							{
-								oTable.fnAddData( [
-									data[i].no,
-									data[i].invoice,
-									data[i].nm_transaksi,
-									data[i].tnggl,
-									data[i].nama_pegawai,
-									data[i].item,
-									data[i].qty,
-									data[i].total_price,
-									data[i].status
-								]);
-							}
-						}
-					});
+					getCustomerStatus();
 				});
+
+				$("#customer").change(function(){
+					getTableCustomerStatus();
+				});
+				
+				$("##date_start").change(function(){
+					getCustomerStatus()
+				});
+
+				$("##date_stop").change(function(){
+					getCustomerStatus()
+				});
+
+				function getCustomerStatus()
+				{
+					var status=$("#status_paid").val();
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					
+					if(status!="" && startDate!="" && stopDate!="")
+					{
+						$.ajax({
+							url: 'getStatusCustomer.php',
+							type: 'post',
+							data: {status: status, dateStart: startDate, dateStop: stopDate},
+							dataType: 'text',
+							success: function (data) {
+								$("#customer").html(data);
+								//oTable.fnClearTable();
+								
+								/*for(var i=0;i<data.length;i++)
+								{
+									oTable.fnAddData( [
+										data[i].no,
+										data[i].invoice,
+										data[i].nm_transaksi,
+										data[i].tnggl,
+										data[i].nama_pegawai,
+										data[i].item,
+										data[i].qty,
+										data[i].total_price,
+										data[i].status
+									]);
+								}*/
+							}
+						});
+					}
+				}
+
+				function getTableCustomerStatus()
+				{
+					var status=$("#status_paid").val();
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					var customer=$("#customer").val();
+					
+					if(status!="" && startDate!="" && stopDate!="")
+					{
+						$.ajax({
+							url: 'getTableStatusCustomer.php',
+							type: 'post',
+							data: {status: status, dateStart: startDate, dateStop: stopDate, customer: customer},
+							dataType: 'json',
+							success: function (data) {
+								oTable.fnClearTable();
+								for(var i=0;i<data.length;i++)
+								{
+									oTable.fnAddData( [
+										data[i].no,
+										data[i].invoice,
+										data[i].nm_transaksi,
+										data[i].tnggl,
+										data[i].nama_pegawai,
+										data[i].item,
+										data[i].qty,
+										data[i].total_price,
+										data[i].status
+									]);
+								}
+							}
+						});
+					}
+				}
 			});
 		</script>
 	</body>
