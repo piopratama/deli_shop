@@ -21,7 +21,7 @@ else
 
 include 'koneksi.php';
 $id=$_GET['id'];
-$kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id='$id';");
+$kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id=$id;");
 
 ?>
 	<?php include("./templates/header.php"); ?>
@@ -73,13 +73,6 @@ $kategori = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id='$id';");
 								<form action="update_kategori.php" method="POST" role="form" id="directPay_div">
 								<input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
 									<table>
-											<tr>
-												<td>	<div class="form-group">
-											      <label for="usr">Date Insert :</label>
-											      <input type="date" class="form-control" name="date_insert" value="<?php echo $d['date_insert'];?>">
-											    </div>
-												</td>
-											</tr>
 											<tr>
 												
 												<td>	<div class="form-group">
