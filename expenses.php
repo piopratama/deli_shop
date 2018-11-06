@@ -122,7 +122,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
                                     foreach($employee as $emp)
                                     {
                                     ?>
-                                    <option value="<?php echo $emp["id"]; ?>"><?php echo $emp["name"]; ?></option>
+                                    <option value="<?php echo $emp["id"]; ?>"><?php echo $emp["nama"]; ?></option>
                                     <?php
                                     }
                                     ?>
