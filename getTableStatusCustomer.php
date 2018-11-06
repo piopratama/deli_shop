@@ -41,7 +41,7 @@
     }
     //$sql = "SELECT invoice, nm_transaksi FROM tb_transaksi WHERE statuss=".$status." and nm_transaksi<>'' and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
     $result = $conn->query($sql);
-
+    
     $data=array();
     if ($result->num_rows > 0) {
         $i=0;
@@ -64,6 +64,7 @@
             else if($row["statuss"]==0){
                 $data[$i]["status"]="not paid";
             }
+            $i=$i+1;
         }
         echo json_encode($data);
     }
