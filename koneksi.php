@@ -1,8 +1,4 @@
 <?php
-	/*$servername = "sql130.main-hosting.eu";
-	$username = "u610112734_tutor";
-	$password = "rai_pio123";
-	$dbname = "u610112734_tutor";*/
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
