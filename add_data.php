@@ -98,7 +98,7 @@ $result = $conn->query($sql);
 														// output data of each row
 														while($row = $result->fetch_assoc()) {
 														?>
-													<option value="<?php echo $row['id']?>"><?php echo $row['kategori'];?></option>
+													<option value="<?php echo $row['id']?>"><?php echo $row['nm_kategori'];?></option>
 													<?php
 														}
 													}
