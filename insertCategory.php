@@ -19,10 +19,11 @@ date_default_timezone_set('Asia/Jakarta');
 $category=$_POST["category"];
 $description=$_POST["description"];
 
-$date_insert = date('Y-m-d h:i:s a', time());
+$date_insert = date('Y-m-d h:i:s', time());
 
 include 'koneksi.php';
-$sql="INSERT INTO tb_kategori(date_insert, kategori, `description`) VALUES('$date_insert', '$category', '$description')";
+$sql="INSERT INTO tb_kategori(date_insert, nm_kategori, `description`) VALUES('$date_insert', '$category', '$description')";
+
 if ($conn->query($sql) === TRUE) {
     $_SESSION['message']="Insert Successfully";
 } else {
