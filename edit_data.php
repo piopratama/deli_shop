@@ -22,7 +22,7 @@ else
 include "koneksi.php";
 $id=$_GET['id'];
 
-$data = mysqli_query($conn, "SELECT id, price, item, stock, unit, description FROM tb_barang WHERE id='$id'");
+$data = mysqli_query($conn, "SELECT id, price, item, stock, unit, description FROM tb_barang WHERE id=$id");
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
 ?>
@@ -85,7 +85,11 @@ $result = $conn->query($sql);
 					<div class="col-md-8 articles">
 						<div class="row">
 							<div class="col-md-12" style="margin: 10px 0px">
-								<?php while($d=mysqli_fetch_array($data)) {?>
+								<?php 
+
+								while($d=mysqli_fetch_array($data)) 
+								{
+								?>
 								<form action="updateStock.php" method="POST" role="form" id="directPay_div">
 									<table>
 										<tr>
@@ -99,7 +103,7 @@ $result = $conn->query($sql);
 														// output data of each row
 														while($row = $result->fetch_assoc()) {
 														?>
-													<option value="<?php echo $row['id']?>"><?php echo $row['kategori'];?></option>
+													<option value="<?php echo $row['id']?>"><?php echo $row['nm_kategori'];?></option>
 													<?php
 														}
 													}
@@ -149,7 +153,9 @@ $result = $conn->query($sql);
 										
 									</table>
 								</form>
-								<?php }?>
+								<?php 
+								}
+								?>
 								
 							</div>
 						</div>
