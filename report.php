@@ -158,7 +158,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<input type="text" class="form-control" id="year">
 						</div>
 						<button class="btn btn-primary" id="chartBtn">Submit</button>
-						<h3 class="text-center" id="title-chart" style="display: none;">Profit Chart (in K Rupiah)</h3>
+						<h3 class="text-center" id="title-chart" style="display: none;">Transaction Chart (in K Rupiah)</h3>
 						<div class="ct-chart ct-perfect-fourth"></div>
 					</div>
 				</div>
