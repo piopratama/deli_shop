@@ -17,7 +17,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss='0';");
+$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi;");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
@@ -96,7 +96,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							Start: <input style="margin:10px; " type="date" name="start" id="date_start">
 							Until: <input style="margin:10px;" type="date" name="end" id="date_end">
 							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid">
-								<option>--Select Status--</option>
+								<option value="">--Select Status--</option>
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>
 							</select>
@@ -133,7 +133,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tr>
 								<td><?php echo $no ?></td>
 								<td><?php echo $data["invoice"];?></td>
-								<td><?php echo $data["nm_transaksi"];?></td>
+								<td><?php echo ($data["nm_transaksi"]=="" ? "Direct Pay": $data["nm_transaksi"]);?></td>
 								<td><?php echo $data["tnggl"];?></td>
 								<td><?php echo $data["nama_pegawai"];?></td>
 								<td><?php echo $data["item"];?></td>
@@ -324,18 +324,21 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 
 				$("#status_paid").change(function(){
 					getCustomerStatus();
+					getTableCustomerStatus();
 				});
 
 				$("#customer").change(function(){
 					getTableCustomerStatus();
 				});
 				
-				$("##date_start").change(function(){
+				$("#date_start").change(function(){
 					getCustomerStatus();
+					getTableCustomerStatus();
 				});
 
-				$("##date_stop").change(function(){
+				$("#date_end").change(function(){
 					getCustomerStatus();
+					getTableCustomerStatus();
 				});
 
 				function getCustomerStatus()
@@ -380,15 +383,14 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					var startDate=$("#date_start").val();
 					var stopDate=$("#date_end").val();
 					var customer=$("#customer").val();
-					
-					if(status!="" && startDate!="" && stopDate!="")
-					{
-						$.ajax({
-							url: 'getTableStatusCustomer.php',
-							type: 'post',
-							data: {status: status, dateStart: startDate, dateStop: stopDate, customer: customer},
-							dataType: 'json',
-							success: function (data) {
+					$.ajax({
+						url: 'getTableStatusCustomer.php',
+						type: 'post',
+						data: {status: status, dateStart: startDate, dateStop: stopDate, customer: customer},
+						dataType: 'json',
+						success: function (data) {
+							if(data!=[])
+							{
 								oTable.fnClearTable();
 								for(var i=0;i<data.length;i++)
 								{
@@ -406,8 +408,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 									]);
 								}
 							}
-						});
-					}
+						}
+					});
 				}
 			});
 		</script>
