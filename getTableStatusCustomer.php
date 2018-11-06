@@ -19,7 +19,7 @@
     $stopDate=$_POST['dateStop'];
     $nm_transaksi=$_POST['customer'];
 	require 'koneksi.php';
-    $sql = "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss FROM tb_transaksi WHERE statuss=".$status." and nm_transaksi<>'' and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
+    $sql = "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and nm_transaksi<>'' and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
     //$sql = "SELECT invoice, nm_transaksi FROM tb_transaksi WHERE statuss=".$status." and nm_transaksi<>'' and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
 
     $result = $conn->query($sql);
@@ -38,6 +38,7 @@
             $data[$i]["item"]=$row["item"];
             $data[$i]["qty"]=$row["qty"];
             $data[$i]["total_price"]=$row["total_price"];
+            $data[$i]["method"]=$row["method"];
             if($row["statuss"]==1)
             {
                 $data[$i]["status"]="paid";

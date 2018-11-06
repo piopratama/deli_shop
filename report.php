@@ -17,7 +17,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss FROM tb_transaksi WHERE statuss='0';");
+$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss='0';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
@@ -122,6 +122,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>Item</th>
 								<th>QTY</th>
 								<th>Total Price</th>
+								<th>Method</th>
 								<th>Status</th>
 							</tr>
 						</thead>
@@ -138,6 +139,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["qty"];?></td>
 								<td><?php echo $data["total_price"];?></td>
+								<td><?php echo $data["method"] ;?></td>
 								<td><?php if($data["statuss"]==0)
 								{
 									echo("not paid");
@@ -399,6 +401,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 										data[i].item,
 										data[i].qty,
 										data[i].total_price,
+										data[i].method,
 										data[i].status
 									]);
 								}
