@@ -92,14 +92,14 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						
 						<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="start" id="date_start">
-							Until: <input style="margin:10px;" type="date" name="end" id="date_end">
-							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid" name="status_paid">
+							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
+							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
+							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid" name="status">
 								<option value="">--Select Status--</option>
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>
 							</select>
-							Customer: <select style="margin:10px; width:150px;height:28px" id="customer">
+							Customer: <select style="margin:10px; width:150px;height:28px" id="customer" name="customer">
 							<?php while($pelanggan=mysqli_fetch_array($customer)){?>
 								<option>--Select Customer--</option>
 								

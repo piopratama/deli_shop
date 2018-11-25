@@ -23,33 +23,46 @@ else
 require_once '/vendor/autoload.php';
 $mpdf = new \Mpdf\Mpdf();
 
-$start = $_POST['start'];
-$end = $_POST['end'];
-$status_paid=$_POST['status_paid'];
+$status=$_POST['status'];
+$startDate=$_POST['dateStart'];
+$stopDate=$_POST['dateStop'];
+$nm_transaksi=$_POST['customer'];
 
 require 'koneksi.php';
 if($_POST['Submit']=='Print'){
-	if($start&&$end!=null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl) BETWEEN '".$start."' AND '".$end."' and tb_transaksi.statuss=$status_paid";
-	}elseif($start!=null&&$end==null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl)='".$start."' and tb_transaksi.statuss=$status_paid";
-	}else{
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee where tb_transaksi.statuss=$status_paid";
-	}
+	if($nm_transaksi!="" && $startDate!="" && $stopDate!="" && $status!="")
+    {
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
+    }
+    else if($startDate!="" && $stopDate!="" && $status!="")
+    {
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
+    }
+    else if($startDate!="" && $stopDate!="")
+    {
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
+    }
+    else if($status!="")
+    {
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status.";";
+    }
+    else
+    {
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi;";
+    }
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		$i=0;
 		$sum=0;
-		$html="<h1>Transaction Deli Shop</h1><table border='1'><tr><td>Date</td><td>Invoice</td><td>Name</td><td>Customer</td><td>Item</td><td>Qty</td><td>Price</td><td>Total Price</td></tr>";
+		$html="<h1>Transaction Deli Shop</h1><table border='1'><tr><td>Date</td><td>Invoice</td><td>Employee</td><td>Customer</td><td>Item</td><td>Qty</td><td>Total Price</td><td>Method</td><td>Status</td></tr>";
 		while($row = $result->fetch_assoc()) {
 			$html=$html."<tr>";
 			$html=$html."<td>".$row["tnggl"]."</td>";
 			$html=$html."<td>".$row["invoice"]."</td>";
-			$html=$html."<td>".$row["nama"]."</td>";
-			$html=$html."<td>".$row["nm_transaksi"]."</td>";
+			$html=$html."<td>".$row["nama_pegawai"]."</td>";
+			$html=$html."<td>".($row["nm_transaksi"]=="" ? "Direct Pay":$row["nm_transaksi"])."</td>";
 			$html=$html."<td>".$row["item"]."</td>";
 			$html=$html."<td>".$row["qty"]."</td>";
-			$html=$html."<td>".$row["price"]."</td>";
 			$html=$html."<td>".$row["total_price"]."</td>";
 			$html=$html."<td>".$row["method"]."</td>";
 			$html=$html."<td>".($row["statuss"]==1 ? "paid":"not paid")."</td>";
@@ -58,7 +71,7 @@ if($_POST['Submit']=='Print'){
 			$i=$i+1;
 		}
 		$html=$html."</table>";
-		$html=$html."<h1 style='text-align:center'>Rp.".rupiah($sum)."</h1>";
+		$html=$html."<h1 style='text-align:center'>".rupiah($sum)."</h1>";
 		// Write some HTML code:
 		$filename=date('Y-m-d').".pdf";
 		$mpdf->WriteHTML($html);
@@ -75,13 +88,11 @@ if($_POST['Submit']=='Print'){
 }
 else if($_POST['Submit']=='Pajak')
 {
-	if($start&&$end!=null){
+	if($startDate&&$stopDate!=null){
 		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
-		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl) BETWEEN '$start' AND '$end' and tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
-	}elseif($start!=null&&$end==null){
-		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
-		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl)='$start' and tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
-	}else{
+		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl) BETWEEN '$startDate' AND '$stopDate' and tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
+	}
+	else{
 		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
 		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` where tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
 	}
@@ -100,7 +111,7 @@ else if($_POST['Submit']=='Pajak')
 			$i=$i+1;
 		}
 		$html=$html."</table>";
-		$html=$html."<h1 style='text-align:center'>Rp.".rupiah($sum)."</h1>";
+		$html=$html."<h1 style='text-align:center'>".rupiah($sum)."</h1>";
 		// Write some HTML code:
 		$mpdf->WriteHTML($html);
 		$filename="Pajak".date('Y-m-d').".pdf";
