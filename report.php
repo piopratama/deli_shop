@@ -94,7 +94,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
 							Start: <input style="margin:10px; " type="date" name="start" id="date_start">
 							Until: <input style="margin:10px;" type="date" name="end" id="date_end">
-							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid">
+							Status: <select style="margin:10px; width:150px;height:28px" id="status_paid" name="status_paid">
 								<option value="">--Select Status--</option>
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>

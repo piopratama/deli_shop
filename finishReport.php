@@ -25,15 +25,16 @@ $mpdf = new \Mpdf\Mpdf();
 
 $start = $_POST['start'];
 $end = $_POST['end'];
+$status_paid=$_POST['status_paid'];
 
 require 'koneksi.php';
 if($_POST['Submit']=='Print'){
 	if($start&&$end!=null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl) BETWEEN '".$start."' AND '".$end."' and tb_transaksi.statuss=1";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl) BETWEEN '".$start."' AND '".$end."' and tb_transaksi.statuss=$status_paid";
 	}elseif($start!=null&&$end==null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl)='".$start."' and tb_transaksi.statuss=1";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl)='".$start."' and tb_transaksi.statuss=$status_paid";
 	}else{
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee where tb_transaksi.statuss=1";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee where tb_transaksi.statuss=$status_paid";
 	}
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
