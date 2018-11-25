@@ -29,11 +29,11 @@ $end = $_POST['end'];
 require 'koneksi.php';
 if($_POST['Submit']=='Print'){
 	if($start&&$end!=null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl) BETWEEN '".$start."' AND '".$end."' ";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl) BETWEEN '".$start."' AND '".$end."' and tb_transaksi.statuss=1";
 	}elseif($start!=null&&$end==null){
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl)='".$start."' ";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE DATE(tnggl)='".$start."' and tb_transaksi.statuss=1";
 	}else{
-		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee";
+		$sql = "SELECT DATE(tnggl) as tnggl, invoice, tb_employee.nama, nm_transaksi, tb_barang.item, qty, tb_barang.price, total_price, method, statuss FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee where tb_transaksi.statuss=1";
 	}
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
@@ -50,6 +50,7 @@ if($_POST['Submit']=='Print'){
 			$html=$html."<td>".$row["qty"]."</td>";
 			$html=$html."<td>".$row["price"]."</td>";
 			$html=$html."<td>".$row["total_price"]."</td>";
+			$html=$html."<td>".$row["method"]."</td>";
 			$html=$html."<td>".($row["statuss"]==1 ? "paid":"not paid")."</td>";
 			$html=$html."</tr>";
 			$sum=$sum+$row["total_price"];
@@ -75,13 +76,13 @@ else if($_POST['Submit']=='Pajak')
 {
 	if($start&&$end!=null){
 		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
-		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl) BETWEEN '$start' AND '$end' GROUP BY tb_kategori.`id`";
+		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl) BETWEEN '$start' AND '$end' and tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
 	}elseif($start!=null&&$end==null){
 		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
-		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl)='$start' GROUP BY tb_kategori.`id`";
+		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` WHERE DATE(tnggl)='$start' and tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
 	}else{
 		$sql = "SELECT tb_kategori.`nm_kategori`, SUM(tb_transaksi.`total_price`) AS total FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.`id`=tb_transaksi.`id_item` 
-		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` GROUP BY tb_kategori.`id`";
+		LEFT JOIN tb_kategori ON tb_kategori.`id`=tb_barang.`kategori` where tb_transaksi.statuss=1 GROUP BY tb_kategori.`id`";
 	}
 
 	$result = $conn->query($sql);
