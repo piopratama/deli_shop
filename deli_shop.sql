@@ -264,7 +264,7 @@ CREATE TABLE `tb_employee` (
 /*Data for the table `tb_employee` */
 
 insert  into `tb_employee`(`id`,`nama`,`address`,`sallary`,`tlp`,`username`,`password`,`level`,`status`,`online_status`) values 
-(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,1),
+(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,0),
 (5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,1);
 
 /*Table structure for table `tb_expenses` */

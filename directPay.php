@@ -125,7 +125,7 @@ $result = $conn->query($sql);
 				<div class="row" id="parent_price_total">
 					<div class="col-md-4">
 					</div>
-					<div class="col-md-4">
+					<!--<div class="col-md-4">
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
@@ -136,7 +136,7 @@ $result = $conn->query($sql);
 								<input type="number" class="form-control ppn" placeholder="0%" readonly="readonly">
 							</div>
 						</div>
-					</div>
+					</div>-->
 					<div class="col-md-4">
 						
 						<div class="form-group">
@@ -174,7 +174,7 @@ $result = $conn->query($sql);
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Insert Successfully</p>
+					<p id="warning_modal_msg"></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -193,6 +193,7 @@ $result = $conn->query($sql);
 				var message='<?php echo $session_value;?>';
 				if(message!="")
 				{
+					$("#warning_modal_msg").html(message);
 					$("#exampleModal2").modal('show');
 				}
 

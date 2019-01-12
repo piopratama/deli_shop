@@ -46,7 +46,7 @@
 			$html=$html."<td class='qty'>".$row['qty']."</td>";
 			$html=$html."<td class='price'>".$row['price']."</td>";
 			$html=$html."<td class='total'>".$row['total_price']."</td>";
-			if($row['status']==0)
+			if($row['statuss']==0)
 			{
 				$html=$html."<td>not paid</td>";
 			}
