@@ -146,7 +146,7 @@ $result = $conn->query($sql);
 				<div class="row" id="parent_price_total">
 					<div class="col-md-4">
 					</div>
-					<!--<div class="col-md-4">
+					<div class="col-md-4" style="visibility:hidden;">
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
@@ -157,7 +157,7 @@ $result = $conn->query($sql);
 								<input type="number" class="form-control ppn" placeholder="10%" readonly="readonly">
 							</div>
 						</div>
-					</div>-->
+					</div>
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="">Grand Total</label>
