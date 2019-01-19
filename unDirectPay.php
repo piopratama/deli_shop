@@ -146,7 +146,7 @@ $result = $conn->query($sql);
 				<div class="row" id="parent_price_total">
 					<div class="col-md-4">
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4" style="visibility:hidden;">
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
@@ -188,7 +188,7 @@ $result = $conn->query($sql);
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Insert Successfully</p>
+					<p id="warning_modal_msg"></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -196,7 +196,9 @@ $result = $conn->query($sql);
 				</div>
 			</div>
         </div>
-
+		<hr>
+		<h3 id="history-title" class="text-center">History</h3>
+		<hr>
 		<div id="history"></div>
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
@@ -207,10 +209,14 @@ $result = $conn->query($sql);
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';
 				var invoice='<?php if(isset($_SESSION['invoice'])){ echo $_SESSION['invoice']; } ?>';
+				
 				if(message!="")
 				{
+					$("#warning_modal_msg").html(message);
 					$("#exampleModal2").modal('show');
 				}
+
+				$("#history-title").hide();
 
 				$('#invoice').select2();
 
@@ -286,6 +292,7 @@ $result = $conn->query($sql);
 								var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().find('#grand');
 								var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
 								var total=0;
+								$("#history-title").show();
 								$('.total').each(function(i, obj) {
 								if(isNaN($(this).val())==false && $(this).val()!="")
 									{

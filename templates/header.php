@@ -8,4 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
     <link href="./assets/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/chart.css">
+    <script src="./assets/pace.js"></script>
+    <link rel="stylesheet" href="./assets/pace.css">
 </head>
