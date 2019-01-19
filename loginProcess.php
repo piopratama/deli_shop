@@ -8,13 +8,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 	$password=$_POST["password"];
 	// $level=$_POST["level"];
 
-	$sql = mysqli_query($conn, "SELECT level FROM tb_employee where username='$usernamed';");
+	$sql = "SELECT level FROM tb_employee WHERE username=?";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('s',$usernamed);
+	$stmt->execute();
+	$stmt->bind_result($level);
+	if($row=$stmt->fetch()){}
 	$no=1;
-	$b=-1;
-	foreach($sql as $a){
-		$b = $a['level'];
-	}
-	  
+	$b=$level;
+	$stmt->close();
 	if($b=='1'){
 		
 		$sql = "SELECT id,username FROM tb_employee WHERE username = '$usernamed' AND `password`=MD5('".$password."');";
@@ -52,7 +54,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 	else
 	{
 		$_SESSION["message"]="Login Failed";
-		header("location:index.php");
+		//header("location:index.php");
 	}
 	
 	$conn->close();
@@ -61,6 +63,6 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 else
 {
 	$_SESSION["message"]="Login Failed";
-	header("location:index.php");
+	//header("location:index.php");
 }
 ?>
