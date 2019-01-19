@@ -216,7 +216,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('3245260761', '1811');
+						var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -273,7 +273,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('3245260761', '1811');
+						var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -367,7 +367,7 @@ $result = $conn->query($sql);
 				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
 					var qty=$(this).val();
 					var price_field=$(this).parent().next().find(".price");
-					var total=qty*price_field.val();
+					var total=parseFloat(qty)*parseFloat(price_field.val());
 					var price_total=$(this).parent().next().next().find('.total');
 					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().next().find('#grand');
 					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');

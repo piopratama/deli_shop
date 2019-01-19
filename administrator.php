@@ -105,6 +105,13 @@ else
 				</div>
 				<div class="col-md-4"></div>
 			</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu">Supplier</button></a>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
 		</div>
 		<?php include('./templates/footer.php'); ?>
 	</body>

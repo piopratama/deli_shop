@@ -22,9 +22,15 @@ else
 include "koneksi.php";
 $id=$_GET['id'];
 
-$data = mysqli_query($conn, "SELECT id, price, item, stock, unit, description FROM tb_barang WHERE id=$id");
+$data = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`,tb_barang.`kategori`, tb_barang.`supplier`, tb_kategori.nm_kategori AS nama_kat, tb_supplier.`nm_supplier` AS nama_sup FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.`id`=$id");
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
+$supplier = "SELECT * FROM tb_supplier";
+$result2 = $conn->query($supplier);
+$sql2 = "SELECT * FROM tb_kategori WHERE id=$id";
+$result3 = $conn->query($sql2);
+$supplier2 = "SELECT * FROM tb_supplier WHERE id_supplier=$id";
+$result4 = $conn->query($supplier2);
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
@@ -79,7 +85,7 @@ $result = $conn->query($sql);
 
 					
 					<div class="col-md-4 sidebar">
-						<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" " href="stock.php"></a>
+						<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left"  href="stock.php"></a>
 					</div>
 					
 					<div class="col-md-8 articles">
@@ -97,7 +103,8 @@ $result = $conn->query($sql);
 											<div class="form-group">
 										      <label>category :</label>
 										      <select class="form-control myItem2" name="category" style="width: 200%;">
-													<option value="">-- Select Category --</option>
+													<option value="<?php echo $d['kategori'];?>"><?php echo $d['nama_kat'];?></option>
+													<option value="">-- KOSONGKAN --</option>
 													<?php
 														if ($result->num_rows > 0) {
 														// output data of each row
@@ -124,7 +131,7 @@ $result = $conn->query($sql);
 											
 											<td>	<div class="form-group">
 										      <label for="usr">Price :</label>
-										      <input type="text" style="width: 200%;" class="form-control" name="price" id="usr" value="<?php echo $d['price'];?>">
+										      <input type="text" style="width: 200%;" class="form-control" name="price" id="rupiah" value="<?php echo $d['price'];?>">
 										    </div></td>
 										</tr>
 										<tr>
@@ -143,8 +150,26 @@ $result = $conn->query($sql);
 										</tr>
 										<tr>
 											
-											<td><label for="usr">Description</label>
-												<textarea name="description" style="width: 200%;" class="form-control" value="<?php echo $d['description']?>"></textarea></td>
+										<td>
+											<div class="form-group">
+										      <label>Supplier :</label>
+										      <select class="form-control myItem2" name="supplier" style="width: 200%;">
+													<option value="<?php echo $d['supplier'];?>"><?php echo $d['nama_sup'];?></option>
+													<option value="">-- KOSONGKAN --</option>
+													<?php
+														if ($result->num_rows > 0) {
+														// output data of each row
+														while($row = $result2->fetch_assoc()) {
+														?>
+													<option value="<?php echo $row['id_supplier']?>"><?php echo $row['nm_supplier'];?></option>
+													<?php
+														}
+													}
+														$conn->close();
+													?>
+												</select>
+										</div>
+										</td>
 										</tr>
 										<tr>
 											<td><button type="submit" class="btn btn-success" id="add_item_btn" style="margin-top: 10px;" name=Submit>Update</button></td>
@@ -169,6 +194,27 @@ $result = $conn->query($sql);
 				$(document).ready(function() {
 					$(".myItem2").select2();
 				});
+
+				var rupiah = document.getElementById('rupiah');
+				rupiah.addEventListener('keyup', function(e){
+					rupiah.value = formatRupiah(this.value);
+				})
+
+				function formatRupiah(angka, prefix){
+					var number_string = angka.replace(/[^,\d]/g, '').toString(),
+					split = number_string.split(','),
+					sisa = split[0].length % 3,
+					rupiah = split[0].substr(0, sisa),
+					ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+					if(ribuan){
+						separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+					return prefix == undefined ? rupiah : (rupiah ?  rupiah : '');
+				}
 			</script>
 	</body>
 </html>

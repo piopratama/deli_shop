@@ -16,13 +16,10 @@ else
 
 include 'koneksi.php';
 $id=$_POST['id'];
-$category=$_POST['category'];
-$name=$_POST['name'];
-$price=$_POST['price'];
-$stock=$_POST['stock'];
-$unit=$_POST['unit'];
 $supplier=$_POST['supplier'];
+$address=$_POST['address'];
+$phone=$_POST['phone'];
+mysqli_query($conn, "UPDATE tb_supplier SET nm_supplier='$supplier', address='$address', no_hp='$phone' WHERE id_supplier=$id;");
 
-mysqli_query($conn, "UPDATE tb_barang SET item='$name', price='$price', stock='$stock', unit='$unit', supplier='$supplier', kategori='$category' WHERE id='$id'");
-header("location:stock.php");
+header("location:supplier.php");
 ?>

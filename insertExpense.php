@@ -23,12 +23,12 @@ $qty=$_POST["qty"];
 $unit=$_POST["unit"];
 $price=$_POST["price"];
 $total=$_POST["total"];
-$description=$_POST["description"];
+$category=$_POST["category"];
 
 $date_insert = date('Y-m-d h:i:s', time());
 
 include 'koneksi.php';
-$sql="INSERT INTO tb_expenses(buyer,`date`,date_insert,item,qty,unit,price,total, `description`) VALUES($buyer,'$date_buy','$date_insert','$item',$qty,'$unit',$price,$total, '$description')";
+$sql="INSERT INTO tb_expenses(buyer,`date`,date_insert,item,qty,unit,price,total,category) VALUES($buyer,'$date_buy','$date_insert','$item',$qty,'$unit',$price,$total, '$category')";
 
 if ($conn->query($sql) === TRUE) {
     $_SESSION['message']="Insert Successfully";

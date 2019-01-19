@@ -20,13 +20,13 @@
 	$stock = $_POST['stock'];
 	$unit = $_POST['unit'];
 	$kategori = $_POST['category'];
-	$deskripsi = $_POST['description'];
+	$supplier = $_POST['supplier'];
 
 	// include database connection file
 	include 'koneksi.php';
 											
 	// Insert user data into table
-	$result = mysqli_query($conn, "INSERT INTO tb_barang(item,price,stock,unit,kategori,description) VALUES('$name','$price','$stock','$unit','$kategori','$deskripsi')");
+	$result = mysqli_query($conn, "INSERT INTO tb_barang(item,price,stock,unit,kategori,supplier) VALUES('$name','$price','$stock','$unit','$kategori','$supplier')");
 									
 	header("location:stock.php");
 ?>

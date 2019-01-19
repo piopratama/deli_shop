@@ -23,7 +23,7 @@ include 'koneksi.php';
 $id=$_GET['id'];
 $expenses = mysqli_query($conn, "SELECT * FROM tb_expenses WHERE id='$id'");
 $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb_employee;");
-
+$category = mysqli_query($conn, "SELECT * FROM tb_kategori");
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
@@ -74,21 +74,42 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
 								<form action="update_expenses.php" method="POST" role="form" id="directPay_div">
 									<table>
 											<tr>
-												<td>	<div class="form-group">
-											      <label for="usr">Buyer :</label>
-											      <input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
-											      <select  name="buyer" class="form-control" require="required">
-					                                    <option>-- Select Buyer --</option>
-					                                    <?php
-					                                    foreach($employee as $emp)
-					                                    {
-					                                    ?>
-					                                    <option value="<?php echo $emp["id"]; ?>"><?php echo $emp["nama"]; ?></option>
-					                                    <?php
-					                                    }
-					                                    ?>
-					                                </select>
-											    </div></td>
+												<td>	
+													<div class="form-group">
+													<label for="usr">Buyer :</label>
+													<input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
+													<select  name="buyer" class="form-control" require="required">
+															<option>-- Select Buyer --</option>
+															<?php
+															foreach($employee as $emp)
+															{
+															?>
+															<option value="<?php echo $emp["id"]; ?>"><?php echo $emp["nama"]; ?></option>
+															<?php
+															}
+															?>
+														</select>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>	
+													<div class="form-group">
+													<label for="usr">Category :</label>
+													<input type="hidden" class="form-control" name="id" value="<?php echo $d['id'];?>">
+													<select  name="category" class="form-control" require="required">
+															<option>-- Select Category --</option>
+															<?php
+															foreach($category as $emp)
+															{
+															?>
+															<option value="<?php echo $emp["nm_kategori"]; ?>"><?php echo $emp["nm_kategori"]; ?></option>
+															<?php
+															}
+															?>
+														</select>
+													</div>
+												</td>
 											</tr>
 											<tr>
 												
@@ -124,10 +145,7 @@ $employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb
 												<td><label for="usr">Total</label>
 													<input type="text" style="width: 200%; margin-bottom: 10px;" class="form-control" name="total" id="usr" value="<?php echo $d['total'];?>"></td>
 											</tr>
-											<tr>
-												<td><label for="usr">Description</label>
-													<input type="text" style="width: 200%; margin-bottom: 10px;" class="form-control" name="description" id="usr" value="<?php echo $d['description'];?>"></td>
-											</tr>
+											
 
 											<tr>
 												<td><button type="submit" class="btn btn-success" id="add_item_btn" name=Submit>Submit</button></td>

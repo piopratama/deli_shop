@@ -1,21 +1,29 @@
+<!DOCTYPE html>
+<html>
 <?php
 session_start();
 
-$title="Expense";
+$title="Supplier";
 
 if(empty($_SESSION['username'])){
 	header("location:index.php");
 }
-include_once 'koneksi.php';
-$expenses = mysqli_query($conn, "SELECT tb_expenses.*, tb_employee.nama as buyer FROM tb_expenses LEFT JOIN tb_employee on tb_expenses.buyer=tb_employee.id;");
-$employee = mysqli_query($conn, "SELECT tb_employee.id, tb_employee.nama FROM tb_employee");
+else
+{
+	if(!empty($_SESSION['level_user']))
+	{
+		if($_SESSION["level_user"]==0)
+		{
+			header("location:index.php");
+		}
+	}
+}
 
-$category = mysqli_query($conn, "SELECT * FROM tb_kategori");
+
+include_once 'koneksi.php';
+$supplier = mysqli_query($conn, "SELECT * FROM tb_supplier");
 
 ?>
-<!DOCTYPE html>
-<html>
-
     <?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/stockStyle.css">
 	<body>
@@ -52,44 +60,33 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
             <div class="row">
                 <div class="col-md-12" id="mytable">
                 <table id="example" class="table table-bordered" style="width: 100%;">
-                    <h1>EXPENSES</h1>
+                    <h1>SUPPLIER</h1>
                     
                     <a href="administrator.php" style="margin:0 5px 10px 0" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a>
                     <button class="btn btn-success glyphicon glyphicon-plus" style="margin-bottom:10px" data-toggle="modal" data-target="#exampleModal"></button>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Date Insert</th>
-                            <th>Date</th>
-                            <th>Category</th>
-                            <th>Item</th>
-                            <th>Buyer</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Total</th>
+                            <th>Supplier</th>
+                            <th>Address</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                        if(count($expenses)>0)
+                        if(count($supplier)>0)
                         {
                             $no=1;
-                            foreach ($expenses as $data) {?>
+                            foreach ($supplier as $data) {?>
                             <tr>
                                 <td><?php echo $no ?></td>
-                                <td><?php echo $data["date_insert"];?></td>
-                                <td><?php echo $data["date"];?></td>
-                                <td><?php echo $data["category"];?></td>
-                                <td><?php echo $data["item"];?></td>
-                                <td><?php echo $data["buyer"];?></td>
-                                <td><?php echo $data["qty"]." ".$data["unit"];?></td>
-                                <td><?php echo $data["price"];?></td>
-                                <td><?php echo $data["total"];?></td>
-                                
+                                <td><?php echo $data["nm_supplier"];?></td>
+                                <td><?php echo $data["address"];?></td>
+                                <td><?php echo $data["no_hp"];?></td>
                                 <td>
-                                    <button class="btn btn-danger deleteExpense" id="<?php echo $data['id']; ?>"><span class="glyphicon glyphicon-trash"></span></button>
-                                    <a type="button" class="btn btn-success glyphicon glyphicon-pencil" href="edit_expenses.php?id=<?php echo $data['id']?>"></a>
+                                    <button class="btn btn-danger deleteCategory" id="<?php echo $data['id_supplier']; ?>"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a type="button" class="btn btn-success glyphicon glyphicon-pencil" href="edit_supplier.php?id=<?php echo $data['id_supplier']?>"></a>
                                 </td>
                             </tr>
                             <?php 
@@ -105,75 +102,27 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="insertExpense.php" method="POST">
+                <form action="insertSupplier.php" method="POST">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Supplier</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" name="date_buy" class="form-control" placeholder="Date Buy" require="required">
+                                <label>Supplier</label>
+                                <input type="text" name="supplier" class="form-control" placeholder="Supplier" require="required">
                             </div>
                             <div class="form-group">
-                                <label>Buyer</label>
-                                <select class="form-control" name="buyer" require="required">
-                                    <option>-- Select Buyer --</option>
-                                    <?php
-                                    foreach($employee as $emp)
-                                    {
-                                    ?>
-                                    <option value="<?php echo $emp["id"]; ?>"><?php echo $emp["nama"]; ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
+                                <label>Address</label>
+                                <input type="text" name="address" class="form-control" placeholder="Address" require="required">
                             </div>
                             <div class="form-group">
-                                <label>Category</label>
-                                <select class="form-control" name="category" require="required">
-                                    <option>-- Select Category --</option>
-                                    <?php
-                                    foreach($category as $emp)
-                                    {
-                                    ?>
-                                    <option value="<?php echo $emp["nm_kategori"]; ?>"> <?php echo $emp["nm_kategori"]; ?> </option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
+                                <label>Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="Phone" require="required">
                             </div>
-                            <div class="form-group">
-                                <label>Item</label>
-                                <input type="text" name="item" class="form-control" placeholder="Item" require="required">
-                            </div>
-                            <div class="form-group">
-                                <label>Qty</label>
-                                <input type="number" name="qty" class="form-control" placeholder="Quantity" step="any" require="required">
-                            </div>
-                            <div class="form-group">
-                                <label>Unit</label>
-                                <select class="form-control" name="unit" require="required">
-                                    <option>-- Select Unit --</option>
-                                    <option>kg</option>
-                                    <option>gr</option>
-                                    <option>pcs</option>
-                                    <option>krat</option>
-                                    <option>botol</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" name="price" class="form-control" placeholder="Price" step="any" require="required">
-                            </div>
-                            <div class="form-group">
-                                <label>Total</label>
-                                <input type="number" name="total" class="form-control" placeholder="Total" step="any" require="required">
-                            </div>
-                           
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -185,11 +134,11 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
         </div>
                                     
         <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <form action="deleteExpense.php" method="POST">
+            <form action="deleteSupplier.php" method="POST">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">Delete Expense</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2">Delete Supplier</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -225,7 +174,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
 				}
 				$("#example").DataTable();
 
-                $("#example").on('click','.deleteExpense', function(){
+                $("#example").on('click','.deleteCategory', function(){
 					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');
 				});
