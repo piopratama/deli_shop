@@ -29,7 +29,7 @@ CREATE TABLE `tb_barang` (
   `kategori` int(11) NOT NULL,
   `supplier` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_barang` */
 
@@ -285,7 +285,13 @@ insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier
 (249,'MACHINE COFFEE ',1980000,1,'PCS',8,14),
 (250,'MILK FROTHER',860000,1,'PCS',8,14),
 (251,'GLASS CUP CUPPUCCINO \"THESPRESSO\"',120000,6,'PCS',8,14),
-(252,'GLASS CUP ESPRESSO \"THESPRESSO\"',90000,0,'PCS',8,14);
+(252,'GLASS CUP ESPRESSO \"THESPRESSO\"',90000,0,'PCS',8,14),
+(254,'CAPSULE COFFEE BOX 100 PIECES \"THESPRESSO\"',7,575,'pcs',2,14),
+(255,'CAMOMILLE TEA ',58,49,'pcs',2,26),
+(256,'GREEN TEA \"HELADIV\"',48,50,'pcs',2,26),
+(257,'PEPPERMINT TEA \"HELADIV\" (caffeine free)',48,49,'pcs',2,26),
+(258,'PEACH BLACK TEA \"HELADIV\"',48,20,'pcs',2,26),
+(259,'CAPSULE COFFEE BOX 25 PIECES \"THESPRESSO\"',185,125,'pcs',2,14);
 
 /*Table structure for table `tb_deposit` */
 
@@ -322,8 +328,8 @@ CREATE TABLE `tb_employee` (
 /*Data for the table `tb_employee` */
 
 insert  into `tb_employee`(`id`,`nama`,`address`,`sallary`,`tlp`,`username`,`password`,`level`,`status`,`online_status`) values 
-(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,1),
-(5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,0),
+(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,0),
+(5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,1),
 (6,'Afli','wae kelambu',1000000,'081111','tes@gmail.com','77cf34f016313318086c77361bf90784',0,0,0),
 (7,'EMILIA','KAPER',1000000,'082144796606','EMILIA','7f51403cbbee278265d6581f9f24d6e2',1,0,0),
 (8,'DANA','GOLO KOE',5000000,'081239175546','DANA','2f4d86a811155b0eca70efa4eb135e77',1,0,0);
