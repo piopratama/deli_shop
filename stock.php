@@ -17,7 +17,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier`;");
+$barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` order by id desc;");
 $stock_kurang = mysqli_query($conn, "SELECT tb_barang.id, tb_barang.item, tb_barang.stock, tb_barang.unit, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.stock<='5';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>

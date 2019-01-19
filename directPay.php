@@ -367,7 +367,7 @@ $result = $conn->query($sql);
 				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
 					var qty=$(this).val();
 					var price_field=$(this).parent().next().find(".price");
-					var total=parseFloat(qty)*parseFloat(price_field.val());
+					var total=qty*price_field.val();
 					var price_total=$(this).parent().next().next().find('.total');
 					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().next().find('#grand');
 					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
