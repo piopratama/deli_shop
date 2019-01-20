@@ -23,8 +23,8 @@ $qty=$_POST['qty'];
 $price=$_POST['price'];
 $total=$_POST['total'];
 $unit=$_POST['unit'];
-$desc=$_POST['description'];
+$category=$_POST['category'];
 
-mysqli_query($conn, "UPDATE tb_expenses SET buyer='$buyer', item='$item', qty='$qty', price='$price', total='$total', description='$desc', unit='$unit' WHERE id='$id'"); 
+mysqli_query($conn, "UPDATE tb_expenses SET buyer='$buyer', item='$item', qty='$qty', price='$price', total='$total', category='$category', unit='$unit' WHERE id='$id'"); 
 header("location:expenses.php");
 ?>

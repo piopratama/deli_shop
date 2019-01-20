@@ -22,6 +22,8 @@ else
 require('koneksi.php');
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
+$supplier = "SELECT * FROM tb_supplier";
+$result2 = $conn->query($supplier);
 ?>
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/directPayStyle.css">
@@ -102,7 +104,7 @@ $result = $conn->query($sql);
 													<?php
 														}
 													}
-														$conn->close();
+													$conn->close();
 													?>
 												</select>
 												</div>
@@ -120,7 +122,7 @@ $result = $conn->query($sql);
 											
 											<td>	<div class="form-group">
 										      <label for="usr">Price :</label>
-										      <input type="text" class="form-control" name="price" id="usr" style="width: 200%;" required="required">
+										      <input type="text" class="form-control" name="price" id="rupiah" style="width: 200%;" required="required">
 										    </div></td>
 										</tr>
 										<tr>
@@ -138,9 +140,26 @@ $result = $conn->query($sql);
 										    </div></td>
 										</tr>
 										<tr>
-											
-											<td><label for="usr">Description</label>
-												<textarea name="description" class="form-control" style="width: 200%;"></textarea></td>
+										<td>	
+										<div class="form-group">
+										      
+										      <label>Supplier :</label>
+										      <select class="form-control myItem2" name="supplier" style="width: 200%;">
+													<option value="">-- Select Supplier --</option>
+													<?php
+														if ($result2->num_rows > 0) {
+														// output data of each row
+														while($row = $result2->fetch_assoc()) {
+														?>
+													<option value="<?php echo $row['id_supplier']?>"><?php echo $row['nm_supplier'];?></option>
+													<?php
+														}
+													}
+														$conn->close();
+													?>
+												</select>
+												</div>
+												</td>
 										</tr>
 										<tr>
 											<td><button type="submit" style="margin-top: 10px;" class="btn btn-success" id="add_item_btn" name=Submit>Submit</button></td>
@@ -162,6 +181,27 @@ $result = $conn->query($sql);
 				$(document).ready(function() {
 					$(".myItem2").select2();
 				});
+
+				var rupiah = document.getElementById('rupiah');
+				rupiah.addEventListener('keyup', function(e){
+					rupiah.value = formatRupiah(this.value);
+				})
+
+				function formatRupiah(angka, prefix){
+					var number_string = angka.replace(/[^,\d]/g, '').toString(),
+					split = number_string.split(','),
+					sisa = split[0].length % 3,
+					rupiah = split[0].substr(0, sisa),
+					ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+					if(ribuan){
+						separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+					return prefix == undefined ? rupiah : (rupiah ?  rupiah : '');
+				}
 			</script>
 	</body>
 </html>

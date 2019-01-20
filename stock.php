@@ -17,8 +17,8 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT id, item, price, stock, unit, description FROM tb_barang;");
-$stock_kurang = mysqli_query($conn, "SELECT id, item, stock, unit, description FROM tb_barang where stock<='5';");
+$barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` order by id desc;");
+$stock_kurang = mysqli_query($conn, "SELECT tb_barang.id, tb_barang.item, tb_barang.stock, tb_barang.unit, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.stock<='5';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
@@ -88,11 +88,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tr>
 								
 								<th>Item</th>
-								
 								<th>Stock</th>
 								<th>Unit</th>
-								<th>Description</th>
-								
+								<th>Supplier</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -104,10 +102,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $kurang['item']?></td>
 								<td><?php echo $kurang['stock']?></td>
 								<td><?php echo $kurang['unit']?></td>
-								<td><?php echo $kurang['description']?></td>
-								
-								
-								
+								<td><?php echo $kurang['supplier']?></td>
 								<td>
 									
 									<a type="button" class="btn btn-success" href="edit_data.php?id=<?php echo $kurang['id'];?>"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -128,10 +123,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tr>
 								<th>ID</th>
 								<th>Item</th>
+								<th>Category</th>
 								<th>Price</th>
 								<th>Stock</th>
 								<th>Unit</th>
-								<th>Description</th>
+								<th>Supplier</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
@@ -143,7 +139,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tr>
 								<td><?php echo $no ?></td>
 								<td><?php echo $data["item"];?></td>
-								<td><?php echo $data["price"];?></td>
+								<td><?php echo $data["kategori"];?></td>
+								<td><?php echo rupiah($data["price"]);?></td>
 								<td id="stock"><?php echo $data["stock"];?><?php if($data["stock"]<=5){?>
 									
 									<?php }elseif($data["stock"]>10 && $data["stock"]<=30){?>
@@ -151,14 +148,12 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<?php }?>
 								</td>
 								<td><?php echo $data["unit"];?></td>
-								<td><?php echo $data["description"];?></td>
-								<td><?php if($data["stock"]<=5){
-									echo "Stock Kurang";
-								}elseif($data["stock"]<=25){
-									echo "Stock mulai berkurang";
-								}else{
-									echo "Stock aman";
-								}?></td>
+								<td><?php echo $data["supplier"];?></td>
+								<td><?php if($data["stock"]<=5){ ?>
+									<h3 style="color:red;">L</h3>
+								<?php }else{ ?>
+									<h3 style="color:green;">H</h3>
+								<?php }?></td>
 								<td>
 									<button class="btn btn-danger deleteItem" id="<?php echo $data['id']; ?>"><span class="glyphicon glyphicon-trash"></span></button>
 									<a type="button" class="btn btn-success" href="edit_data.php?id=<?php echo $data['id'];?>"><span class="glyphicon glyphicon-pencil"></span></a>
