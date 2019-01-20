@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.1.2 (64 bit)
-MySQL - 10.2.17-MariaDB : Database - u610112734_deli
+MySQL - 10.1.37-MariaDB : Database - deli_shop
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 10.2.17-MariaDB : Database - u610112734_deli
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`u610112734_deli` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`deli_shop` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `u610112734_deli`;
+USE `deli_shop`;
 
 /*Table structure for table `tb_barang` */
 
@@ -29,13 +29,13 @@ CREATE TABLE `tb_barang` (
   `kategori` int(11) NOT NULL,
   `supplier` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_barang` */
 
 insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier`) values 
-(1,'CREAM CHEESE LIGHT 250GR ',56000,4,'PCS',1,3),
-(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,39,'LITER',5,0),
+(1,'CREAM CHEESE LIGHT 250GR ',56000,1,'PCS',1,3),
+(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,37,'LITER',5,0),
 (3,'OLIVE OIL EXTRA VIRGIN 1 LITER ',195000,2,'LITER',5,0),
 (4,'CREAM CHEESE NEUFCHATEL 250GR ',68000,4,'PCS',1,0),
 (5,'SOUR CREAM 250GR \"YUMMY\"',48000,3,'PCS',1,0),
@@ -285,13 +285,7 @@ insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier
 (249,'MACHINE COFFEE ',1980000,1,'PCS',8,14),
 (250,'MILK FROTHER',860000,1,'PCS',8,14),
 (251,'GLASS CUP CUPPUCCINO \"THESPRESSO\"',120000,6,'PCS',8,14),
-(252,'GLASS CUP ESPRESSO \"THESPRESSO\"',90000,0,'PCS',8,14),
-(254,'CAPSULE COFFEE BOX 100 PIECES \"THESPRESSO\"',7,575,'pcs',2,14),
-(255,'CAMOMILLE TEA ',58,49,'pcs',2,26),
-(256,'GREEN TEA \"HELADIV\"',48,50,'pcs',2,26),
-(257,'PEPPERMINT TEA \"HELADIV\" (caffeine free)',48,49,'pcs',2,26),
-(258,'PEACH BLACK TEA \"HELADIV\"',48,20,'pcs',2,26),
-(259,'CAPSULE COFFEE BOX 25 PIECES \"THESPRESSO\"',185,125,'pcs',2,14);
+(252,'GLASS CUP ESPRESSO \"THESPRESSO\"',90000,0,'PCS',8,14);
 
 /*Table structure for table `tb_deposit` */
 
@@ -328,7 +322,7 @@ CREATE TABLE `tb_employee` (
 /*Data for the table `tb_employee` */
 
 insert  into `tb_employee`(`id`,`nama`,`address`,`sallary`,`tlp`,`username`,`password`,`level`,`status`,`online_status`) values 
-(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,0),
+(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,1),
 (5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,1),
 (6,'Afli','wae kelambu',1000000,'081111','tes@gmail.com','77cf34f016313318086c77361bf90784',0,0,0),
 (7,'EMILIA','KAPER',1000000,'082144796606','EMILIA','7f51403cbbee278265d6581f9f24d6e2',1,0,0),
@@ -350,7 +344,7 @@ CREATE TABLE `tb_expenses` (
   `price` double NOT NULL,
   `total` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_expenses` */
 
@@ -440,6 +434,7 @@ CREATE TABLE `tb_transaksi` (
   `id_employee` int(11) unsigned NOT NULL,
   `id_item` int(11) unsigned NOT NULL,
   `qty` float unsigned NOT NULL,
+  `discount` float NOT NULL,
   `total_price` float unsigned NOT NULL,
   `deposit` float unsigned NOT NULL,
   `rest_total` float unsigned NOT NULL,
@@ -451,9 +446,14 @@ CREATE TABLE `tb_transaksi` (
   KEY `id_item` (`id_item`),
   CONSTRAINT `tb_transaksi_ibfk_1` FOREIGN KEY (`id_employee`) REFERENCES `tb_employee` (`id`),
   CONSTRAINT `tb_transaksi_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `tb_barang` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_transaksi` */
+
+insert  into `tb_transaksi`(`id`,`invoice`,`nm_transaksi`,`tnggl`,`id_employee`,`id_item`,`qty`,`discount`,`total_price`,`deposit`,`rest_total`,`description`,`method`,`statuss`) values 
+(15,'2019-01-20 04:47:444','','2019-01-20 04:47:44',4,1,1,10,50400,0,0,'','cash',1),
+(16,'2019-01-20 04:48:284','','2019-01-20 04:48:28',4,1,1,15,47600,0,0,'','cash',1),
+(17,'2019-01-20 04:48:284','','2019-01-20 04:48:28',4,2,2,20,224000,0,0,'','cash',1);
 
 /* Trigger structure for table `tb_transaksi` */
 
@@ -461,7 +461,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `stock` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'u610112734_deli'@'%' */ /*!50003 TRIGGER `stock` AFTER INSERT ON `tb_transaksi` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `stock` AFTER INSERT ON `tb_transaksi` FOR EACH ROW BEGIN
 	UPDATE tb_barang SET stock = stock - NEW.qty WHERE tb_barang.id = NEW.id_item;
     END */$$
 

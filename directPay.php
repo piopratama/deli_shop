@@ -280,7 +280,7 @@ $result = $conn->query($sql);
 								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
 								printer.text("");
 							}
-							
+							alert("hay");
 							printer.bold(true);
 							printer.text("------------------------------")
 							printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
