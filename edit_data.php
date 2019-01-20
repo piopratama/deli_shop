@@ -195,7 +195,7 @@ $result4 = $conn->query($supplier2);
 					$(".myItem2").select2();
 				});
 
-				var rupiah = document.getElementById('rupiah');
+				/*var rupiah = document.getElementById('rupiah');
 				rupiah.addEventListener('keyup', function(e){
 					rupiah.value = formatRupiah(this.value);
 				})
@@ -214,7 +214,7 @@ $result4 = $conn->query($supplier2);
 
 					rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 					return prefix == undefined ? rupiah : (rupiah ?  rupiah : '');
-				}
+				}*/
 			</script>
 	</body>
 </html>

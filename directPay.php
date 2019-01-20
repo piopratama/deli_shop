@@ -116,6 +116,10 @@ $result = $conn->query($sql);
 								<input type="text" class="form-control price" placeholder="Price" readonly="readonly">
 							</div>
 							<div class="form-group">
+								<label for="" class="label_discount">Discount (%)</label>
+								<input type="text" class="form-control discount" name="discount[]" placeholder="Discount">
+							</div>
+							<div class="form-group">
 								<label for="">Total</label>
 								<input type="text" class="form-control total" placeholder="Total" readonly="readonly">
 							</div>
@@ -186,11 +190,13 @@ $result = $conn->query($sql);
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
+			$session_casier=(isset($_SESSION['nama']))?$_SESSION['nama']:'';
 		?>
 		<?php include('./templates/footer.php'); ?>
 		<script>
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';
+				var casier_name='<?php echo $session_casier;?>';
 				if(message!="")
 				{
 					$("#warning_modal_msg").html(message);
@@ -220,16 +226,21 @@ $result = $conn->query($sql);
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
-							.text('DELI SHOP')
+							.text('DELI POINT')
 							.bold(true)
-							.text($("#date").val())	
+							.text(formatDate($("#date").val()))
+							.text('Jalan Puncak Waringin')
+							.text('Labuan Bajo - Flores')
+							.text('+62 812 3605 8607')
+							.text('delipointkomodo@gmail.com')
+							.text('cashier : '+casier_name)
 							.text('------------------------------');
 							printer.align('left')
 							.text()
 							.bold(true);
 							
 							$(".qtyItem").each(function() {
-								x.push({qty:$(this).val(),item:"",price:"",total:""});
+								x.push({qty:$(this).val(),item:"",price:"", discount: "", total:""});
 							});
 							var i=0;
 							$(".myItem").each(function() {
@@ -242,19 +253,31 @@ $result = $conn->query($sql);
 								i=i+1;
 							});
 							i=0;
+							$(".discount").each(function() {
+								if($(this).val()!="")
+								{
+									x[i].discount=$(this).val();
+								}
+								else
+								{
+									x[i].discount=0;
+								}
+								i=i+1;
+							});
+							i=0;
 							$(".total").each(function() {
-								x[i].total=$(this).val();
+								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
 								i=i+1;
 							});
 							i=0;
 							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Total(Rp)")
+							printer.text("Qty     Price(Rp)     Discount(%)     Total(Rp)")
 							.bold(true);
 							printer.text("");
 							for(var j=0;j<x.length;j++)
 							{
 								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
 								printer.text("");
 							}
 							
@@ -269,6 +292,14 @@ $result = $conn->query($sql);
 					}
 				});
 
+				function formatDate (input) {
+					var datePart = input.match(/\d+/g),
+					year = datePart[0], // get only two digits
+					month = datePart[1], day = datePart[2];
+
+					return day+'/'+month+'/'+year;
+				}
+
 				$("#printItem").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
@@ -279,7 +310,12 @@ $result = $conn->query($sql);
 							printer.align('center')	
 							.text('DELI SHOP')
 							.bold(true)
-							.text($("#date").val())	
+							.text(formatDate($("#date").val()))
+							.text('Jalan Puncak Waringin')
+							.text('Labuan Bajo - Flores')
+							.text('+62 812 3605 8607')
+							.text('delipointkomodo@gmail.com')
+							.text('cashier : '+casier_name)
 							.text('------------------------------');
 							printer.align('left')
 							.text()
@@ -299,19 +335,31 @@ $result = $conn->query($sql);
 								i=i+1;
 							});
 							i=0;
+							$(".discount").each(function() {
+								if($(this).val()!="")
+								{
+									x[i].discount=$(this).val();
+								}
+								else
+								{
+									x[i].discount=0;
+								}
+								i=i+1;
+							});
+							i=0;
 							$(".total").each(function() {
-								x[i].total=$(this).val();
+								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
 								i=i+1;
 							});
 							i=0;
 							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Total(Rp)")
+							printer.text("Qty     Price(Rp)     Discount(%)     Total(Rp)")
 							.bold(true);
 							printer.text("");
 							for(var j=0;j<x.length;j++)
 							{
 								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
 								printer.text("");
 							}
 							
@@ -364,13 +412,56 @@ $result = $conn->query($sql);
 							}
 						});
 				});
+				$("#parent_item_container").on('keyup','.discount',function(event) {
+					var qty=$(this).parent().prev().prev().find('.qtyItem').val();
+					var price_field=$(this).parent().prev().find(".price");
+					var total=qty*price_field.val();
+					var discount=$(this).val();
+					var price_total=$(this).parent().next().find('.total');
+					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().next().find('#grand');
+					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
+					if(discount=="")
+					{
+						discount=0;
+					}
+					total=total-discount*total/100.0;
+
+					price_total.val(total);
+					var total=0;
+					$('.total').each(function(i, obj) {
+						if(isNaN($(this).val())==false && $(this).val()!="")
+						{
+							total=total+parseFloat($(this).val());
+							//total=total+0.1*total;
+							grand.val(total);
+							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
+							grand_total.val(grandtotal);
+							var payment=parseFloat($("#payment").val());
+							if(isNaN(payment)==false)
+							{
+								var change=payment-total;
+								$("#change").val(change);
+							}
+						}
+						if(grandtotal>payment){
+							alert("error");
+						}
+					});
+				});
 				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
 					var qty=$(this).val();
 					var price_field=$(this).parent().next().find(".price");
 					var total=qty*price_field.val();
-					var price_total=$(this).parent().next().next().find('.total');
+					var discount=$(this).parent().next().next().find('.discount').val();
+					var price_total=$(this).parent().next().next().next().find('.total');
 					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().next().find('#grand');
 					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
+					if(discount=="")
+					{
+						discount=0;
+					}
+					total=total-discount*total/100.0;
+
 					price_total.val(total);
 					var total=0;
 					$('.total').each(function(i, obj) {

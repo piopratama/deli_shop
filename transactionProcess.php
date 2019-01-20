@@ -18,6 +18,7 @@
 	$qty=$_POST["qty"];
 	$payment=$_POST["payment"];
 	$method= $_POST["method"];
+	$discount=$_POST["discount"];
 	if(count($item)>0)
 	{
 		$where_in=$item[0];
@@ -50,11 +51,12 @@
 					$data[$k]["tnggl"]=$date;
 					$data[$k]["id_employee"]=$id_kasir;
 					$data[$k]["method"]=$method;
-					$data[$k]["total_price"]=$qty[$j]*$row["price"];
+					$data[$k]["total_price"]=$qty[$j]*$row["price"]-($qty[$j]*$row["price"]*$discount[$j]/100.0);
+					$data[$k]["discount"]=$discount[$j];
 					$data[$k]["rest_total"]=0;
 					$data[$k]["description"]="";
 					$data[$k]["statuss"]=1;
-					$grand_total=$grand_total+$qty[$j]*$row["price"];
+					$grand_total=$grand_total+($qty[$j]*$row["price"]-$qty[$j]*$row["price"]*$discount[$j]/100.0);
 					$k=$k+1;
 				}
 			}
@@ -72,7 +74,7 @@
 
 			for($i=0;$i<count($data);$i++)
 			{
-				$sql = "INSERT INTO tb_transaksi (invoice, tnggl, id_employee, id_item, qty, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
+				$sql = "INSERT INTO tb_transaksi (invoice, tnggl, id_employee, id_item, qty, discount, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
 				if ($conn->query($sql) === TRUE) {
 					$last_id = $conn->insert_id;
 					//header("location:paymentDIrect.php");
@@ -82,7 +84,7 @@
 					$check=1;
 				}
 			}
-
+			echo $sql;
 			if($check==0)
 			{
 				$_SESSION["invoice"]=$invoice;
