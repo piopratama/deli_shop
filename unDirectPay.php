@@ -137,6 +137,10 @@ $result = $conn->query($sql);
 								<input type="text" class="form-control price" placeholder="Price" readonly="readonly">
 							</div>
 							<div class="form-group">
+								<label for="" class="label_discount">Discount (%)</label>
+								<input type="text" class="form-control discount" name="discount[]" placeholder="Discount">
+							</div>
+							<div class="form-group">
 								<label for="">Total</label>
 								<input type="text" class="form-control total" placeholder="Total" readonly="readonly">
 							</div>
@@ -443,32 +447,67 @@ $result = $conn->query($sql);
 						});
 				});
 				
-				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
-					var qty=$(this).val();
-					var price_field=$(this).parent().next().find(".price");
+				$("#parent_item_container").on('keyup','.discount',function(event) {
+					var qty=$(this).parent().prev().prev().find('.qtyItem').val();
+					var price_field=$(this).parent().prev().find(".price");
 					var total=qty*price_field.val();
-					var price_total=$(this).parent().next().next().find('.total');
+					var discount=$(this).val();
+					var price_total=$(this).parent().next().find('.total');
 					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().find('#grand');
 					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
+					if(discount=="")
+					{
+						discount=0;
+					}
+					total=total-discount*total/100.0;
+
 					price_total.val(total);
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
 						{
 							total=total+parseFloat($(this).val());
-							//$("#grandTotal").val(total);
-							grand.val(total);
+							//total=total+0.1*total;
+							$("#grand").val(total);
+							alert (grand.val());
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
-							var payment=parseFloat($("#deposit").val());
-							/*if(isNaN(payment)==false)
-							{
-								var change=payment-total;
-								$("#change").val(change);
-							}*/
+							
 						}
+						
 					});
 				});
+
+				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
+					var qty=$(this).val();
+					var price_field=$(this).parent().next().find(".price");
+					var total=qty*price_field.val();
+					var discount=$(this).parent().next().next().find('.discount').val();
+					var price_total=$(this).parent().next().next().next().find('.total');
+					var grand=$(this).parent().parent().parents().parents().next().children().next().next().children().next().next().find('#grand');
+					var grand_total=$(this).parent().parent().parents().parents().next().children().next().next().children().find('#grandTotal');
+					if(discount=="")
+					{
+						discount=0;
+					}
+					total=total-discount*total/100.0;
+
+					price_total.val(total);
+					var total=0;
+					$('.total').each(function(i, obj) {
+						if(isNaN($(this).val())==false && $(this).val()!="")
+						{
+							total=total+parseFloat($(this).val());
+							//total=total+0.1*total;
+							grand.val(total);
+							alert (grand.val());
+							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
+							grand_total.val(grandtotal);
+						}
+						
+					});
+				});
+				
 				$("#payment").keyup(function(event) {
 					var grandTotal=parseFloat($("#grandTotal").val());
 					var deposit=parseFloat($(this).val());
