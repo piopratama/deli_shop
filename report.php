@@ -16,7 +16,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi;");
+$barang = mysqli_query($conn, "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi;");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
@@ -117,9 +117,10 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>Invoice</th>
 								<th>Name</th>
 								<th>Date</th>
-								<th>ID user</th>
+								<th>Employee</th>
 								<th>Item</th>
 								<th>QTY</th>
+								<th>DSC</th>
 								<th>Total Price</th>
 								<th>Method</th>
 								<th>Status</th>
@@ -137,6 +138,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $data["nama_pegawai"];?></td>
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["qty"];?></td>
+								<td><?php echo $data["discount"];?></td>
 								<td><?php echo $data["total_price"];?></td>
 								<td><?php echo $data["method"] ;?></td>
 								<td><?php if($data["statuss"]==0)

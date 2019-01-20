@@ -469,7 +469,6 @@ $result = $conn->query($sql);
 							total=total+parseFloat($(this).val());
 							//total=total+0.1*total;
 							$("#grand").val(total);
-							alert (grand.val());
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
 							
@@ -500,7 +499,6 @@ $result = $conn->query($sql);
 							total=total+parseFloat($(this).val());
 							//total=total+0.1*total;
 							grand.val(total);
-							alert (grand.val());
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
 						}

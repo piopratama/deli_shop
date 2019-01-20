@@ -28,6 +28,7 @@
 		$html=$html."<th>Employee</th>";
 		$html=$html."<th>Item</th>";
 		$html=$html."<th>Quantity</th>";
+		$html=$html."<th>Discount (%)</th>";
 		$html=$html."<th>Price</th>";
 		$html=$html."<th>Total Price</th>";
 		$html=$html."<th>Status</th>";
@@ -44,6 +45,7 @@
 			$html=$html."<td class='employee'>".$row['nama']."</td>";
 			$html=$html."<td class='item'>".$row['item']."</td>";
 			$html=$html."<td class='qty'>".$row['qty']."</td>";
+			$html=$html."<td class='discount'>".$row['discount']."</td>";
 			$html=$html."<td class='price'>".$row['price']."</td>";
 			$html=$html."<td class='total'>".$row['total_price']."</td>";
 			if($row['statuss']==0)

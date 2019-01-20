@@ -39,7 +39,7 @@ ini_set("session.auto_start", 0);
 			
 		    // Line break
 		    $this->Ln(20);
-		    $w = array(35, 20, 55, 9, 25, 30, 13);
+		    $w = array(35, 20, 55, 9, 9, 25, 30, 13);
 		    for($i=0;$i<count($header);$i++)
 		        $this->Cell($w[$i],7,$header[$i],1,0,'C',true);
 		    $this->Ln();
@@ -54,10 +54,11 @@ ini_set("session.auto_start", 0);
 		        $this->Cell($w[0],6,$row[0],'LR',0,'L',$fill);
 		        $this->Cell($w[1],6,$row[1],'LR',0,'L',$fill);
 		        $this->Cell($w[2],6,$row[2],'LR',0,'L',$fill);
-		        $this->Cell($w[3],6,$row[3],'LR',0,'L',$fill);
-		        $this->Cell($w[4],6,number_format($row[4]),'LR',0,'R',$fill);
+				$this->Cell($w[3],6,$row[3],'LR',0,'L',$fill);
+				$this->Cell($w[4],6,$row[4],'LR',0,'L',$fill);
 		        $this->Cell($w[5],6,number_format($row[5]),'LR',0,'R',$fill);
-		        $this->Cell($w[6],6,$row[6],'LR',0,'L',$fill);
+		        $this->Cell($w[6],6,number_format($row[6]),'LR',0,'R',$fill);
+		        $this->Cell($w[7],6,$row[7],'LR',0,'L',$fill);
 		        $this->Ln();
 		        $fill = !$fill;
 		    }
@@ -73,7 +74,7 @@ ini_set("session.auto_start", 0);
 
 $invoice=$_POST['invoice'];
 $pdf = new PDF();
-			$header = array('Date', 'Employee', 'Item', 'Qty', 'Price', 'Total Price', 'Status');
+			$header = array('Date', 'Customer', 'Item', 'Qty', 'Dsc', 'Price', 'Total Price', 'Status');
 			require 'koneksi.php';
 			$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
 			$result = $conn->query($sql);
@@ -83,20 +84,21 @@ $pdf = new PDF();
 				$sum=0;
 				while($row = $result->fetch_assoc()) {
 					$data[$i][0]=$row["tnggl"];
-					$data[$i][1]=$row["nama"];
+					$data[$i][1]=$row["nm_transaksi"];
 					$data[$i][2]=$row["item"];
 					$data[$i][3]=$row["qty"];
-					$data[$i][4]=$row["price"];
-					$data[$i][5]=$row["total_price"];
+					$data[$i][4]=$row["discount"];
+					$data[$i][5]=$row["price"];
+					$data[$i][6]=$row["total_price"];
 					if($row["statuss"]==1)
 					{
-						$data[$i][6]="paid";
+						$data[$i][7]="paid";
 					}
 					else{
-						$data[$i][6]="not paid";
+						$data[$i][7]="not paid";
 					}
 					$sum=$sum+$row["total_price"];
-					$nama=$row["nm_transaksi"];
+					$nama=$row["nama"];
 					$i=$i+1;
 				}
 				$pdf->SetFont('Arial','',9);
@@ -124,14 +126,15 @@ if ($conn->query($sql) === TRUE) {
 			$data[$i][2]=$row["name"];
 			$data[$i][3]=$row["item"];
 			$data[$i][4]=$row["qty"];
-			$data[$i][5]=$row["price"];
-			$data[$i][6]=$row["total_price"];
+			$data[$i][5]=$row["discount"];
+			$data[$i][6]=$row["price"];
+			$data[$i][7]=$row["total_price"];
 			if($row["status"]==1)
 			{
-				$data[$i][7]="paid";
+				$data[$i][8]="paid";
 			}
 			else{
-				$data[$i][7]="not paid";
+				$data[$i][8]="not paid";
 			}
 			$sum=$sum+$row["total_price"];
 			$i=$i+1;

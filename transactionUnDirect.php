@@ -21,6 +21,7 @@
 	$qty=$_POST["qty"];
 	$deposit=$_POST["deposit"];
 	$method= $_POST["method"];
+	$discount=$_POST["discount"];
 
 	$new_transaction=0;
 	
@@ -69,11 +70,13 @@
 						$data[$k]["tnggl"]=$date;
 						$data[$k]["id_employee"]=$id_kasir;
 						$data[$k]["method"]=$method;
-						$data[$k]["total_price"]=$qty[$j]*$row["price"];
+						$data[$k]["total_price"]=$qty[$j]*$row["price"]-($qty[$j]*$row["price"]*$discount[$j]/100.0);
+						$data[$k]["discount"]=$discount[$j];
 						$data[$k]["deposit"]=$deposit;
 						$data[$k]["rest_total"]=$qty[$j]*$row["price"]-$deposit;
 						$data[$k]["description"]="";
 						$data[$k]["statuss"]=0;
+						$grand_total=$grand_total+($qty[$j]*$row["price"]-$qty[$j]*$row["price"]*$discount[$j]/100.0);
 						$k=$k+1;
 					}
 				}
@@ -82,7 +85,7 @@
 			$check=0;
 			for($i=0;$i<count($data);$i++)
 			{
-				$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
+				$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
 				if ($conn->query($sql) === TRUE) {
 					$last_id = $conn->insert_id;
 					//echo "New record created successfully. Last inserted ID is: " . $last_id;

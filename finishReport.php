@@ -36,29 +36,29 @@ require 'koneksi.php';
 if($_POST['Submit']=='Print'){
 	if($nm_transaksi!="" && $startDate!="" && $stopDate!="" && $status!="")
     {
-        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."' and nm_transaksi='".$nm_transaksi."';";
     }
     else if($startDate!="" && $stopDate!="" && $status!="")
     {
-        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status." and Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
     }
     else if($startDate!="" && $stopDate!="")
     {
-        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi WHERE Date(tnggl)>='".$startDate."' and Date(tnggl)<='".$stopDate."';";
     }
     else if($status!="")
     {
-        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status.";";
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi WHERE statuss=".$status.";";
     }
     else
     {
-        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, total_price, statuss, method FROM tb_transaksi;";
+        $sql = "SELECT invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item )AS item, qty, discount, total_price, statuss, method FROM tb_transaksi;";
     }
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		$i=0;
 		$sum=0;
-		$html="<h1>Transaction Deli Shop</h1><table border='1'><tr><td>Date</td><td>Invoice</td><td>Employee</td><td>Customer</td><td>Item</td><td>Qty</td><td>Total Price</td><td>Method</td><td>Status</td></tr>";
+		$html="<h1>Transaction Deli Shop</h1><table border='1'><tr><td>Date</td><td>Invoice</td><td>Employee</td><td>Customer</td><td>Item</td><td>Qty</td><td>Dsc (10%)</td><td>Total Price</td><td>Method</td><td>Status</td></tr>";
 		while($row = $result->fetch_assoc()) {
 			$html=$html."<tr>";
 			$html=$html."<td>".$row["tnggl"]."</td>";
@@ -67,6 +67,7 @@ if($_POST['Submit']=='Print'){
 			$html=$html."<td>".($row["nm_transaksi"]=="" ? "Direct Pay":$row["nm_transaksi"])."</td>";
 			$html=$html."<td>".$row["item"]."</td>";
 			$html=$html."<td>".$row["qty"]."</td>";
+			$html=$html."<td>".$row["discount"]."</td>";
 			$html=$html."<td>".$row["total_price"]."</td>";
 			$html=$html."<td>".$row["method"]."</td>";
 			$html=$html."<td>".($row["statuss"]==1 ? "paid":"not paid")."</td>";
