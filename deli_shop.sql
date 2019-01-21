@@ -1,6 +1,6 @@
 /*
-SQLyog Community v13.1.2 (64 bit)
-MySQL - 10.1.37-MariaDB : Database - deli_shop
+SQLyog Community v13.0.1 (64 bit)
+MySQL - 10.1.35-MariaDB : Database - deli_shop
 *********************************************************************
 */
 
@@ -34,11 +34,11 @@ CREATE TABLE `tb_barang` (
 /*Data for the table `tb_barang` */
 
 insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier`) values 
-(1,'CREAM CHEESE LIGHT 250GR ',56000,1,'PCS',1,3),
-(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,37,'LITER',5,0),
-(3,'OLIVE OIL EXTRA VIRGIN 1 LITER ',195000,2,'LITER',5,0),
+(1,'CREAM CHEESE LIGHT 250GR ',56000,0,'PCS',1,3),
+(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,26,'LITER',5,0),
+(3,'OLIVE OIL EXTRA VIRGIN 1 LITER ',195000,1,'LITER',5,0),
 (4,'CREAM CHEESE NEUFCHATEL 250GR ',68000,4,'PCS',1,0),
-(5,'SOUR CREAM 250GR \"YUMMY\"',48000,3,'PCS',1,0),
+(5,'SOUR CREAM 250GR \"YUMMY\"',48000,2,'PCS',1,0),
 (6,'RICOTTA 250GR \"GREENFIELDS\"',46000,3,'PCS',1,0),
 (7,'FETA CHEESE 250GR ',54000,2,'PCS',1,0),
 (8,'MOZZARELLA 250GR \"SUNRISE\"',54000,9,'PCS',1,0),
@@ -59,7 +59,7 @@ insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier
 (23,'FRESH BURRATA 200GR',110000,4,'PCS',1,0),
 (24,'FRESH BURRATINA 125GR',64000,9,'PCS',1,0),
 (25,'PORK CHILI SAUSAGE (ITALIAN RECIPE)',275000,3,'KG',6,0),
-(26,'CHICKEN SAUSAGE (ITALIAN RECIPE)',210000,1.455,'KG',6,0),
+(26,'CHICKEN SAUSAGE (ITALIAN RECIPE)',210000,0.455,'KG',6,0),
 (27,'PORK SAUSAGE (ITALIAN RECIPE)',275000,3.27,'KG',6,0),
 (28,'PORK RIBS',220000,0,'KG',6,0),
 (29,'PORK CHOP',190000,35.295,'KG',6,0),
@@ -296,10 +296,16 @@ CREATE TABLE `tb_deposit` (
   `invoice` varchar(20) NOT NULL,
   `deposit` float NOT NULL,
   `payment` float NOT NULL,
+  `method` varchar(100) NOT NULL,
+  `rest_total` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_deposit` */
+
+insert  into `tb_deposit`(`id`,`invoice`,`deposit`,`payment`,`method`,`rest_total`) values 
+(5,'2019-01-20 10:42:344',20100,0,'cash',-15000),
+(6,'2019-01-20 10:46:304',4000,0,'cash',-1000);
 
 /*Table structure for table `tb_employee` */
 
@@ -380,6 +386,21 @@ insert  into `tb_kategori`(`id`,`date_insert`,`nm_kategori`,`description`) value
 (15,'2019-01-19 10:58:11','',''),
 (16,'2019-01-19 10:58:12','','');
 
+/*Table structure for table `tb_payment` */
+
+DROP TABLE IF EXISTS `tb_payment`;
+
+CREATE TABLE `tb_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice` varchar(200) NOT NULL,
+  `payment` float NOT NULL,
+  `rest_total` float NOT NULL,
+  `method` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `tb_payment` */
+
 /*Table structure for table `tb_supplier` */
 
 DROP TABLE IF EXISTS `tb_supplier`;
@@ -436,24 +457,23 @@ CREATE TABLE `tb_transaksi` (
   `qty` float unsigned NOT NULL,
   `discount` float NOT NULL,
   `total_price` float unsigned NOT NULL,
-  `deposit` float unsigned NOT NULL,
-  `rest_total` float unsigned NOT NULL,
   `description` text NOT NULL,
-  `method` varchar(50) NOT NULL,
   `statuss` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_employee` (`id_employee`),
   KEY `id_item` (`id_item`),
   CONSTRAINT `tb_transaksi_ibfk_1` FOREIGN KEY (`id_employee`) REFERENCES `tb_employee` (`id`),
   CONSTRAINT `tb_transaksi_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `tb_barang` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_transaksi` */
 
-insert  into `tb_transaksi`(`id`,`invoice`,`nm_transaksi`,`tnggl`,`id_employee`,`id_item`,`qty`,`discount`,`total_price`,`deposit`,`rest_total`,`description`,`method`,`statuss`) values 
-(15,'2019-01-20 04:47:444','','2019-01-20 04:47:44',4,1,1,10,50400,0,0,'','cash',1),
-(16,'2019-01-20 04:48:284','','2019-01-20 04:48:28',4,1,1,15,47600,0,0,'','cash',1),
-(17,'2019-01-20 04:48:284','','2019-01-20 04:48:28',4,2,2,20,224000,0,0,'','cash',1);
+insert  into `tb_transaksi`(`id`,`invoice`,`nm_transaksi`,`tnggl`,`id_employee`,`id_item`,`qty`,`discount`,`total_price`,`description`,`statuss`) values 
+(35,'2019-01-20 10:42:344','gusde','2019-01-20 10:42:34',4,2,1,20,112000,'',0),
+(36,'2019-01-20 10:46:304','agus','2019-01-20 10:46:30',4,2,1,20,112000,'',0),
+(37,'2019-01-20 10:46:304','agus','2019-01-20 10:46:30',4,5,1,30,33600,'',0),
+(38,'2019-01-20 10:46:304','agus','2019-01-20 10:51:44',4,26,1,10,189000,'',0),
+(39,'2019-01-20 10:42:344','gusde','2019-01-20 13:04:20',4,2,1,10,126000,'',0);
 
 /* Trigger structure for table `tb_transaksi` */
 
