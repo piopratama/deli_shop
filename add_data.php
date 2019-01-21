@@ -140,6 +140,13 @@ $result2 = $conn->query($supplier);
 										    </div></td>
 										</tr>
 										<tr>
+											
+											<td>	<div class="form-group">
+										      <label for="usr">Purchase Price :</label>
+										      <input type="text" class="form-control" name="purchase_price" id="rupiah" style="width: 200%;" required="required">
+										    </div></td>
+										</tr>
+										<tr>
 										<td>	
 										<div class="form-group">
 										      

@@ -23,6 +23,7 @@
 	$method= $_POST["method"];
 	$discount=$_POST["discount"];
 	$grand_total=0;
+	$date=date('Y-m-d H:i:s');
 
 	$new_transaction=0;
 	
@@ -43,7 +44,6 @@
 			// output data of each row
 			
 			$id_kasir=$_SESSION["id_kasir"];
-			$date=date('Y-m-d H:i:s');
 
 			if(trim($invoice)=="")
 			{
@@ -88,7 +88,8 @@
 
 			if($payment!="" && $check==0)
 			{
-				if($new_transaction==1)
+				$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$payment.",'".$method."')";
+				/*if($new_transaction==1)
 				{
 					$sql="INSERT INTO tb_deposit (invoice, deposit, payment, method, rest_total, history) VALUES ('".$invoice."', 0, ".$payment.", '".$method."', 0, '')";
 				}

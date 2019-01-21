@@ -94,6 +94,7 @@ $grand_total=$_POST['grand_total'];
 $method=$_POST['method'];
 $payment=$_POST['payment'];
 $change=$_POST['change'];
+$date=date('Y-m-d H:i:s');
 $pdf = new PDF();
 			$header = array('Date', 'Customer', 'Item', 'Qty', 'Dsc', 'Price', 'Total Price', 'Status');
 			require 'koneksi.php';
@@ -136,7 +137,7 @@ $pdf = new PDF();
 require 'koneksi.php';
 $sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."'";
 if ($conn->query($sql) === TRUE) {
-	$sql="Update tb_deposit set payment=".$payment.", rest_total=0, method=CONCAT(method,',".$method."') where invoice='".$invoice."'";
+	$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$payment.",'".$method."')";
 	if($conn->query($sql)===TRUE)
 	{
 		$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
