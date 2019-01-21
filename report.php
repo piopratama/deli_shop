@@ -17,7 +17,19 @@ else
 }
 include_once 'koneksi.php';
 
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss, tb_deposit.method as method FROM tb_transaksi inner join tb_deposit on tb_deposit.invoice=tb_transaksi.invoice WHERE statuss=1;");
+$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi");
+
+$kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
+
+$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)=CURDATE());");
+
+$method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit GROUP BY method;");
+
+$deposit=0;
+$total_no_deposit=0;
+foreach ($depositArr as $depo){
+	$deposit=$deposit+$depo["deposit"];
+}
 
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
@@ -88,31 +100,15 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 
 			<div class="container">
 				<div class="row">
-
 					<div class="col-md-12" id="mytable">
+					<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
+					<h1> TABEL REPORT</h1>
 					<table id="example" class="table table-bordered" style="width: 100%;">
-						
-						<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
 							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
 							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							<!--Status: <select style="margin:10px; width:150px;height:28px" id="status_paid" name="status">
-								<option value="">--Select Status--</option>
-								<option value="1">Paid</option>
-								<option value="0">Unpaid</option>
-							</select>-->
-							Customer: <select style="margin:10px; width:150px;height:28px" id="customer" name="customer">
-							<?php while($pelanggan=mysqli_fetch_array($customer)){?>
-								<option>--Select Customer--</option>
-								
-								<option value="<?php ?>"><?php echo $pelanggan[0]?></option>
-							<?php }?>
-							</select>
-							<input type="submit" class="btn btn-success glyphicon glyphicon-print" style="margin:10px 0 10px 0" name="Submit" value="Print"></button>
-							<input type="submit" class="btn btn-success glyphicon glyphicon-print" style="margin:10px 0 10px 10px; " name="Submit" value="Pajak"></i></button>
+							<a href="export_excel.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
 						</div>
-						
-						<h1> TABEL REPORT</h1>
 						<thead>
 							<tr>
 								<th>ID</th>
@@ -123,7 +119,6 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>Item</th>
 								<th>QTY</th>
 								<th>DSC</th>
-								<th>Method</th>
 								<th>Total Price</th>
 								<th>Status</th>
 							</tr>
@@ -141,7 +136,6 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["qty"];?></td>
 								<td><?php echo $data["discount"];?></td>
-								<td><?php echo $data["method"]; ?></td>
 								<td><?php echo $data["total_price"];?></td>
 								<td><?php if($data["statuss"]==0)
 								{
@@ -154,7 +148,51 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							</tr>
 							<?php $no++; }?>							
 						</tbody>
+					</table><br>
+					<h1> TABEL REPORT CATEGORY</h1>
+					<table id="example2" class="table table-bordered" style="width: 100%;">
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Income</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							$no=1;
+							foreach ($kategori as $i) {?>
+							<tr>
+								<td><?php echo $i["nm_kategori"];?></td>
+								<td><?php echo $i["income"];?></td>
+								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
+							</tr>
+							<?php $no++; }?>							
+						</tbody>
+					</table><br>
+					<h1> TABEL REPORT METHOD</h1>
+					<table id="example3" class="table table-bordered" style="width: 100%;">
+						<thead>
+							<tr>
+								<th>Method</th>
+								<th>Income</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							$no=1;
+							foreach ($method as $j) {?>
+							<tr>
+								<td><?php echo $j["method"];?></td>
+								<td><?php echo $j["payment"];?></td>
+							</tr>
+							<?php $no++; }?>							
+						</tbody>
 					</table>
+					<h3>
+						Total Category : <?php echo "Rp.".rupiah($total_no_deposit)."(Category doesn't include deposit)"; ?><br>
+						Total Deposit  : <?php echo "Rp.".rupiah($deposit); ?><br>
+						Total Income   : <?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>
+					</h3>
 					<div id="chart-div">
 						<div class="form-group">
 							<label for="year">Year:</label>
@@ -255,6 +293,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					alert(message);
 				}
 				var oTable=$("#example").dataTable();
+				var oTable=$("#example2").dataTable();
+				var oTable=$("#example3").dataTable();
 				var html=$("#parent_item_container").html();
 				$("#add_item_btn").click(function(event) {
 					$("#parent_item_container").append(html);
