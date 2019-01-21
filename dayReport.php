@@ -94,7 +94,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				<div class="row">
 
 					<div class="col-md-12" id="mytable">
-					<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
+					<a href="mainMenu.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 					<h1> TABEL REPORT</h1>
 					<table id="example" class="table table-bordered" style="width: 100%;">
 						<thead>
