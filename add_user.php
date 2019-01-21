@@ -98,7 +98,7 @@
 										
 										<td>	<div class="form-group">
 											<label for="usr">Sallary :</label>
-											<input type="text" style="width: 200%; margin-bottom: 5px;" class="form-control" name="sallary" id="usr" required="required">
+											<input type="text" style="width: 200%; margin-bottom: 5px;" class="form-control" name="sallary" id="usr" required="">
 										</div></td>
 									</tr>
 									<tr>
