@@ -310,7 +310,7 @@ $result = $conn->query($sql);
 								var total=0;
 								$("#history-title").show();
 								$('.total').each(function(i, obj) {
-								if(isNaN($(this).val())==false && $(this).val()!="")
+									if(isNaN($(this).val())==false && $(this).val()!="")
 									{
 										total=total+parseFloat($(this).val());
 										total=total+0.1*total;
@@ -442,11 +442,7 @@ $result = $conn->query($sql);
 							});
 							i=0;
 							$(".total").each(function() {
-<<<<<<< HEAD
-								x[i].total=$(this).val();
-=======
 								x[i].total=$(this).val();//-$(this).val()*x[i].discount/100.0;
->>>>>>> 189f8f712cb564d6c72a2e94e20513260a122bc3
 								i=i+1;
 							});
 							i=0;

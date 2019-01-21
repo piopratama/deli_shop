@@ -15,7 +15,7 @@
 	}
 	$invoice=$_POST['invoice'];
 	require 'koneksi.php';
-	$sql = "SELECT deposit FROM tb_deposit WHERE invoice='".$invoice."';";
+	$sql = "SELECT SUM(deposit) as deposit FROM tb_deposit WHERE invoice='".$invoice."';";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		// output data of each row

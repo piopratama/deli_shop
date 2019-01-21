@@ -23,6 +23,7 @@
 	$method= $_POST["method"];
 	$discount=$_POST["discount"];
 	$grand_total=0;
+	$date=date('Y-m-d H:i:s');
 
 	$new_transaction=0;
 	
@@ -52,7 +53,6 @@
 				// output data of each row
 				
 				$id_kasir=$_SESSION["id_kasir"];
-				$date=date('Y-m-d H:i:s');
 
 				if(trim($invoice)=="")
 				{
@@ -100,15 +100,16 @@
 
 				if($deposit!="" && $check==0)
 				{
+					$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', ".$deposit.", 0,'".$method."')";
 
-					if($new_transaction==1)
+					/*if($new_transaction==1)
 					{
 						$sql="INSERT INTO tb_deposit (invoice, deposit, method, rest_total, history) VALUES ('".$invoice."', ".$deposit.", '".$method."', ".($grand_total-$deposit).",".$deposit.")";
 					}
 					else
 					{
 						$sql="UPDATE tb_deposit set deposit=deposit+".$deposit.", rest_total=rest_total-".$deposit."+".$grand_total.", method=CONCAT(method,',".$method."'), history=CONCAT(history,',".$deposit."') where invoice='".$invoice."'";
-					}
+					}*/
 					if ($conn->query($sql) === TRUE) {
 						//$last_id = $conn->insert_id;
 						//echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -130,7 +131,7 @@
 		}
 		else if(trim($invoice)!="" && $deposit!="")
 		{
-			$sql="UPDATE tb_deposit set deposit=deposit+".$deposit.", rest_total=rest_total-".$deposit.", method=CONCAT(method,',".$method."'), history=CONCAT(history,',".$deposit."') where invoice='".$invoice."'";
+			$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', ".$deposit.", 0,'".$method."')";
 			if ($conn->query($sql) === TRUE) {
 				$_SESSION["message"]="Insert Successfully";
 				//$last_id = $conn->insert_id;
