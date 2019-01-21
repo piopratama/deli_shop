@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+SELECT tb_transaksi.invoice, nm_transaksi, DATE(tnggl) AS tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) 
+AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss, tb_deposit.method 
+AS method FROM tb_transaksi INNER JOIN tb_deposit ON tb_deposit.invoice=tb_transaksi.invoice 
+=======
 /*
 SQLyog Professional v12.4.1 (64 bit)
 MySQL - 10.1.25-MariaDB : Database - deli_shop
@@ -467,3 +472,4 @@ DELIMITER ;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+>>>>>>> 7b2769de7383cfe5a54e1b3317561f493a5f3e25
