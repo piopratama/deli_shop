@@ -133,11 +133,11 @@ $result = $conn->query($sql);
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
-								<input type="number" class="form-control discount" placeholder="0%" readonly="readonly">
+								<input type="number" class="form-control" placeholder="0%" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label for="">PPN</label>
-								<input type="number" class="form-control ppn" placeholder="0%" readonly="readonly">
+								<input type="number" class="form-control" placeholder="0%" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -218,7 +218,7 @@ $result = $conn->query($sql);
 					return rupiah;
 				}
 
-				$("#printBtn").click(function(event) {
+				/*$("#printBtn").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
@@ -290,7 +290,7 @@ $result = $conn->query($sql);
 							.print();
 						});
 					}
-				});
+				});*/
 
 				function formatDate (input) {
 					var datePart = input.match(/\d+/g),
@@ -308,7 +308,7 @@ $result = $conn->query($sql);
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
-							.text('DELI SHOP')
+							.text('DELI POINT')
 							.bold(true)
 							.text(formatDate($("#date").val()))
 							.text('Jalan Puncak Waringin')
@@ -353,7 +353,7 @@ $result = $conn->query($sql);
 							});
 							i=0;
 							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Discount(%)     Total(Rp)")
+							printer.text("Qty     Price(Rp)     Dsc(%)     Total(Rp)")
 							.bold(true);
 							printer.text("");
 							for(var j=0;j<x.length;j++)
@@ -365,7 +365,19 @@ $result = $conn->query($sql);
 							
 							printer.bold(true);
 							printer.text("------------------------------")
-							.cut()
+							if($("#grandTotal").val()!="")
+							{
+								printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+							}
+							if($("#payment").val()!="")
+							{
+								printer.text("Payment     : "+numberToRupiah(parseFloat($("#payment").val()))).bold(true);
+							}
+							if($("#change").val()!="")
+							{
+								printer.text("Change : "+numberToRupiah(parseFloat($("#change").val()))).bold(true);
+							}
+							printer.cut()
 							.print();
 						});
 					}

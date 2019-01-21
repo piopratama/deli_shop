@@ -154,11 +154,11 @@ $result = $conn->query($sql);
 						<div id="extraForm">
 							<div class="form-group">
 								<label for="">Discount</label>
-								<input type="number" class="form-control discount" placeholder="%" readonly="readonly">
+								<input type="number" class="form-control" placeholder="%" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label for="">PPN</label>
-								<input type="number" class="form-control ppn" placeholder="10%" readonly="readonly">
+								<input type="number" class="form-control" placeholder="10%" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -207,11 +207,13 @@ $result = $conn->query($sql);
 		<?php 
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
+			$session_casier=(isset($_SESSION['nama']))?$_SESSION['nama']:'';
 		?>
 		<?php include('./templates/footer.php'); ?>
 		<script>
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';
+				var casier_name='<?php echo $session_casier;?>';
 				var invoice='<?php if(isset($_SESSION['invoice'])){ echo $_SESSION['invoice']; } ?>';
 				
 				if(message!="")
@@ -317,7 +319,7 @@ $result = $conn->query($sql);
 					}
 				});
 
-				$("#printBtn").click(function(event) {
+				/*$("#printBtn").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
@@ -373,7 +375,15 @@ $result = $conn->query($sql);
 							.print();
 						});
 					}
-				});
+				});*/
+				
+				function formatDate (input) {
+					var datePart = input.match(/\d+/g),
+					year = datePart[0], // get only two digits
+					month = datePart[1], day = datePart[2];
+
+					return day+'/'+month+'/'+year;
+				}
 
 				$("#printItem").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
@@ -383,18 +393,21 @@ $result = $conn->query($sql);
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
-							.text('DELI SHOP')
+							.text('DELI POINT')
 							.bold(true)
-							.text($("#date").val())	
-							.text("Invoice : ")
-							printer.text(invoice)
+							.text(formatDate($("#date").val()))
+							.text('Jalan Puncak Waringin')
+							.text('Labuan Bajo - Flores')
+							.text('+62 812 3605 8607')
+							.text('delipointkomodo@gmail.com')
+							.text('cashier : '+casier_name)
 							.text('------------------------------');
 							printer.align('left')
 							.text()
 							.bold(true);
 							
 							$(".qtyItem").each(function() {
-								x.push({qty:$(this).val(),item:"",price:"",total:""});
+								x.push({qty:$(this).val(),item:"",price:"",discount:"",total:""});
 							});
 							var i=0;
 							$(".item").each(function() {
@@ -407,25 +420,45 @@ $result = $conn->query($sql);
 								i=i+1;
 							});
 							i=0;
+							$(".discount").each(function() {
+								if($(this).val()!="")
+								{
+									x[i].discount=$(this).val();
+								}
+								else
+								{
+									x[i].discount=0;
+								}
+								i=i+1;
+							});
+							i=0;
 							$(".total").each(function() {
-								x[i].total=$(this).val();
+								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
 								i=i+1;
 							});
 							i=0;
 							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Total(Rp)")
+							printer.text("Qty     Price(Rp)     Dsc(%)     Total(Rp)")
 							.bold(true);
 							printer.text("");
 							for(var j=0;j<x.length;j++)
 							{
 								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
 								printer.text("");
 							}
 							
 							printer.bold(true);
 							printer.text("------------------------------")
-							.cut()
+							if($("#grandTotal").val()!="")
+							{
+								printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+							}
+							if($("#deposit").val()!="")
+							{
+								printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true);
+							}
+							printer.cut()
 							.print();
 						});
 					}
