@@ -122,13 +122,13 @@ $result = $conn->query($sql);
 											if($row2['stock']==0)
 											{
 									?>
-												<option value="<?php echo $row2['id'] ?>" disabled="disabled"><?php echo $row2['item']."(".$row2['stock']." ".$row2['unit'].")"; ?></option>
+												<option value="<?php echo $row2['id'] ?>" disabled="disabled"><?php echo $row2['item']."*(".$row2['stock']." ".$row2['unit'].")"; ?></option>
 									<?php
 											}
 											else
 											{
 									?>
-												<option value="<?php echo $row2['id'] ?>"><?php echo $row2['item']."(".$row2['stock']." ".$row2['unit'].")"; ?></option>
+												<option value="<?php echo $row2['id'] ?>"><?php echo $row2['item']."*(".$row2['stock']." ".$row2['unit'].")"; ?></option>
 									<?php
 											}
 										}
@@ -420,7 +420,7 @@ $result = $conn->query($sql);
 							});
 							var i=0;
 							$(".item").each(function() {
-								x[i].item=$(this).find('option:selected').text();
+								x[i].item=$(this).find('option:selected').text().substring(0,=$(this).find('option:selected').text().indexOf('*'));
 								i=i+1;
 							});
 							i=0;
@@ -442,7 +442,7 @@ $result = $conn->query($sql);
 							});
 							i=0;
 							$(".total").each(function() {
-								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
+								x[i].total=$(this).val();
 								i=i+1;
 							});
 							i=0;
