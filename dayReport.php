@@ -16,8 +16,9 @@ else
 	}
 }
 include_once 'koneksi.php';
-
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss, tb_deposit.method as method FROM tb_transaksi inner join tb_deposit on tb_deposit.invoice=tb_transaksi.invoice WHERE statuss=1;");
+$tanggal = date('Y-m-d');
+$sql = "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) AS, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss, tb_deposit.method as method FROM tb_transaksi inner join tb_deposit on tb_deposit.invoice=tb_transaksi.invoice WHERE tnggl='2019-01-21 04:08:03'";
+$result = $conn->query($sql);
 
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
@@ -130,26 +131,31 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</thead>
 						<tbody>
 							<?php 
-							$no=1;
-							foreach ($barang as $data) {?>
+                            $no=1;
+                            if ($result->num_rows > 0) {
+							//foreach ($barang as $data) {
+                                while($row = $result->fetch_assoc()){
+                            ?>
+                            
 							<tr>
 								<td><?php echo $no ?></td>
-								<td><?php echo $data["invoice"];?></td>
+								<td><?php echo $row["invoice"];?></td>
 								<td><?php echo ($data["nm_transaksi"]=="" ? "Direct Pay": $data["nm_transaksi"]);?></td>
-								<td><?php echo $data["tnggl"];?></td>
-								<td><?php echo $data["nama_pegawai"];?></td>
-								<td><?php echo $data["item"];?></td>
-								<td><?php echo $data["qty"];?></td>
-								<td><?php echo $data["discount"];?></td>
-								<td><?php echo $data["method"]; ?></td>
-								<td><?php echo $data["total_price"];?></td>
-								<td><?php if($data["statuss"]==0)
+								<td><?php echo $row["tnggl"];?></td>
+								<td><?php echo $row["nama_pegawai"];?></td>
+								<td><?php echo $row["item"];?></td>
+								<td><?php echo $row["qty"];?></td>
+								<td><?php echo $row["discount"];?></td>
+								<td><?php echo $row["method"]; ?></td>
+								<td><?php echo $row["total_price"];?></td>
+								<td><?php if($row["statuss"]==0)
 								{
 									echo("not paid");
 								}
 								else{
 									echo("paid");
-								}
+                                }
+                            }
 								?></td>
 							</tr>
 							<?php $no++; }?>							

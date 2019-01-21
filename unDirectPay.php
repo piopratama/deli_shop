@@ -442,11 +442,7 @@ $result = $conn->query($sql);
 							});
 							i=0;
 							$(".total").each(function() {
-<<<<<<< HEAD
-								x[i].total=$(this).val();
-=======
 								x[i].total=$(this).val();//-$(this).val()*x[i].discount/100.0;
->>>>>>> 189f8f712cb564d6c72a2e94e20513260a122bc3
 								i=i+1;
 							});
 							i=0;
