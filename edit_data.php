@@ -22,7 +22,7 @@ else
 include "koneksi.php";
 $id=$_GET['id'];
 
-$data = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`,tb_barang.`kategori`, tb_barang.`supplier`, tb_kategori.nm_kategori AS nama_kat, tb_supplier.`nm_supplier` AS nama_sup FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.`id`=$id");
+$data = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`,tb_barang.`kategori`, tb_barang.`supplier`, tb_kategori.nm_kategori AS nama_kat, tb_supplier.`nm_supplier` AS nama_sup, tb_barang.pur_price FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.`id`=$id");
 $sql = "SELECT * FROM tb_kategori";
 $result = $conn->query($sql);
 $supplier = "SELECT * FROM tb_supplier";
@@ -125,6 +125,13 @@ $result4 = $conn->query($supplier2);
 										      <label for="usr">Name :</label>
 										      <input type="hidden" name="id" value="<?php echo $d['id']?>">
 										      <input type="text" style="width: 200%;" class="form-control" name="name" id="usr" value="<?php echo $d['item'];?>">
+										    </div></td>
+										</tr>
+										<tr>
+											
+											<td>	<div class="form-group">
+										      <label for="usr">Purchase Price :</label>
+										      <input type="text" style="width: 200%;" class="form-control" name="purchase_price" id="rupiah" value="<?php echo $d['pur_price'];?>">
 										    </div></td>
 										</tr>
 										<tr>
