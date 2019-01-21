@@ -137,7 +137,7 @@ $pdf = new PDF();
 require 'koneksi.php';
 $sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."'";
 if ($conn->query($sql) === TRUE) {
-	$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$payment.",'".$method."')";
+	$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$remaining_payment.",'".$method."')";
 	if($conn->query($sql)===TRUE)
 	{
 		$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
