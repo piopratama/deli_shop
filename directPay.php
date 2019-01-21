@@ -364,7 +364,7 @@ $result = $conn->query($sql);
 							}
 							
 							printer.bold(true);
-							printer.text("------------------------------")
+							printer.text("------------------------------");
 							if($("#grandTotal").val()!="")
 							{
 								printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
