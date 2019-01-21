@@ -20,7 +20,7 @@ ini_set("session.auto_start", 0);
 	class PDF extends FPDF
 	{
 		// Colored table
-		function FancyTable($header, $data, $sum, $invoice, $nama)
+		function FancyTable($header, $data, $sum, $invoice, $nama, $remaining_payment, $method, $payment, $deposit, $change)
 		{
 		    // Colors, line width and bold font
 		    $this->SetFillColor(255,0,0);
@@ -63,7 +63,22 @@ ini_set("session.auto_start", 0);
 		        $fill = !$fill;
 		    }
 		    // Closing line
-		    $this->Cell(array_sum($w),0,'','T');
+			$this->Cell(array_sum($w),0,'','T');
+			$this->Ln();
+		    $this->Cell(80);
+		    $this->Cell(30,10,'Method : '.$method,0,0,'C');
+			$this->Ln();
+		    $this->Cell(80);
+		    $this->Cell(30,10,'Deposit : '.$deposit,0,0,'C');
+			$this->Ln();
+		    $this->Cell(80);
+			$this->Cell(30,10,'Remaining Payment : '.$remaining_payment,0,0,'C');
+			$this->Ln();
+		    $this->Cell(80);
+			$this->Cell(30,10,'Payment : '.$payment,0,0,'C');
+			$this->Ln();
+		    $this->Cell(80);
+		    $this->Cell(30,10,'Change : '.$change,0,0,'C');
 		    $this->Ln();
 		    $this->Cell(80);
 		    $sum=$sum+$sum*0;
@@ -73,6 +88,12 @@ ini_set("session.auto_start", 0);
 
 
 $invoice=$_POST['invoice'];
+$deposit=$_POST['deposit'];
+$remaining_payment=$_POST['remaining_payment'];
+$grand_total=$_POST['grand_total'];
+$method=$_POST['method'];
+$payment=$_POST['payment'];
+$change=$_POST['change'];
 $pdf = new PDF();
 			$header = array('Date', 'Customer', 'Item', 'Qty', 'Dsc', 'Price', 'Total Price', 'Status');
 			require 'koneksi.php';
@@ -103,7 +124,7 @@ $pdf = new PDF();
 				}
 				$pdf->SetFont('Arial','',9);
 				$pdf->AddPage();
-				$pdf->FancyTable($header,$data, $sum, $invoice, $nama);
+				$pdf->FancyTable($header,$data, $sum, $invoice, $nama, $remaining_payment, $method, $payment, $deposit, $change);
 				$pdf->Output();
 			}
 			else 
@@ -115,33 +136,45 @@ $pdf = new PDF();
 require 'koneksi.php';
 $sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."'";
 if ($conn->query($sql) === TRUE) {
-	$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
-	$result = $conn->query($sql);
-	if ($result->num_rows > 0) {
-		$i=0;
-		$sum=0;
-		while($row = $result->fetch_assoc()) {
-			$data[$i][0]=$row["date"];
-			$data[$i][1]=$row["invoice"];
-			$data[$i][2]=$row["name"];
-			$data[$i][3]=$row["item"];
-			$data[$i][4]=$row["qty"];
-			$data[$i][5]=$row["discount"];
-			$data[$i][6]=$row["price"];
-			$data[$i][7]=$row["total_price"];
-			if($row["status"]==1)
-			{
-				$data[$i][8]="paid";
+	$sql="Update tb_deposit set payment=".$payment.", rest_total=0, method=CONCAT(method,',".$method."') where invoice='".$invoice."'";
+	if($conn->query($sql)===TRUE)
+	{
+		$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			$i=0;
+			$sum=0;
+			while($row = $result->fetch_assoc()) {
+				$data[$i][0]=$row["date"];
+				$data[$i][1]=$row["invoice"];
+				$data[$i][2]=$row["name"];
+				$data[$i][3]=$row["item"];
+				$data[$i][4]=$row["qty"];
+				$data[$i][5]=$row["discount"];
+				$data[$i][6]=$row["price"];
+				$data[$i][7]=$row["total_price"];
+				if($row["status"]==1)
+				{
+					$data[$i][8]="paid";
+				}
+				else{
+					$data[$i][8]="not paid";
+				}
+				$sum=$sum+$row["total_price"];
+				$i=$i+1;
 			}
-			else{
-				$data[$i][8]="not paid";
+		} else {
+			echo "Error";
 			}
-			$sum=$sum+$row["total_price"];
-			$i=$i+1;
-		}
-	} else {
+	}
+	else
+	{
 		echo "Error";
-		}
+	}
+}
+else
+{
+	echo "Error";
 }
 //header("location:paymentUnDirect.php")
 ?>

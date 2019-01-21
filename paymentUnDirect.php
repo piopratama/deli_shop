@@ -96,17 +96,32 @@ $result = $conn->query($sql);
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="">Grand Total</label>
-						<input type="text" class="form-control" id="grandTotal" placeholder="Grand Total" readonly="readonly">
+						<input type="text" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total" readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="">Deposit</label>
-						<input type="text" class="form-control" id="deposit" placeholder="Deposit" readonly="readonly" required="required">
+						<input type="text" class="form-control" name="deposit" id="deposit" placeholder="Deposit" readonly="readonly" required="required">
 					</div>
 					<div class="form-group">
-						<label for="">Remianing Payment</label>
-						<input type="text" class="form-control" id="remainingPay" placeholder="Remaining Payment" readonly="readonly">
+						<label for="">Remaining Payment</label>
+						<input type="text" class="form-control" name="remaining_payment" id="remainingPay" placeholder="Remaining Payment" readonly="readonly">
+					</div>
+					<div class="form-group">
+						<label for="">Method</label>
+						<select class="form-control" name="method" id="method">
+							<option value="cash">Cash</option>
+							<option value="transfer">Transfer</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="">Payment</label>
+						<input type="text" class="form-control" id="payment" name="payment" placeholder="Payment">
+					</div>
+					<div class="form-group">
+						<label for="">Change</label>
+						<input type="text" class="form-control" id="change" name="change" placeholder="Change" readonly="readonly">
+						
 						<button type="submit" class="btn btn-primary" id="printBtn" style="margin-top: 20px;">Submit</button>
-
 					</div>
 				</div>
 			</div>
@@ -116,7 +131,28 @@ $result = $conn->query($sql);
 		<script>
 			$(document).ready(function() {
 				var invoice='';
-				
+				$("#printBtn").hide();
+				$(".form-group").on('keyup','#payment',function(event) {
+					if(isNaN($(this).val())==false && $(this).val()!="")
+					{
+						var remainingPay=parseFloat($("#remainingPay").val());
+						$("#change").val(parseFloat($(this).val())-remainingPay);
+
+						if($("#change").val()>=0)
+						{
+							$("#printBtn").show();
+						}
+						else
+						{
+							$("#printBtn").hide();
+						}
+					}
+					else
+					{
+						$("#printBtn").hide();
+					}
+				});
+
 				$("#invoice").change(function(event) {
 					invoice=$(this).val();
 					var grand_total=$("#grandTotal");

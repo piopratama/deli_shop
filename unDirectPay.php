@@ -119,9 +119,18 @@ $result = $conn->query($sql);
 									if ($result2->num_rows > 0) {
 										// output data of each row
 										while($row2 = $result2->fetch_assoc()) {
+											if($row2['stock']==0)
+											{
 									?>
-									<option value="<?php echo $row2['id'] ?>"><?php echo $row2['item']."(".$row2['stock']." ".$row2['unit'].")"; ?></option>
+												<option value="<?php echo $row2['id'] ?>" disabled="disabled"><?php echo $row2['item']."(".$row2['stock']." ".$row2['unit'].")"; ?></option>
 									<?php
+											}
+											else
+											{
+									?>
+												<option value="<?php echo $row2['id'] ?>"><?php echo $row2['item']."(".$row2['stock']." ".$row2['unit'].")"; ?></option>
+									<?php
+											}
 										}
 									}
 									$conn->close();
@@ -218,8 +227,9 @@ $result = $conn->query($sql);
 				
 				if(message!="")
 				{
-					$("#warning_modal_msg").html(message);
-					$("#exampleModal2").modal('show');
+					alert(message);
+					/*$("#warning_modal_msg").html(message);
+					$("#exampleModal2").modal('show');*/0
 				}
 
 				$("#history-title").hide();
@@ -269,7 +279,6 @@ $result = $conn->query($sql);
 				$("#invoice").change(function(event) {
 					var invoice=$(this).val();
 					var name=$("#invoice :selected").text();
-					
 					if(invoice==null || invoice=="")
 					{
 						$("#name").attr('readonly', false);

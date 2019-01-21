@@ -98,9 +98,18 @@ $result = $conn->query($sql);
 									if ($result->num_rows > 0) {
 										// output data of each row
 										while($row = $result->fetch_assoc()) {
+											if($row['stock']==0)
+											{
 									?>
-									<option value="<?php echo $row['id'] ?>"><?php echo $row['item']."(".$row['stock']." ".$row['unit'].")"; ?></option>
+												<option value="<?php echo $row['id'] ?>" disabled="disabled"><?php echo $row['item']."(".$row['stock']." ".$row['unit'].")"; ?></option>
 									<?php
+											}
+											else
+											{
+									?>
+												<option value="<?php echo $row['id'] ?>"><?php echo $row['item']."(".$row['stock']." ".$row['unit'].")"; ?></option>
+									<?php
+											}
 										}
 									}
 									$conn->close();
@@ -199,8 +208,9 @@ $result = $conn->query($sql);
 				var casier_name='<?php echo $session_casier;?>';
 				if(message!="")
 				{
-					$("#warning_modal_msg").html(message);
-					$("#exampleModal2").modal('show');
+					alert(message);
+					/*$("#warning_modal_msg").html(message);
+					$("#exampleModal2").modal('show');*/
 				}
 
 				function numberToRupiah(bilangan)
