@@ -22,12 +22,13 @@
 	$deposit=$_POST["deposit"];
 	$method= $_POST["method"];
 	$discount=$_POST["discount"];
+	$grand_total=0;
 
 	$new_transaction=0;
 	
 	if($name=="")
 	{
-		$_SESSION["message"]="Name can`t be empty";
+		$_SESSION["message"]="Name can`t be empty";		
 		header("location:unDirectPay.php");
 		return;
 	}
@@ -85,7 +86,7 @@
 			$check=0;
 			for($i=0;$i<count($data);$i++)
 			{
-				$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
+				$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, description, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", '".$data[$i]["description"]."', ".$data[$i]["statuss"].")";
 				if ($conn->query($sql) === TRUE) {
 					$last_id = $conn->insert_id;
 					//echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -97,13 +98,14 @@
 
 			if($deposit!="" && $check==0)
 			{
+
 				if($new_transaction==1)
 				{
-					$sql="INSERT INTO tb_deposit (invoice, deposit, payment) VALUES ('".$invoice."', ".$deposit.", '".$method."')";
+					$sql="INSERT INTO tb_deposit (invoice, deposit, method, rest_total) VALUES ('".$invoice."', ".$deposit.", '".$method."', ".($grand_total-$deposit).")";
 				}
 				else
 				{
-					$sql="UPDATE tb_deposit set deposit=deposit+".$deposit." where invoice='".$invoice."'";
+					$sql="UPDATE tb_deposit set deposit=deposit+".$deposit.", rest_total=rest_total-".$deposit." where invoice='".$invoice."'";
 				}
 				if ($conn->query($sql) === TRUE) {
 					//$last_id = $conn->insert_id;
@@ -125,8 +127,27 @@
 		}
 		else if(trim($invoice)!="" && $deposit!="")
 		{
-			$sql="UPDATE tb_deposit set deposit=deposit+".$deposit." where invoice='".$invoice."'";
-			if ($conn->query($sql) === TRUE) {
+			$total=0;
+			$sql2="SELECT SUM(total_price) AS total, rest_total FROM tb_transaksi INNER JOIN tb_deposit ON tb_deposit.invoice=tb_transaksi.invoice 
+			WHERE tb_transaksi.invoice ='2019-01-20 10:46:304' AND tb_deposit.invoice='2019-01-20 10:46:304';";
+			$result = $conn->query($sql2);
+			if($result->num_rows > 0)
+			{
+				
+				while($row = $result->fetch_assoc()){
+					$total=$row["total"];
+					$rest_total=$row["rest_total"];
+					echo ("hy");
+					echo ($total);
+					echo ($rest_total);
+					echo (".$deposit.");
+					echo (".$deposit.");
+				}
+			}
+			else{
+			}
+			$sql3="UPDATE tb_deposit set deposit=deposit+".$deposit.", rest_total=rest_total-".$deposit." where invoice='".$invoice."'";
+			if ($conn->query($sql3) === TRUE) {
 				$_SESSION["message"]="Insert Successfully";
 				//$last_id = $conn->insert_id;
 				//echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -136,6 +157,6 @@
 		}
 		
 		$conn->close();
-		header("location:unDirectPay.php");
+		//header("location:unDirectPay.php");
 	}
 ?>

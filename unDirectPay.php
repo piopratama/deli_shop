@@ -280,6 +280,7 @@ $result = $conn->query($sql);
 							data: {invoice:invoice},
 							success: function (data) {
 								$("#deposit_label").html("deposit ("+data+")");
+								$("#grand_total").html("total ("+data+")");
 							}
 						});
 

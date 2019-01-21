@@ -13,12 +13,19 @@
 			}
 		}
 	}
-	
+
+	require ("koneksi.php");
+	$invoice="";
+	$name="";
 	$item=$_POST["item"];
 	$qty=$_POST["qty"];
 	$payment=$_POST["payment"];
 	$method= $_POST["method"];
 	$discount=$_POST["discount"];
+	$grand_total=0;
+
+	$new_transaction=0;
+	
 	if(count($item)>0)
 	{
 		$where_in=$item[0];
@@ -36,66 +43,88 @@
 		
 		$id_kasir=$_SESSION["id_kasir"];
 		$date=date('Y-m-d H:i:s');
-		$invoice=$date."".$id_kasir;
+
+		if(trim($invoice)=="")
+		{
+			$new_transaction=1;
+			$invoice=$date."".$id_kasir;
+		}
 		$k=0;
-		$grand_total=0;
 		while($row = $result->fetch_assoc()) {
 			for($j=0;$j<count($item);$j++)
 			{
 				if($row["id"]==$item[$j])
 				{
 					$data[$k]["id_item"]=$item[$j];
+					$data[$k]["nm_transaksi"]=$name;
 					$data[$k]["price"]=$row["price"];
 					$data[$k]["qty"]=$qty[$j];
 					$data[$k]["invoice"]=$invoice;
 					$data[$k]["tnggl"]=$date;
 					$data[$k]["id_employee"]=$id_kasir;
-					$data[$k]["method"]=$method;
 					$data[$k]["total_price"]=$qty[$j]*$row["price"]-($qty[$j]*$row["price"]*$discount[$j]/100.0);
 					$data[$k]["discount"]=$discount[$j];
-					$data[$k]["rest_total"]=0;
 					$data[$k]["description"]="";
-					$data[$k]["statuss"]=1;
+					$data[$k]["statuss"]=0;
 					$grand_total=$grand_total+($qty[$j]*$row["price"]-$qty[$j]*$row["price"]*$discount[$j]/100.0);
 					$k=$k+1;
 				}
 			}
 		}
 		
-		if($payment<$grand_total)
+		$check=0;
+		for($i=0;$i<count($data);$i++)
 		{
-			$_SESSION["message"]="Payment must be equal or bigger than grand total";
-			header("location:directPay.php");
-			return;
-		}
-		else
-		{
-			$check=0;
-
-			for($i=0;$i<count($data);$i++)
-			{
-				$sql = "INSERT INTO tb_transaksi (invoice, tnggl, id_employee, id_item, qty, discount, total_price, rest_total, description, method, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", ".$data[$i]["rest_total"].", '".$data[$i]["description"]."', '".$data[$i]["method"]."', ".$data[$i]["statuss"].")";
-				if ($conn->query($sql) === TRUE) {
-					$last_id = $conn->insert_id;
-					//header("location:paymentDIrect.php");
-					//echo "New record created successfully. Last inserted ID is: " . $last_id;
-				} else {
-					echo "Error: " . $sql . "<br>" . $conn->error;
-					$check=1;
-				}
+			$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, description, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", '".$data[$i]["description"]."', ".$data[$i]["statuss"].")";
+			if ($conn->query($sql) === TRUE) {
+				$last_id = $conn->insert_id;
+				//echo "New record created successfully. Last inserted ID is: " . $last_id;
+			} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+				$check=1;
 			}
-			echo $sql;
-			if($check==0)
+		}
+
+		if($payment!="" && $check==0)
+		{
+			if($new_transaction==1)
 			{
-				$_SESSION["invoice"]=$invoice;
-				$_SESSION["message"]="Insert Successfully";
+				$sql="INSERT INTO tb_payment (invoice, payment, rest_total, method) VALUES ('".$invoice."',".$payment.", ".($payment-$grand_total).",  '".$method."')";
 			}
 			else
 			{
-				$_SESSION["message"]="Error";
+				$sql="UPDATE tb_payment set payment=payment+".$payment." where invoice='".$invoice."'";
+			}
+			if ($conn->query($sql) === TRUE) {
+				//$last_id = $conn->insert_id;
+				//echo "New record created successfully. Last inserted ID is: " . $last_id;
+			} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
 			}
 		}
-		$conn->close();
-		header("location:directPay.php");
+
+		if($check==0)
+		{	
+			$_SESSION["invoice"]=$invoice;
+			$_SESSION["message"]="Insert Successfully";
+		}
+		else
+		{
+			$_SESSION["message"]="Error";
+		}
 	}
+	else if(trim($invoice)!="" && $payment!="")
+	{
+		$sql="UPDATE tb_payment set payment=payment+".$payment." where invoice='".$invoice."'";
+		if ($conn->query($sql) === TRUE) {
+			$_SESSION["message"]="Insert Successfully";
+			//$last_id = $conn->insert_id;
+			//echo "New record created successfully. Last inserted ID is: " . $last_id;
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+	}
+	
+	$conn->close();
+	header("location:directPay.php");
 ?>
