@@ -129,7 +129,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>Stock</th>
 								<th>Unit</th>
 								<th>Supplier</th>
-								
+								<th>Total</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
@@ -152,6 +152,10 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								</td>
 								<td><?php echo $data["unit"];?></td>
 								<td><?php echo $data["supplier"];?></td>
+								<td><?php $a = $data["pur_price"];
+											$b= $data["stock"];
+											$total=$a*$b;
+											echo rupiah($total);?></td>
 								<td><?php if($data["stock"]<=5){ ?>
 									<h3 style="color:red;">L</h3>
 								<?php }else{ ?>
