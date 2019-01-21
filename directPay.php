@@ -336,7 +336,7 @@ $result = $conn->query($sql);
 							});
 							var i=0;
 							$(".myItem").each(function() {
-								x[i].item=$(this).find('option:selected').text().substring(0,=$(this).find('option:selected').text().indexOf('*'));
+								x[i].item=$(this).find('option:selected').text().substring(0,$(this).find('option:selected').text().indexOf('*'));
 								i=i+1;
 							});
 							i=0;
