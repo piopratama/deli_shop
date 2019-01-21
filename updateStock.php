@@ -22,7 +22,8 @@ $price=$_POST['price'];
 $stock=$_POST['stock'];
 $unit=$_POST['unit'];
 $supplier=$_POST['supplier'];
+$purchase=$_POST['purchase_price'];
 
-mysqli_query($conn, "UPDATE tb_barang SET item='$name', price='$price', stock='$stock', unit='$unit', supplier='$supplier', kategori='$category' WHERE id='$id'");
+mysqli_query($conn, "UPDATE tb_barang SET item='$name', price='$price', stock='$stock', unit='$unit', supplier='$supplier', kategori='$category', pur_price='$purchase' WHERE id='$id'");
 header("location:stock.php");
 ?>

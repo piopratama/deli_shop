@@ -17,7 +17,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-$barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` order by id desc;");
+$barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier, tb_barang.pur_price FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` order by id desc;");
 $stock_kurang = mysqli_query($conn, "SELECT tb_barang.id, tb_barang.item, tb_barang.stock, tb_barang.unit, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.stock<='5';");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
@@ -124,10 +124,12 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>ID</th>
 								<th>Item</th>
 								<th>Category</th>
+								<th>Purchase Price</th>
 								<th>Price</th>
 								<th>Stock</th>
 								<th>Unit</th>
 								<th>Supplier</th>
+								
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
@@ -140,6 +142,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $no ?></td>
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["kategori"];?></td>
+								<td><?php echo rupiah($data["pur_price"]);?></td>
 								<td><?php echo rupiah($data["price"]);?></td>
 								<td id="stock"><?php echo $data["stock"];?><?php if($data["stock"]<=5){?>
 									
