@@ -442,18 +442,18 @@ $result = $conn->query($sql);
 							});
 							i=0;
 							$(".total").each(function() {
-								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
+								x[i].total=$(this).val();//-$(this).val()*x[i].discount/100.0;
 								i=i+1;
 							});
 							i=0;
-							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Dsc(%)     Total(Rp)")
-							.bold(true);
-							printer.text("");
+							
 							for(var j=0;j<x.length;j++)
 							{
-								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
+								printer.text("Item : "+x[j].item);
+								printer.text("Qty : "+x[j].qty);
+								printer.text("Price(Rp) : "+x[j].price);
+								printer.text("Dsc(%) : "+x[j].discount);    
+								printer.text("Total(Rp) : "+x[j].total);
 								printer.text("");
 							}
 							
