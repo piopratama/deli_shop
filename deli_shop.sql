@@ -35,9 +35,9 @@ CREATE TABLE `tb_barang` (
 
 insert  into `tb_barang`(`id`,`item`,`price`,`stock`,`unit`,`kategori`,`supplier`) values 
 (1,'CREAM CHEESE LIGHT 250GR ',56000,0,'PCS',1,3),
-(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,18,'LITER',5,0),
+(2,'OLIVE OIL EXTRA VIRGIN (REFILL)',140000,12,'LITER',5,0),
 (3,'OLIVE OIL EXTRA VIRGIN 1 LITER ',195000,1,'LITER',5,0),
-(4,'CREAM CHEESE NEUFCHATEL 250GR ',68000,3,'PCS',1,0),
+(4,'CREAM CHEESE NEUFCHATEL 250GR ',68000,2,'PCS',1,0),
 (5,'SOUR CREAM 250GR \"YUMMY\"',48000,2,'PCS',1,0),
 (6,'RICOTTA 250GR \"GREENFIELDS\"',46000,3,'PCS',1,0),
 (7,'FETA CHEESE 250GR ',54000,2,'PCS',1,0),
@@ -293,20 +293,15 @@ DROP TABLE IF EXISTS `tb_deposit`;
 
 CREATE TABLE `tb_deposit` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
   `invoice` varchar(20) NOT NULL,
   `deposit` float NOT NULL,
   `payment` float NOT NULL,
-  `method` text NOT NULL,
-  `rest_total` float NOT NULL,
-  `history` text NOT NULL,
+  `method` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_deposit` */
-
-insert  into `tb_deposit`(`id`,`invoice`,`deposit`,`payment`,`method`,`rest_total`,`history`) values 
-(10,'2019-01-21 04:08:034',20000,0,'cash,transfer',358000,'10000,10000'),
-(11,'2019-01-21 04:12:344',0,61200,'cash',0,'');
 
 /*Table structure for table `tb_employee` */
 
@@ -329,8 +324,8 @@ CREATE TABLE `tb_employee` (
 /*Data for the table `tb_employee` */
 
 insert  into `tb_employee`(`id`,`nama`,`address`,`sallary`,`tlp`,`username`,`password`,`level`,`status`,`online_status`) values 
-(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,0),
-(5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,1),
+(4,'casier','Bali',0,'0','casier','77cf34f016313318086c77361bf90784',0,1,1),
+(5,'admin','Deli',0,'0','admin','202cb962ac59075b964b07152d234b70',1,1,0),
 (6,'Afli','wae kelambu',1000000,'081111','tes@gmail.com','77cf34f016313318086c77361bf90784',0,0,0),
 (7,'EMILIA','KAPER',1000000,'082144796606','EMILIA','7f51403cbbee278265d6581f9f24d6e2',1,0,0),
 (8,'DANA','GOLO KOE',5000000,'081239175546','DANA','2f4d86a811155b0eca70efa4eb135e77',1,0,0);
@@ -450,14 +445,9 @@ CREATE TABLE `tb_transaksi` (
   KEY `id_item` (`id_item`),
   CONSTRAINT `tb_transaksi_ibfk_1` FOREIGN KEY (`id_employee`) REFERENCES `tb_employee` (`id`),
   CONSTRAINT `tb_transaksi_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `tb_barang` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_transaksi` */
-
-insert  into `tb_transaksi`(`id`,`invoice`,`nm_transaksi`,`tnggl`,`id_employee`,`id_item`,`qty`,`discount`,`total_price`,`description`,`statuss`) values 
-(51,'2019-01-21 04:08:034','pio','2019-01-21 04:08:03',4,2,2,10,252000,'',0),
-(52,'2019-01-21 04:08:034','pio','2019-01-21 04:08:50',4,2,1,10,126000,'',0),
-(53,'2019-01-21 04:12:344','','2019-01-21 04:12:34',4,4,1,10,61200,'',1);
 
 /* Trigger structure for table `tb_transaksi` */
 
