@@ -206,8 +206,8 @@ $result = $conn->query($sql);
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';
 				var casier_name='<?php echo $session_casier;?>';
-				$("#printBtn").hide();
-				$("#printItem").hide();
+				$("#printBtn").attr('disabled', 'disabled');
+				$("#printItem").attr('disabled', 'disabled');
 
 				if(message!="")
 				{
@@ -476,14 +476,14 @@ $result = $conn->query($sql);
 							}
 						}
 						if($("#change").val()==0 && $("#method").val().trim()!='transfer'){
-							$("#printBtn").hide();
-							$("#printItem").hide();
+							$("#printBtn").attr('disabled', 'disabled');
+							$("#printItem").attr('disabled', 'disabled');
 							//alert("payment must be equal or bigger than grand total");
 						}
 						else
 						{
-							$("#printBtn").show();
-							$("#printItem").show();
+							$("#printBtn").removeAttr('disabled');
+							$("#printItem").removeAttr('disabled');
 						}
 					});
 				});
@@ -525,14 +525,14 @@ $result = $conn->query($sql);
 							}
 						}
 						if($("#change").val()==0 && $("#method").val().trim()!='transfer'){
-							$("#printBtn").hide();
-							$("#printItem").hide();
+							$("#printBtn").attr('disabled', 'disabled');
+							$("#printItem").attr('disabled', 'disabled');
 							//alert("payment must be equal or bigger than grand total");
 						}
 						else
 						{
-							$("#printBtn").show();
-							$("#printItem").show();
+							$("#printBtn").removeAttr('disabled');
+							$("#printItem").removeAttr('disabled');
 						}
 					});
 				});
@@ -540,13 +540,13 @@ $result = $conn->query($sql);
 					if($(this).val()=='transfer')
 					{
 						$("#payment").val($("#grandTotal").val());
-						$("#printBtn").show();
-						$("#printItem").show();
+						$("#printBtn").removeAttr('disabled');
+						$("#printItem").removeAttr('disabled');
 					}
 					else
 					{
-						$("#printBtn").hide();
-						$("#printItem").hide();
+						$("#printBtn").attr('disabled', 'disabled');
+						$("#printItem").attr('disabled', 'disabled');
 					}
 				});
 				$("#payment").keyup(function(event) {
@@ -557,21 +557,21 @@ $result = $conn->query($sql);
 							var change=payment-grandTotal;
 							if(change>=0)
 							{
-								$("#printBtn").show();
-								$("#printItem").show();
+								$("#printBtn").removeAttr('disabled');
+								$("#printItem").removeAttr('disabled');
 							}
 							else
 							{
-								$("#printBtn").hide();
-								$("#printItem").hide();
+								$("#printBtn").attr('disabled', 'disabled');
+								$("#printItem").attr('disabled', 'disabled');
 							}
 							$("#change").val(change);
 						}
 						else
 						{
 							$("#change").val(0);
-							$("#printBtn").hide();
-							$("#printItem").hide();
+							$("#printBtn").attr('disabled', 'disabled');
+							$("#printItem").attr('disabled', 'disabled');
 						}
 				});
 			});

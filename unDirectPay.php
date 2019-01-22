@@ -224,8 +224,8 @@ $result = $conn->query($sql);
 				var message='<?php echo $session_value;?>';
 				var casier_name='<?php echo $session_casier;?>';
 				var invoice='<?php if(isset($_SESSION['invoice'])){ echo $_SESSION['invoice']; } ?>';
-				$("#printBtn").hide();
-				$("#printItem").hide();
+				$("#printBtn").attr('disabled', 'disabled');
+				$("#printItem").attr('disabled', 'disabled');
 				
 				if(message!="")
 				{
@@ -270,13 +270,13 @@ $result = $conn->query($sql);
 							$("#grandTotal").val(total);
 							if(total>0)
 							{
-								$("#printBtn").show();
-								$("#printItem").show();
+								$("#printBtn").removeAttr('disabled');
+								$("#printItem").removeAttr('disabled');
 							}
 							else
 							{
-								$("#printBtn").hide();
-								$("#printItem").hide();
+								$("#printBtn").attr('disabled', 'disabled');
+								$("#printItem").attr('disabled', 'disabled');
 							}
 							var payment=parseFloat($("#deposit").val());
 							if(isNaN(payment)==false)
@@ -529,13 +529,13 @@ $result = $conn->query($sql);
 							grand_total.val(grandtotal);
 							if(grandtotal>0)
 							{
-								$("#printBtn").show();
-								$("#printItem").show();
+								$("#printBtn").removeAttr('disabled');
+								$("#printItem").removeAttr('disabled');
 							}
 							else
 							{
-								$("#printBtn").hide();
-								$("#printItem").hide();
+								$("#printBtn").attr('disabled', 'disabled');
+								$("#printItem").attr('disabled', 'disabled');
 							}
 						}
 						
@@ -569,13 +569,13 @@ $result = $conn->query($sql);
 
 							if(grandtotal>0)
 							{
-								$("#printBtn").show();
-								$("#printItem").show();
+								$("#printBtn").removeAttr('disabled');
+								$("#printItem").removeAttr('disabled');
 							}
 							else
 							{
-								$("#printBtn").hide();
-								$("#printItem").hide();
+								$("#printBtn").attr('disabled', 'disabled');
+								$("#printItem").attr('disabled', 'disabled');
 							}
 						}
 						

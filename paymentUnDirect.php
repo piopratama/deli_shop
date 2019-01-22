@@ -145,11 +145,11 @@ $result = $conn->query($sql);
 
 						if($("#change").val()>=0)
 						{
-							$("#printBtn").show();
+							$("#printBtn").removeAttr('disabled');
 						}
 						else
 						{
-							$("#printBtn").hide();
+							$("#printBtn").attr('disabled', 'disabled');
 						}
 					}
 					else
