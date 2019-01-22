@@ -88,7 +88,7 @@
 
 			if($payment!="" && $check==0)
 			{
-				$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$payment.",'".$method."')";
+				$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$grand_total.",'".$method."')";
 				/*if($new_transaction==1)
 				{
 					$sql="INSERT INTO tb_deposit (invoice, deposit, payment, method, rest_total, history) VALUES ('".$invoice."', 0, ".$payment.", '".$method."', 0, '')";
