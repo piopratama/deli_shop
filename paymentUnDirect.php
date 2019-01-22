@@ -119,7 +119,7 @@ $result = $conn->query($sql);
 					</div>
 					<div class="form-group">
 						<label for="">Change</label>
-						<input type="text" class="form-control" id="change" name="change" placeholder="Change" readonly="readonly">
+						<input type="text" class="form-control" id="change" name="change" placeholder="Change" readonly="readonly" value="0">
 						
 						<button type="submit" class="btn btn-primary" id="printBtn" style="margin-top: 20px;">Submit</button>
 					</div>
@@ -162,6 +162,11 @@ $result = $conn->query($sql);
 					{
 						$("#payment").val($("#remainingPay").val());
 						$("#change").val(0);
+						$("#printBtn").show();
+					}
+					else
+					{
+						$("#printBtn").hide();
 					}
 				});
 				$("#invoice").change(function(event) {
