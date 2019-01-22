@@ -224,6 +224,8 @@ $result = $conn->query($sql);
 				var message='<?php echo $session_value;?>';
 				var casier_name='<?php echo $session_casier;?>';
 				var invoice='<?php if(isset($_SESSION['invoice'])){ echo $_SESSION['invoice']; } ?>';
+				$("#printBtn").hide();
+				$("#printItem").hide();
 				
 				if(message!="")
 				{
@@ -266,6 +268,16 @@ $result = $conn->query($sql);
 							total=total+parseFloat($(this).val());
 							total=total+0.1*total;
 							$("#grandTotal").val(total);
+							if(total>0)
+							{
+								$("#printBtn").show();
+								$("#printItem").show();
+							}
+							else
+							{
+								$("#printBtn").hide();
+								$("#printItem").hide();
+							}
 							var payment=parseFloat($("#deposit").val());
 							if(isNaN(payment)==false)
 							{
@@ -515,7 +527,16 @@ $result = $conn->query($sql);
 							$("#grand").val(total);
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
-							
+							if(grandtotal>0)
+							{
+								$("#printBtn").show();
+								$("#printItem").show();
+							}
+							else
+							{
+								$("#printBtn").hide();
+								$("#printItem").hide();
+							}
 						}
 						
 					});
@@ -545,6 +566,17 @@ $result = $conn->query($sql);
 							grand.val(total);
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);
+
+							if(grandtotal>0)
+							{
+								$("#printBtn").show();
+								$("#printItem").show();
+							}
+							else
+							{
+								$("#printBtn").hide();
+								$("#printItem").hide();
+							}
 						}
 						
 					});
