@@ -139,7 +139,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="number" step="any" min="1" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
+								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
@@ -147,7 +147,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="" class="label_discount">Discount (%)</label>
-								<input type="text" class="form-control discount" name="discount[]" placeholder="Discount">
+								<input type="text" class="form-control discount" value="0" name="discount[]" placeholder="Discount">
 							</div>
 							<div class="form-group">
 								<label for="">Total</label>
