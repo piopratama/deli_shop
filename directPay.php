@@ -206,6 +206,9 @@ $result = $conn->query($sql);
 			$(document).ready(function() {
 				var message='<?php echo $session_value;?>';
 				var casier_name='<?php echo $session_casier;?>';
+				$("#printBtn").hide();
+				$("#printItem").hide();
+
 				if(message!="")
 				{
 					alert(message);
@@ -472,8 +475,15 @@ $result = $conn->query($sql);
 								$("#payment").val(total);
 							}
 						}
-						if(grandtotal>payment){
-							alert("error");
+						if($("#change").val()==0 && $("#method").val().trim()!='transfer'){
+							$("#printBtn").hide();
+							$("#printItem").hide();
+							//alert("payment must be equal or bigger than grand total");
+						}
+						else
+						{
+							$("#printBtn").show();
+							$("#printItem").show();
 						}
 					});
 				});
@@ -514,8 +524,15 @@ $result = $conn->query($sql);
 								$("#payment").val(total);
 							}
 						}
-						if(grandtotal>payment){
-							alert("payment must be equal or bigger than grand total");
+						if($("#change").val()==0 && $("#method").val().trim()!='transfer'){
+							$("#printBtn").hide();
+							$("#printItem").hide();
+							//alert("payment must be equal or bigger than grand total");
+						}
+						else
+						{
+							$("#printBtn").show();
+							$("#printItem").show();
 						}
 					});
 				});
@@ -523,6 +540,13 @@ $result = $conn->query($sql);
 					if($(this).val()=='transfer')
 					{
 						$("#payment").val($("#grandTotal").val());
+						$("#printBtn").show();
+						$("#printItem").show();
+					}
+					else
+					{
+						$("#printBtn").hide();
+						$("#printItem").hide();
 					}
 				});
 				$("#payment").keyup(function(event) {
@@ -533,18 +557,21 @@ $result = $conn->query($sql);
 							var change=payment-grandTotal;
 							if(change>=0)
 							{
-								$("#end_transaction").show();
+								$("#printBtn").show();
+								$("#printItem").show();
 							}
 							else
 							{
-								$("#end_transaction").hide();
+								$("#printBtn").hide();
+								$("#printItem").hide();
 							}
 							$("#change").val(change);
 						}
 						else
 						{
-							$("#change").val("");
-							$("#end_transaction").hide();
+							$("#change").val(0);
+							$("#printBtn").hide();
+							$("#printItem").hide();
 						}
 				});
 			});
