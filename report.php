@@ -108,6 +108,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
 							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
 							<a href="export_excel.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+							<select></select>
 						</div>
 						<thead>
 							<tr>
@@ -187,13 +188,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							</tr>
 							<?php $no++; }?>							
 						</tbody>
-					</table>
-					<h3>
-						Total Category : <?php echo "Rp.".rupiah($total_no_deposit)."(Category doesn't include deposit)"; ?><br>
-						Total Deposit  : <?php echo "Rp.".rupiah($deposit); ?><br>
-						Total Income   : <?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>
-					</h3>
-					<div id="chart-div">
+					</table><br><br>
+					<!--<div id="chart-div">
 						<div class="form-group">
 							<label for="year">Year:</label>
 							<input type="text" class="form-control" id="year">
@@ -201,8 +197,25 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<button class="btn btn-primary" id="chartBtn">Submit</button>
 						<h3 class="text-center" id="title-chart" style="display: none;">Transaction Chart (in K Rupiah)</h3>
 						<div class="ct-chart ct-perfect-fourth"></div>
+					</div>-->
+				</div>
+				<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="">Category (Category doesn't include deposit)</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Deposit</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($deposit); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Total Income</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>">
 					</div>
 				</div>
+			</div>
 			</div>
 		</form>
 		<?php 

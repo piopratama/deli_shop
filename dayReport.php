@@ -17,7 +17,7 @@ else
 }
 include_once 'koneksi.php';
 
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE DATE(tnggl)=CURDATE()");
+$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=1");
 
 $kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE DATE(tnggl)=CURDATE() AND TT.statuss=1 GROUP BY TK.nm_kategori;");
 
@@ -94,7 +94,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				<div class="row">
 
 					<div class="col-md-12" id="mytable">
-					<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
+					<a href="mainMenu.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 					<h1> TABEL REPORT</h1>
 					<table id="example" class="table table-bordered" style="width: 100%;">
 						<thead>
@@ -182,6 +182,22 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						Total Income   : <?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>
 					</h3>
 					<a href="export_excel.php" style="margin-left: 95%; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+				</div>
+				<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="">Category (Category doesn't include deposit)</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Deposit</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($deposit); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Total Income</label>
+						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>">
+					</div>
 				</div>
 			</div>
 		</form>
