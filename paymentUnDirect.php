@@ -132,6 +132,11 @@ $result = $conn->query($sql);
 			$(document).ready(function() {
 				var invoice='';
 				$("#printBtn").hide();
+
+				$("#printBtn").click(function(){
+					location.reload();
+				});
+
 				$(".form-group").on('keyup','#payment',function(event) {
 					if(isNaN($(this).val())==false && $(this).val()!="")
 					{
@@ -152,7 +157,13 @@ $result = $conn->query($sql);
 						$("#printBtn").hide();
 					}
 				});
-
+				$("#method").change(function(){
+					if($(this).val().trim()=='transfer')
+					{
+						$("#payment").val($("#remainingPay").val());
+						$("#change").val(0);
+					}
+				});
 				$("#invoice").change(function(event) {
 					invoice=$(this).val();
 					var grand_total=$("#grandTotal");

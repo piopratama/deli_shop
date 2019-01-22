@@ -135,47 +135,51 @@ $pdf = new PDF();
 
 
 require 'koneksi.php';
-$sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."'";
-if ($conn->query($sql) === TRUE) {
-	$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$payment.",'".$method."')";
-	if($conn->query($sql)===TRUE)
-	{
-		$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) {
-			$i=0;
-			$sum=0;
-			while($row = $result->fetch_assoc()) {
-				$data[$i][0]=$row["date"];
-				$data[$i][1]=$row["invoice"];
-				$data[$i][2]=$row["name"];
-				$data[$i][3]=$row["item"];
-				$data[$i][4]=$row["qty"];
-				$data[$i][5]=$row["discount"];
-				$data[$i][6]=$row["price"];
-				$data[$i][7]=$row["total_price"];
-				if($row["status"]==1)
-				{
-					$data[$i][8]="paid";
+$sql="select * from tb_transaksi where invoice='".$invoice."' and statuss=0;";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+	$sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."' and statuss=0";
+	if ($conn->query($sql) === TRUE) {
+		$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$remaining_payment.",'".$method."')";
+		if($conn->query($sql)===TRUE)
+		{
+			$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+			$result = $conn->query($sql);
+			if ($result->num_rows > 0) {
+				$i=0;
+				$sum=0;
+				while($row = $result->fetch_assoc()) {
+					$data[$i][0]=$row["date"];
+					$data[$i][1]=$row["invoice"];
+					$data[$i][2]=$row["name"];
+					$data[$i][3]=$row["item"];
+					$data[$i][4]=$row["qty"];
+					$data[$i][5]=$row["discount"];
+					$data[$i][6]=$row["price"];
+					$data[$i][7]=$row["total_price"];
+					if($row["status"]==1)
+					{
+						$data[$i][8]="paid";
+					}
+					else{
+						$data[$i][8]="not paid";
+					}
+					$sum=$sum+$row["total_price"];
+					$i=$i+1;
 				}
-				else{
-					$data[$i][8]="not paid";
+			} else {
+				echo "Error";
 				}
-				$sum=$sum+$row["total_price"];
-				$i=$i+1;
-			}
-		} else {
+		}
+		else
+		{
 			echo "Error";
-			}
+		}
 	}
 	else
 	{
 		echo "Error";
-	}
-}
-else
-{
-	echo "Error";
+	}	
 }
 //header("location:paymentUnDirect.php")
 ?>
