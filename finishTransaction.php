@@ -43,8 +43,9 @@ ini_set("session.auto_start", 0);
             $this->Cell(0,4,'---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',0,1,'C');
             $this->Cell(0,4,"Invoice : ".$invoice,0,1,'L');
             $this->Cell(0,4,"Date : ".$date,0,1,'L');
-            $this->Cell(0,4,"Cashier : ".$nama,0,0,'L');
-            $this->Cell(0,4,"To : ".$customer,0,1,'C');
+			$this->Cell(0,4,"Cashier : ".$nama,0,0,'L');
+			$this->Cell(0,4,"To : ".$customer,0,1,'C');
+			$this->Cell(0,4,"Method : ".$method,0,1,'L');
 			
 		    // Line break
 		    $this->Ln();
@@ -150,7 +151,7 @@ if ($result->num_rows > 0)
         $data[$i][1]=date("d/m/Y", strtotime($row["tnggl"]));
         $customer=$row["nm_transaksi"];
         $data[$i][2]=$row["item"];
-        $data[$i][3]=$row["qty"];
+        $data[$i][3]=$row["qty"]." ".$row["unit"];
         $data[$i][4]=$row["discount"];
         $data[$i][5]=$row["price"];
         $data[$i][6]=$row["total_price"];
