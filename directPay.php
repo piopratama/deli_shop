@@ -472,8 +472,8 @@ $result = $conn->query($sql);
 								$("#payment").val(total);
 							}
 						}
-						if(grandtotal>payment){
-							alert("error");
+						if(grandtotal>payment && if($("#method").val().trim()!='transfer')){
+							alert("payment must be equal or bigger than grand total");
 						}
 					});
 				});
@@ -514,7 +514,7 @@ $result = $conn->query($sql);
 								$("#payment").val(total);
 							}
 						}
-						if(grandtotal>payment){
+						if(grandtotal>payment && if($("#method").val().trim()!='transfer')){
 							alert("payment must be equal or bigger than grand total");
 						}
 					});
