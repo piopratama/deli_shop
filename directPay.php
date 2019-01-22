@@ -126,7 +126,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="" class="label_discount">Discount (%)</label>
-								<input type="text" class="form-control discount" name="discount[]" placeholder="Discount">
+								<input type="text" class="form-control discount" value="0" name="discount[]" placeholder="Discount">
 							</div>
 							<div class="form-group">
 								<label for="">Total</label>
@@ -465,6 +465,12 @@ $result = $conn->query($sql);
 								var change=payment-total;
 								$("#change").val(change);
 							}
+							
+							if($("#method").val().trim()=='transfer')
+							{
+								$("#change").val(0);
+								$("#payment").val(total);
+							}
 						}
 						if(grandtotal>payment){
 							alert("error");
@@ -501,11 +507,23 @@ $result = $conn->query($sql);
 								var change=payment-total;
 								$("#change").val(change);
 							}
+
+							if($("#method").val().trim()=='transfer')
+							{
+								$("#change").val(0);
+								$("#payment").val(total);
+							}
 						}
 						if(grandtotal>payment){
-							alert("error");
+							alert("payment must be equal or bigger than grand total");
 						}
 					});
+				});
+				$("#method").change(function(){
+					if($(this).val()=='transfer')
+					{
+						$("#payment").val($("#grandTotal").val());
+					}
 				});
 				$("#payment").keyup(function(event) {
 					var grandTotal=parseFloat($("#grandTotal").val());

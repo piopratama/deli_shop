@@ -157,7 +157,13 @@ $result = $conn->query($sql);
 						$("#printBtn").hide();
 					}
 				});
-
+				$("#method").change(function(){
+					if($(this).val().trim()=='transfer')
+					{
+						$("#payment").val($("#remainingPay").val());
+						$("#change").val(0);
+					}
+				});
 				$("#invoice").change(function(event) {
 					invoice=$(this).val();
 					var grand_total=$("#grandTotal");

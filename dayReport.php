@@ -177,7 +177,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 					<h3>
-						Total Category : <?php echo "Rp.".rupiah($total_no_deposit)."(Category doesn't include deposit)"; ?><br>
+						Total Category : <?php echo "Rp.".rupiah($total_no_deposit)." <i>(*category doesn't include deposit)</i>"; ?><br>
 						Total Deposit  : <?php echo "Rp.".rupiah($deposit); ?><br>
 						Total Income   : <?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>
 					</h3>
