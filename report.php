@@ -137,7 +137,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["qty"];?></td>
 								<td><?php echo $data["discount"];?></td>
-								<td><?php echo $data["total_price"];?></td>
+								<td><?php echo rupiah($data["total_price"]);?></td>
 								<td><?php if($data["statuss"]==0)
 								{
 									echo("not paid");
@@ -155,7 +155,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<thead>
 							<tr>
 								<th>Category</th>
+								
 								<th>Income</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -164,7 +166,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								<td><?php echo $i["income"];?></td>
+								
+								<td><?php echo rupiah($i["income"]);?></td>
+								
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
@@ -184,7 +188,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($method as $j) {?>
 							<tr>
 								<td><?php echo $j["method"];?></td>
-								<td><?php echo $j["payment"];?></td>
+								<td><?php echo rupiah($j["payment"]);?></td>
 							</tr>
 							<?php $no++; }?>							
 						</tbody>
