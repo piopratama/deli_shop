@@ -12,13 +12,15 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 include_once 'koneksi.php';
 
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() and statuss=1");
+$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE statuss=1;");
 
-$kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE DATE(tnggl)=CURDATE() AND TT.statuss=1 GROUP BY TK.nm_kategori;");
+$kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
 
-$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)=CURDATE()) AND `date`=CURDATE();");
+$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)=CURDATE());");
 
-$method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit WHERE `date`=CURDATE() GROUP BY method;");
+$method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit GROUP BY method;");
+
+$customer= mysqli_query($conn, "SELECT nm_transaksi, SUM(total_price) AS total_price FROM tb_transaksi WHERE statuss=1 GROUP BY nm_transaksi;");
 
 $deposit=0;
 $total_no_deposit=0;
@@ -144,22 +146,43 @@ $spreadsheet->getActiveSheet()->setTitle('Method Report');
 $spreadsheet->createSheet();
 // Add some data
 $spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(1, 1, "No.");
+$spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(2, 1, "Customer");
+$spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(3, 1, "Income");
+
+$l=2;
+foreach ($customer as $a) {
+$spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(1, $l, $l-1);
+$spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(2, $l, $a["nm_transaksi"]=="" ? "Direct Pay": $a["nm_transaksi"]);
+$spreadsheet->setActiveSheetIndex(3)
+        ->setCellValueByColumnAndRow(3, $l, $a["total_price"]);
+        $l=$l+1;
+}
+// Rename worksheet
+$spreadsheet->getActiveSheet()->setTitle('Customer Report');
+
+
+$spreadsheet->createSheet();
+// Add some data
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(1, 1, "Total Category :");
-$spreadsheet->setActiveSheetIndex(3)
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(1, 2, "Total Deposit  :");
-$spreadsheet->setActiveSheetIndex(3)
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(1, 3, "Total Income   :");
 
 $l=2;
-foreach ($method as $data3) {
-$spreadsheet->setActiveSheetIndex(3)
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow($l, 1, "Rp.".($total_no_deposit));
-$spreadsheet->setActiveSheetIndex(3)
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow($l, 2, "Rp.".($deposit));
-$spreadsheet->setActiveSheetIndex(3)
+$spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow($l, 3, "Rp.".($total_no_deposit+$deposit));
         $l=$l+1;
-}
 // Rename worksheet
 $spreadsheet->getActiveSheet()->setTitle('Total Income Report');
 
@@ -167,7 +190,7 @@ $spreadsheet->getActiveSheet()->setTitle('Total Income Report');
 $spreadsheet->setActiveSheetIndex(0);
 // Redirect output to a client’s web browser (Xlsx)
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="day_report.xlsx"');
+header('Content-Disposition: attachment;filename="admin_report.xlsx"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');

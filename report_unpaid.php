@@ -331,10 +331,10 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				{
 					alert(message);
 				}
-				var oTable=$("#example").dataTable();
-				var oTable2=$("#example2").dataTable();
-				var oTable3=$("#example3").dataTable();
-				var oTable4=$("#example4").dataTable();
+				var oTable2=$("#example").dataTable();
+				var oTable=$("#example2").dataTable();
+				var oTable=$("#example3").dataTable();
+				var oTable=$("#example4").dataTable();
 				var html=$("#parent_item_container").html();
 				$("#add_item_btn").click(function(event) {
 					$("#parent_item_container").append(html);
@@ -415,14 +415,12 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				});
 				
 				$("#date_start").change(function(){
-					alert($(this).val());
-					//getCustomerStatus();
+					getCustomerStatus();
 					getTableCustomerStatus();
 				});
 
 				$("#date_end").change(function(){
-					alert($(this).val());
-					//getCustomerStatus();
+					getCustomerStatus();
 					getTableCustomerStatus();
 				});
 
@@ -474,13 +472,12 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						data: {dateStart: startDate, dateStop: stopDate},
 						dataType: 'json',
 						success: function (data) {
-							console.log(data);
 							if(data!=[])
 							{
-								oTable.fnClearTable();
+								oTable2.fnClearTable();
 								for(var i=0;i<data.length;i++)
 								{
-									oTable.fnAddData( [
+									oTable2.fnAddData( [
 										data[i].no,
 										data[i].invoice,
 										data[i].nm_transaksi,
