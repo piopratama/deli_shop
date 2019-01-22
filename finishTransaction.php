@@ -66,23 +66,8 @@ ini_set("session.auto_start", 0);
 			$this->Cell(array_sum($w),0,'','T');
 			$this->Ln();
 		    $this->Cell(80);
-		    $this->Cell(30,10,'Method : '.$method,0,0,'C');
-			$this->Ln();
-		    $this->Cell(80);
-		    $this->Cell(30,10,'Deposit : '.$deposit,0,0,'C');
-			$this->Ln();
-		    $this->Cell(80);
-			$this->Cell(30,10,'Remaining Payment : '.$remaining_payment,0,0,'C');
-			$this->Ln();
-		    $this->Cell(80);
-			$this->Cell(30,10,'Payment : '.$payment,0,0,'C');
-			$this->Ln();
-		    $this->Cell(80);
-		    $this->Cell(30,10,'Change : '.$change,0,0,'C');
-		    $this->Ln();
-		    $this->Cell(80);
 		    $sum=$sum+$sum*0;
-		    $this->Cell(30,10,'Total : '.$sum,0,0,'C');
+		    $this->Cell(100,10,'Grand Total : '.$sum,0,0,'R');
 		}
 	}
 
