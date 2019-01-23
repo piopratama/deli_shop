@@ -131,11 +131,7 @@ $result = $conn->query($sql);
 		<script>
 			$(document).ready(function() {
 				var invoice='';
-				$("#printBtn").hide();
-
-				$("#printBtn").click(function(){
-					location.reload();
-				});
+				$("#printBtn").attr('disabled', 'disabled');
 
 				$(".form-group").on('keyup','#payment',function(event) {
 					if(isNaN($(this).val())==false && $(this).val()!="")
@@ -154,7 +150,7 @@ $result = $conn->query($sql);
 					}
 					else
 					{
-						$("#printBtn").hide();
+						$("#printBtn").attr('disabled', 'disabled');
 					}
 				});
 				$("#method").change(function(){
@@ -166,7 +162,7 @@ $result = $conn->query($sql);
 					}
 					else
 					{
-						$("#printBtn").hide();
+						$("#printBtn").attr('disabled', 'disabled');
 					}
 				});
 				$("#invoice").change(function(event) {
