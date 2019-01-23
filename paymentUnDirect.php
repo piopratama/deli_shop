@@ -158,7 +158,7 @@ $result = $conn->query($sql);
 					{
 						$("#payment").val($("#remainingPay").val());
 						$("#change").val(0);
-						$("#printBtn").show();
+						$("#printBtn").removeAttr('disabled');
 					}
 					else
 					{
