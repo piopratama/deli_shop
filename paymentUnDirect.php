@@ -203,9 +203,6 @@ $result = $conn->query($sql);
 							}
 						});
 				});
-				$("#method").change(function (e) { 
-					$("#payment").val($("#remainingPay").val());					
-				});
 			});
 		</script>
 	</body>
