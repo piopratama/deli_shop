@@ -24,7 +24,7 @@ ini_set("session.auto_start", 0);
 		{
             $this->SetAutoPageBreak(true,10);
 		    // Colors, line width and bold font
-		    $this->SetFillColor(255,0,0);
+		    $this->SetFillColor(29,159,1);
 		    $this->SetTextColor(255);
 		    $this->SetDrawColor(128,0,0);
 		    $this->SetLineWidth(.3);
