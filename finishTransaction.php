@@ -86,7 +86,7 @@ ini_set("session.auto_start", 0);
             $this->Cell($w[4],6,'','T',0,'L');
             $this->Cell($w[5],6,'','T',0,'R');
             $this->Cell($w[6],6,'','T',0,'R');
-            $this->Cell($w[7],6,'Rp. '.number_format($grand_total),'T',0,'L');
+            $this->Cell($w[7],6,'Rp. '.number_format($sum),'T',0,'L');
             $this->Ln();
             $this->Cell($w[0],6,'Deposit',0,0,'L');
             $this->Cell($w[1],6,'',0,0,'L');
