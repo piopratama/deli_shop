@@ -35,7 +35,7 @@ ini_set("session.auto_start", 0);
 		    //$this->Cell(80);
             // Title
             //Cell(float w [, float h [, string txt [, mixed border [, int ln [, string align [, boolean fill [, mixed link]]]]]]])
-            //$this->Image('logo.jpg',10,10,10);
+            $this->Image('logo.jpg',15,15,15);
             $this->Cell(0,4,'Deli Point',0,1,'C');
             $this->Cell(0,4,'Jalan Puncak Waringin',0,1,'C');
             $this->Cell(0,4,'+62 812 3605 8607',0,1,'C');
