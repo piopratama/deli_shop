@@ -33,7 +33,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 
 			<div class="row">
 				
-				<div class="col-md-12 header">
+				<div class="col-md-12 header" >
 					<nav class="navbar navbar-default" role="navigation">
 						<div class="container-fluid">
 							<!-- Brand and toggle get grouped for better mobile display -->
@@ -44,7 +44,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 								</button>
-								<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Shop</a>
+								<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 							</div>
 					
 							<!-- Collect the nav links, forms, and other content for toggling -->
