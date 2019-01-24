@@ -39,7 +39,7 @@ $result = $conn->query($sql);
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Shop</a>
+									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
@@ -411,7 +411,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('3792305283', '1811');
+						var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	

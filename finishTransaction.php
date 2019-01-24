@@ -26,16 +26,16 @@ ini_set("session.auto_start", 0);
 		    // Colors, line width and bold font
 		    $this->SetFillColor(29,159,1);
 		    $this->SetTextColor(255);
-		    $this->SetDrawColor(128,0,0);
+		    $this->SetDrawColor(21,21,21);
 		    $this->SetLineWidth(.3);
-            $this->SetFont('','B', 6);
+            $this->SetFont('','B', 8);
 		    $this->SetTextColor(0);
 		    // Header
 		    // Move to the right
 		    //$this->Cell(80);
             // Title
             //Cell(float w [, float h [, string txt [, mixed border [, int ln [, string align [, boolean fill [, mixed link]]]]]]])
-            $this->Image('logo2.png',10,5,50);
+            $this->Image('logo2.png',10,5,78);
             $this->Cell(0,4,'',0,1,'C');
             $this->Cell(0,4,'',0,1,'C');
             $this->Cell(0,4,'',0,1,'C');
@@ -43,9 +43,11 @@ ini_set("session.auto_start", 0);
             $this->Cell(0,4,'---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',15,1,'C');
             $this->Cell(0,4,"Invoice : ".$invoice,0,1,'L');
             $this->Cell(0,4,"Date : ".$date,0,1,'L');
-			$this->Cell(0,4,"Cashier : ".$nama,0,0,'L');
-			$this->Cell(0,4,"To : ".$customer,0,1,'C');
+			$this->Cell(0,4,"Cashier : ".$nama,0,1,'L');
+			//$this->Cell(0,4,"To : ".$customer,0,1,'C');
+			$this->Cell(0,4,"To : ".$customer,0,1,'L');
 			$this->Cell(0,4,"Method : ".$method,0,1,'L');
+			
 			
 		    // Line break
 		    $this->Ln();
