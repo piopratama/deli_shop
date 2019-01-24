@@ -19,6 +19,7 @@ else
 include_once 'koneksi.php';
 $barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_barang.`price`, tb_barang.`stock`, tb_barang.`unit`, tb_kategori.nm_kategori AS kategori, tb_supplier.`nm_supplier` AS supplier, tb_barang.pur_price FROM tb_barang LEFT JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` order by id desc;");
 $stock_kurang = mysqli_query($conn, "SELECT tb_barang.id, tb_barang.item, tb_barang.stock, tb_barang.unit, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.stock<='5';");
+$stock_expired = mysqli_query($conn, "SELECT tb_expired.id, tb_expired.id_item, tb_barang.item, tb_expired.qty FROM tb_expired INNER JOIN tb_barang ON tb_expired.`id_item`=tb_barang.`id` WHERE tb_expired.`expired_date`<CURDATE();;");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
@@ -112,6 +113,45 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 				</div>
+				
+				<div class="col-md-12 ">
+				<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" href="administrator.php" style="margin:0 5px 10px 0;"></a>
+					<h1>STOCK EXPIRED</h1>
+					<table id="example3" class="table table-bordered" style="width: 100%;">
+	
+						
+						
+						<thead>
+							<tr>
+								
+								<th>Item</th>
+								<th>QTY</th>
+								<th>Status</th>
+								
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							$no=1;
+							foreach ($stock_expired as $expired) {?>
+							<tr>
+								
+								
+								<td><?php echo $expired['item']?> <input type="text" name="id" value="<?php echo $expired['id']?>" style=""><input type="text" name="id_item" value="<?php echo $expired['id_item']?>" style=""></td>
+								<td><?php echo $expired['qty']?></td>
+								<td><h3 style="color:red;">EXPIRED</h3></td>
+								
+								<td>
+									
+								<button class="btn btn-danger deleteItem" id=""><span class="glyphicon glyphicon-trash"></span></button>
+								</td>
+							</tr>
+							<?php $no++; }?>						
+						</tbody>
+					</table>
+				</div>
+
 				<div class="col-md-12">
 				
 					<table id="example" class="table table-bordered" style="width: 100%;">
@@ -208,7 +248,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 			$(document).ready(function() {
 				$("#example").DataTable();
 				$("#example2").DataTable();
-				
+				$("#example3").DataTable();
 				$("#example").on('click','.deleteItem', function(){
 					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');
