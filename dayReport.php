@@ -141,7 +141,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					<div class="row">
 						<div class="col-md-9"></div>
 						<div class="col-md-3 ">
-							<div class="row">
+							<div class="row border border-primary">
 								<div class="col-md-12">
 									Total Paid Transaction
 								</div>
