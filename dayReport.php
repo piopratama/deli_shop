@@ -25,19 +25,20 @@ $depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit
 
 $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit WHERE `date`=CURDATE() GROUP BY method;");
 
+$paidTrans= mysqli_query($conn,"SELECT SUM(total_price) AS total_price FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=1; ");
+
+$unPaidTrans= mysqli_query($conn,"SELECT SUM(total_price) AS total_price FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=0; ");
+
 $deposit=0;
 $total_no_deposit=0;
 foreach ($depositArr as $depo){
 	$deposit=$deposit+$depo["deposit"];
 }
 
-
-
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 ?>
 <!DOCTYPE html>
 <html>
-
 
 	<?php include("./templates/header.php"); ?>
 	<link rel="stylesheet" type="text/css" href="./css/stockStyle.css">
@@ -137,6 +138,35 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<?php $no++; }?>							
 						</tbody>
 					</table>
+					<div class="row">
+						<div class="col-md-9"></div>
+						<div class="col-md-3 ">
+							<div class="row">
+								<div class="col-md-12">
+									Total Paid Transaction
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 box">
+									<?php 
+									foreach($paidTrans as $paid){
+										echo $paid["total_price"];
+									}
+									?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-9"></div>
+						<div class="col-md-3">
+							Total Unpaid Transaction:
+							<?php 
+							foreach($unPaidTrans as $unpaid){
+								echo $unpaid["total_price"];
+							}?>
+						</div>
+					</div>
 					<h1> TABEL REPORT CATEGORY</h1>
 					<table id="example2" class="table table-bordered" style="width: 100%;">
 						<thead>

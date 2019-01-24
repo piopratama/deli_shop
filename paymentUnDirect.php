@@ -65,7 +65,7 @@ $result = $conn->query($sql);
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="">Date</label>
-						<input type="date" class="form-control" id="curr_date" value="<?php echo date('Y-m-d'); ?>" placeholder="" readonly="readonly">
+						<input type="date" class="form-control" id="curr_date" value="<?php echo date('Y-m-d'); ?>" placeholder="" readonly="readonly" name="date">
 					</div>
 					<div class="form-group">
 						<select class="form-control" id="invoice" name="invoice" required="required">
