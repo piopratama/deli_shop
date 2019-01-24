@@ -69,7 +69,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Shop</a>
+									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 								</div>
 						
 								<!-- Collect the nav links, forms, and other content for toggling -->
@@ -153,12 +153,19 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table><br>
 					<h1> TABEL REPORT CATEGORY</h1>
+					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
+							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
+							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
+							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+
+						</div>
 					<table id="example2" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th>Category</th>
-								
+								<th>Purchase Price</th>
 								<th>Income</th>
+								<th>Profit</th>
 								
 							</tr>
 						</thead>
@@ -168,15 +175,21 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								
+								<td><?php echo "--"?></td>
 								<td><?php echo rupiah($i["income"]);?></td>
-								
+								<td><?php echo "--"?></td>
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
 						</tbody>
 					</table><br>
 					<h1> TABEL REPORT METHOD</h1>
+					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
+							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
+							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
+							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+
+						</div>
 					<table id="example3" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -196,6 +209,12 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 					<h1> TABEL REPORT CUSTOMER</h1>
+					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
+							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
+							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
+							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+
+						</div>
 					<table id="example4" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>

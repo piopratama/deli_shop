@@ -30,8 +30,7 @@ else
 		
 		<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12 header">
-						<nav class="navbar navbar-default" role="navigation">
+						<nav class="navbar navbar-default" role="navigation" >
 							<div class="container-fluid">
 								<!-- Brand and toggle get grouped for better mobile display -->
 								<div class="navbar-header">
@@ -41,7 +40,7 @@ else
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Shop</a>
+									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
