@@ -19,6 +19,8 @@ ini_set("session.auto_start", 0);
 require 'koneksi.php';
 require('mc_table.php');
 
+date_default_timezone_set('Asia/Singapore');
+
 $invoice=$_POST['invoice'];
 $deposit=$_POST['deposit'];
 $remaining_payment=$_POST['remaining_payment'];
@@ -26,7 +28,9 @@ $grand_total=$_POST['grand_total'];
 $method=$_POST['method'];
 $payment=$_POST['payment'];
 $change=$_POST['change'];
-$date=date('d/m/Y H:i:s');
+//$date=date('d/m/Y H:i:s');
+$date=date('Y-m-d H:i:s');
+$date_db = date("Y-m-d", strtotime($date));
 $customer='';
 
 $sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
@@ -159,10 +163,10 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 	$sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."' and statuss=0";
 	if ($conn->query($sql) === TRUE) {
-		/*$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', 0, ".$remaining_payment.",'".$method."')";
+		$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date_db."','".$invoice."', 0, ".$remaining_payment.",'".$method."')";
 		if($conn->query($sql)===TRUE)
 		{
-			$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+			/*$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				$i=0;
@@ -188,12 +192,12 @@ if ($result->num_rows > 0) {
 				}
 			} else {
 				echo "Error";
-			}
+			}*/
 		}
 		else
 		{
 			echo "Error";
-		}*/
+		}
 	}
 	else
 	{
