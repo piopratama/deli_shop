@@ -17,7 +17,7 @@ else
 }
 include_once 'koneksi.php';
 
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE statuss=1;");
+$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi;");
 
 $kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
 
@@ -109,7 +109,13 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
 							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
 							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
+							Status:
+							<select name="status" id="status">
+								<option value="">Select Status</option>
+								<option value="1">Paid</option>
+								<option value="0">Unpaid</option>
+							</select>
+							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a>
 
 						</div>
 						<thead>
@@ -153,19 +159,13 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table><br>
 					<h1> TABEL REPORT CATEGORY</h1>
-					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
-							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
-
-						</div>
 					<table id="example2" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th>Category</th>
-								<th>Purchase Price</th>
+								<!--<th>Purchase Price</th>-->
 								<th>Income</th>
-								<th>Profit</th>
+								<!--<th>Profit</th>-->
 								
 							</tr>
 						</thead>
@@ -175,21 +175,15 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								<td><?php echo "--"?></td>
+								<!--<td><?php echo "--"?></td>-->
 								<td><?php echo rupiah($i["income"]);?></td>
-								<td><?php echo "--"?></td>
+								<!--<td><?php echo "--"?></td>-->
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
 						</tbody>
 					</table><br>
 					<h1> TABEL REPORT METHOD</h1>
-					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
-							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
-
-						</div>
 					<table id="example3" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -209,12 +203,6 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 					<h1> TABEL REPORT CUSTOMER</h1>
-					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
-							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a><br>
-
-						</div>
 					<table id="example4" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -249,11 +237,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="">Category (Category doesn't include deposit)</label>
-						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit); ?>">
+						<div class="form-control" id="categoryIncome"><?php echo "Rp.".rupiah($total_no_deposit); ?></div>
 					</div>
 					<div class="form-group">
 						<label for="">Deposit</label>
-						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($deposit); ?>">
+						<div class="form-control" id="depositIncome"><?php echo "Rp.".rupiah($deposit); ?></div>
 					</div>
 					<div class="form-group">
 						<label for="">Total Income</label>
@@ -424,25 +412,28 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					}*/
 				});
 
-				$("#status_paid").change(function(){
-					getCustomerStatus();
+				$("#status").change(function(){
 					getTableCustomerStatus();
-				});
-
-				$("#customer").change(function(){
-					getTableCustomerStatus();
+					getDataIncome();
+					getDataDeposit();
 				});
 				
 				$("#date_start").change(function(){
-					alert($(this).val());
-					//getCustomerStatus();
+					getTableCategory();
 					getTableCustomerStatus();
+					getTableMethod();
+					getTableCustomer();
+					getDataIncome();
+					getDataDeposit();
 				});
 
 				$("#date_end").change(function(){
-					alert($(this).val());
-					//getCustomerStatus();
+					getTableCategory();
 					getTableCustomerStatus();
+					getTableMethod();
+					getTableCustomer();
+					getDataIncome();
+					getDataDeposit();
 				});
 
 				function getCustomerStatus()
@@ -483,20 +474,19 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 
 				function getTableCustomerStatus()
 				{
-					var status=$("#status_paid").val();
+					var status=$("#status").val();
 					var startDate=$("#date_start").val();
 					var stopDate=$("#date_end").val();
-					var customer=$("#customer").val();
+					//var customer=$("#customer").val();
 					$.ajax({
 						url: 'getTableStatusCustomer.php',
 						type: 'post',
-						data: {dateStart: startDate, dateStop: stopDate},
+						data: {dateStart: startDate, dateStop: stopDate, status: status},
 						dataType: 'json',
 						success: function (data) {
-							console.log(data);
+							oTable.fnClearTable();
 							if(data!=[])
 							{
-								oTable.fnClearTable();
 								for(var i=0;i<data.length;i++)
 								{
 									oTable.fnAddData( [
@@ -513,6 +503,133 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 									]);
 								}
 							}
+						}
+					});
+				}
+
+				function getTableCategory()
+				{
+					var status=$("#status").val();
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					$.ajax({
+						url: 'getTableCategory.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate, status: status},
+						dataType: 'json',
+						success: function (data) {
+							oTable2.fnClearTable();
+							if(data!=[])
+							{
+								for(var j=0;j<data.length;j++)
+								{
+									oTable2.fnAddData( [
+										data[j].nm_kategori,
+										data[j].income,
+									]);
+								}
+							}
+						}
+					});
+				}
+
+				function getTableMethod()
+				{
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					$.ajax({
+						url: 'getTableMethod.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate},
+						dataType: 'json',
+						success: function (data) {
+							oTable3.fnClearTable();
+							if(data!=[])
+							{
+								for(var j=0;j<data.length;j++)
+								{
+									oTable3.fnAddData( [
+										data[j].method,
+										data[j].payment,
+									]);
+								}
+							}
+						}
+					});
+				}
+
+				function getTableCustomer()
+				{
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					$.ajax({
+						url: 'getTableCustomer.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate},
+						dataType: 'json',
+						success: function (data) {
+							oTable4.fnClearTable();
+							if(data!=[])
+							{
+								for(var i=0;i<data.length;i++)
+								{
+									oTable4.fnAddData( [
+										data[i].nm_transaksi,
+										data[i].total_price,
+									]);
+								}
+							}
+						}
+					});
+				}
+
+				function getDataIncome()
+				{
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					var status=$("#status").val();
+					$.ajax({
+						url: 'getDataIncome.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate, status: status},
+						dataType: 'json',
+						success: function (data) {
+							console.log(data);
+							$("#categoryIncome").text(data);
+						}
+					});
+				}
+
+				function getDataDeposit()
+				{
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					var status=$("#status").val();
+					$.ajax({
+						url: 'getDataDeposit.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate},
+						dataType: 'json',
+						success: function (data) {
+							console.log(data);
+							$("#depositIncome").text(data);
+						}
+					});
+				}
+
+				function getDataIncome()
+				{
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					var status=$("#status").val();
+					$.ajax({
+						url: 'getDataIncome.php',
+						type: 'post',
+						data: {dateStart: startDate, dateStop: stopDate, status: status},
+						dataType: 'json',
+						success: function (data) {
+							console.log(data);
+							$("#categoryIncome").text(data);
 						}
 					});
 				}
