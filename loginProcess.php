@@ -56,7 +56,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 	else
 	{
 		$_SESSION["message"]="Login Failed";
-		//header("location:index.php");
+		header("location:index.php");
 	}
 	
 	$conn->close();
@@ -65,6 +65,6 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 else
 {
 	$_SESSION["message"]="Login Failed";
-	//header("location:index.php");
+	header("location:index.php");
 }
 ?>
