@@ -14,9 +14,21 @@
 		}
 	}
 	
-    $status=$_POST['status'];
-    $startDate=$_POST['dateStart'];
-    $stopDate=$_POST['dateStop'];
+    $status="";
+    if(isset($_POST['status']))
+    {
+        $status=$_POST['status'];
+    }
+    $startDate="";
+    if(isset($_POST['dateStart']))
+    {
+        $startDate=$_POST['dateStart'];
+    }
+    $stopDate="";
+    if(isset($_POST['dateStart']))
+    {
+        $stopDate=$_POST['dateStop'];
+    }
     //$nm_transaksi=$_POST['customer'];
     require 'koneksi.php';
     //echo json_encode($startDate." ".$stopDate." ".$status);
@@ -42,8 +54,19 @@
     if ($result->num_rows > 0) {
         //$html="<option value=''>-- Select Customer --</option>";
         while($row = $result->fetch_assoc()){
-            echo $row["income"];
+            if($row=="" || $row==null)
+            {
+                echo 0;
+            }
+            else
+            {
+                echo $row["income"];
+            }
         }
+    }
+    else
+    {
+        echo 0;
     }
 
     

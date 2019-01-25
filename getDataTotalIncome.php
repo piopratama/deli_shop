@@ -37,45 +37,43 @@
 
     if($startDate!="" && $stopDate!="")
     {
-        $sql = "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice 
-        IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 
-        AND date(tnggl)>='".$startDate."' AND DATE(tnggl)<='".$stopDate."');";
+        $sql = "SELECT SUM(payment+deposit) as total FROM tb_deposit where 
+        date(`date`)>='".$startDate."' and DATE(`date`)<='".$stopDate."';";
     }
     else if($startDate=="" && $stopDate!="")
     {
-        $sql = "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice 
-        IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND DATE(tnggl)<='".$stopDate."');";
+        $sql = "SELECT SUM(payment+deposit) as total FROM tb_deposit where 
+        DATE(`date`)<='".$stopDate."';";
     }
     else if($startDate!="" && $stopDate=="")
     {
-        $sql = "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice 
-        IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)>='".$startDate."');";
+        $sql = "SELECT SUM(payment+deposit) as total FROM tb_deposit where 
+        date(`date`)>='".$startDate."';";
     }
     else 
     {
-        $sql = "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice 
-        IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0);";
+        $sql = "SELECT SUM(payment+deposit) as total AS payment FROM tb_deposit;";
     }
 
     //echo json_encode($sql);
-    //echo $sql;
-   $result = $conn->query($sql);
+    echo $sql;
+   /*$result = $conn->query($sql);
     if ($result->num_rows > 0) {
         //$html="<option value=''>-- Select Customer --</option>";
         while($row = $result->fetch_assoc()){
-            if($row["deposit"]=="" || $row["deposit"]==null)
+            if($row["total"]=="" || $row["total"]==null)
             {
                 echo 0;
             }
             else
             {
-                echo $row["deposit"];
+                echo $row["total"];
             }
         }
     }
     else
     {
         echo 0;
-    }
+    }*/
     
 ?>

@@ -21,7 +21,7 @@ $barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(t
 
 $kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
 
-$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)=CURDATE());");
+$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0);");
 
 $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit GROUP BY method;");
 
@@ -245,7 +245,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					</div>
 					<div class="form-group">
 						<label for="">Total Income</label>
-						<input type="text" class="form-control" readonly="readonly" value="<?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>">
+						<input type="text" class="form-control" readonly="readonly" id="totalIncome" value="<?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?>">
 					</div>
 				</div>
 			</div>
@@ -425,6 +425,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getTableCustomer();
 					getDataIncome();
 					getDataDeposit();
+					getDataTotalIncome();
 				});
 
 				$("#date_end").change(function(){
@@ -434,6 +435,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getTableCustomer();
 					getDataIncome();
 					getDataDeposit();
+					getDataTotalIncome();
 				});
 
 				function getCustomerStatus()
@@ -589,13 +591,16 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					var stopDate=$("#date_end").val();
 					var status=$("#status").val();
 					$.ajax({
-						url: 'getDataIncome.php',
+						url: 'getDataIncomeCategory.php',
 						type: 'post',
 						data: {dateStart: startDate, dateStop: stopDate, status: status},
-						dataType: 'json',
 						success: function (data) {
-							console.log(data);
+							//console.log(data);
 							$("#categoryIncome").text(data);
+							if($("#categoryIncome").text()=="")
+							{
+								$("#categoryIncome").text("0");
+							}
 						}
 					});
 				}
@@ -609,27 +614,25 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						url: 'getDataDeposit.php',
 						type: 'post',
 						data: {dateStart: startDate, dateStop: stopDate},
-						dataType: 'json',
 						success: function (data) {
-							console.log(data);
+							//console.log(data);
 							$("#depositIncome").text(data);
 						}
 					});
 				}
 
-				function getDataIncome()
+				function getDataTotalIncome()
 				{
 					var startDate=$("#date_start").val();
 					var stopDate=$("#date_end").val();
 					var status=$("#status").val();
 					$.ajax({
-						url: 'getDataIncome.php',
+						url: 'getDataTotalIncome.php',
 						type: 'post',
 						data: {dateStart: startDate, dateStop: stopDate, status: status},
-						dataType: 'json',
 						success: function (data) {
 							console.log(data);
-							$("#categoryIncome").text(data);
+							//$("#totalIncome").val(data);
 						}
 					});
 				}
