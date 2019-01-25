@@ -22,8 +22,16 @@
 		$sum=0;
 		// output data of each row
 		while($row = $result->fetch_assoc()) {
-			echo $row['deposit'];
+			if($row['deposit']=="" || $row['deposit']==null){
+				echo 0;
+			}
+			else{	
+				echo $row['deposit'];
+			}
 		}
 		//echo $sum;
+	}
+	else{
+		echo 0;
 	}
 ?>

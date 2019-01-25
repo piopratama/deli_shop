@@ -50,7 +50,7 @@ if ($result->num_rows > 0)
     $pdf->SetDrawColor(128,0,0);
     $pdf->SetLineWidth(.3);
     $pdf->SetTextColor(0);
-    srand(microtime()*1000000);
+    //srand(microtime()*1000000);
     while($row = $result->fetch_assoc()) {
 
         $data[$i][0]=$i+1;
