@@ -55,7 +55,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 
 	<body>
 		
-		<form action="finishReport.php" method="POST" accept-charset="utf-8">
+		<form action="export_excel_admin.php" method="POST" accept-charset="utf-8">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 header">
@@ -115,8 +115,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<option value="1">Paid</option>
 								<option value="0">Unpaid</option>
 							</select>
-							<a href="export_excel_admin_paid.php" style="margin: 10px; margin-bottom: 10px; widht:100px;" type="button" class="btn btn-success" >Print</a>
-
+							<button type="submit" class="btn btn-success" style="margin-left:10px;">Print</button>
 						</div>
 						<thead>
 							<tr>
@@ -410,6 +409,20 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					{
 						$("#change").val("");
 					}*/
+				});
+
+				$("#printBtn").click(function (e) { 
+					var status=$("#status").val();
+					var startDate=$("#date_start").val();
+					var stopDate=$("#date_end").val();
+					$.ajax({
+						type: "post",
+						url: "export_excel_admin.php",
+						data: {status: status, startDate: startDate, stopDate: stopDate},
+						success: function (data) {
+							
+						}
+					});
 				});
 
 				$("#status").change(function(){
