@@ -114,7 +114,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					</table>
 				</div>
 				
-				<div class="col-md-12 ">
+				<!--<div class="col-md-12 ">
 				<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" href="administrator.php" style="margin:0 5px 10px 0;"></a>
 					<h1>STOCK EXPIRED</h1>
 					<table id="example3" class="table table-bordered" style="width: 100%;">
@@ -150,7 +150,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<?php $no++; }?>						
 						</tbody>
 					</table>
-				</div>
+				</div>-->
 
 				<div class="col-md-12">
 				
