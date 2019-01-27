@@ -17,7 +17,7 @@ else
 include 'koneksi.php';
 $id=$_POST['id'];
 $category=$_POST['category'];
-$name=$_POST['name'];
+$name=addslashes($_POST['name']);
 $price=$_POST['price'];
 $stock=$_POST['stock'];
 $unit=$_POST['unit'];

@@ -15,7 +15,7 @@
 	}
 	
 	// Check If form submitted, insert form data into users table.
-	$name = $_POST['name'];
+	$name = addslashes($_POST['name']);
 	$price = $_POST['price'];
 	$stock = $_POST['stock'];
 	$unit = $_POST['unit'];
