@@ -21,6 +21,7 @@ $barang = mysqli_query($conn, "SELECT tb_barang.`id`, tb_barang.`item`, tb_baran
 $stock_kurang = mysqli_query($conn, "SELECT tb_barang.id, tb_barang.item, tb_barang.stock, tb_barang.unit, tb_supplier.`nm_supplier` AS supplier FROM tb_barang LEFT JOIN tb_supplier ON tb_barang.`supplier`=tb_supplier.`id_supplier` WHERE tb_barang.stock<='5';");
 $stock_expired = mysqli_query($conn, "SELECT tb_expired.id, tb_expired.id_item, tb_barang.item, tb_expired.qty FROM tb_expired INNER JOIN tb_barang ON tb_expired.`id_item`=tb_barang.`id` WHERE tb_expired.`expired_date`<CURDATE();;");
 $user = mysqli_query($conn, "SELECT * FROM tb_employee");
+$purchase= mysqli_query($conn, "SELECT tb_kategori.`nm_kategori`, SUM(tb_barang.`pur_price`*tb_barang.`stock`) AS jumlah FROM tb_barang INNER JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` GROUP BY tb_kategori.`nm_kategori`;");
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,8 +115,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					</table>
 				</div>
 				
-				<div class="col-md-12 ">
-				<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" href="administrator.php" style="margin:0 5px 10px 0;"></a>
+				<!--<div class="col-md-12 ">
+				
 					<h1>STOCK EXPIRED</h1>
 					<table id="example3" class="table table-bordered" style="width: 100%;">
 	
@@ -150,7 +151,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<?php $no++; }?>						
 						</tbody>
 					</table>
-				</div>
+				</div>-->
 
 				<div class="col-md-12">
 				
@@ -210,6 +211,40 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 				</div>
+
+					<div class="col-md-12 ">
+				
+					<h1>Category</h1>
+					<table id="example4" class="table table-bordered" style="width: 100%;">
+	
+						
+						
+						<thead>
+							<tr>
+								
+								<th>Category</th>
+								<th>Purchase Price</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							$no=1;
+							foreach ($purchase as $p) {?>
+							<tr>
+								
+								
+								<td><?php echo $p['nm_kategori']?> </td>
+								<td><?php echo rupiah($p['jumlah'])?></td>
+								
+									
+								
+							</tr>
+							<?php $no++; }?>						
+						</tbody>
+					</table>
+				</div>
+
 			</div>
 		</div>
 
@@ -249,6 +284,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				$("#example").DataTable();
 				$("#example2").DataTable();
 				$("#example3").DataTable();
+				$("#example4").DataTable();
 				$("#example").on('click','.deleteItem', function(){
 					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');

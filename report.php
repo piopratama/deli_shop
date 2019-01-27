@@ -27,6 +27,8 @@ $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM
 
 $customer= mysqli_query($conn, "SELECT nm_transaksi, SUM(total_price) AS total_price FROM tb_transaksi WHERE statuss=1 GROUP BY nm_transaksi;");
 
+$purchase= mysqli_query($conn, "SELECT tb_kategori.`nm_kategori`, SUM(tb_barang.`pur_price`) FROM tb_barang INNER JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` GROUP BY tb_kategori.`nm_kategori`;");
+
 $deposit=0;
 $total_no_deposit=0;
 foreach ($depositArr as $depo){
@@ -162,9 +164,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<thead>
 							<tr>
 								<th>Category</th>
-								<!--<th>Purchase Price</th>-->
+								<th>Purchase Price</th>
 								<th>Income</th>
-								<!--<th>Profit</th>-->
+								<th>Profit</th>
 								
 							</tr>
 						</thead>
@@ -174,9 +176,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								<!--<td><?php echo "--"?></td>-->
+								<td><?php echo "--"?></td>
 								<td><?php echo rupiah($i["income"]);?></td>
-								<!--<td><?php echo "--"?></td>-->
+								<td><?php echo "--"?></td>
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
