@@ -318,7 +318,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('4590384132', '1811');
+						var printer = new Recta('3245260761', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -374,7 +374,7 @@ $result = $conn->query($sql);
 								printer.text("Qty : "+x[j].qty);
 								printer.text("Price(Rp) : "+x[j].price);
 								printer.text("Dsc(%) : "+x[j].discount);    
-								printer.text("Total(Rp) : "+x[j].total);
+								printer.text("Total(Rp) : "+Math.round(x[j].total));
 								printer.text("");
 							}
 							
@@ -382,7 +382,7 @@ $result = $conn->query($sql);
 							printer.text("------------------------------");
 							if($("#grandTotal").val()!="")
 							{
-								printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+								printer.text("Grand Total : "+numberToRupiah(Math.round(parseFloat($("#grandTotal").val())))).bold(true);
 							}
 							if($("#payment").val()!="")
 							{
@@ -453,7 +453,7 @@ $result = $conn->query($sql);
 					}
 					total=total-discount*total/100.0;
 
-					price_total.val(total);
+					price_total.val(Math.round(total));
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
