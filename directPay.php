@@ -118,7 +118,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
+								<input type="text" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
@@ -426,6 +426,12 @@ $result = $conn->query($sql);
 					var id=$(this).val();
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
+					var qty=$(this).parent().next().find(".qtyItem");
+					var disc=$(this).parent().next().next().next().find(".discount");
+					var total=$(this).parent().next().next().next().next().find(".total");
+					qty.val("");
+					disc.val(0);
+					total.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
