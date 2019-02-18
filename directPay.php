@@ -318,7 +318,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('3245260761', '1811');
+						var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -406,11 +406,16 @@ $result = $conn->query($sql);
 				});
 				$("#parent_item_container").on('click','.glyphicon-trash',function(event){
 					$(this).parent().remove();
+					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
 						{
+							var discount=$(this).parent().prev().find('.discount').val();
+							if(discount=="")
+							{
+								discount=0;
+							}
 							total=total+parseFloat($(this).val());
-							total=total+0.1*total;
 							$("#grandTotal").val(total);
 							var payment=parseFloat($("#payment").val());
 							if(isNaN(payment)==false)

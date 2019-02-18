@@ -262,6 +262,7 @@ $result = $conn->query($sql);
 				
 				$("#parent_item_container").on('click','.glyphicon-trash',function(event){
 					$(this).parent().remove();
+					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
 						{
