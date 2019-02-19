@@ -463,8 +463,7 @@ $result = $conn->query($sql);
 						discount=0;
 					}
 					total=total-discount*total/100.0;
-
-					price_total.val(Math.round(total));
+					price_total.val(Math.round(total/1000)*1000);
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
@@ -513,7 +512,7 @@ $result = $conn->query($sql);
 					}
 					total=total-discount*total/100.0;
 
-					price_total.val(total);
+					price_total.val(Math.round(total/1000)*1000);
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
