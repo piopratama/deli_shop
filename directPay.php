@@ -118,7 +118,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="text" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
+								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
@@ -429,14 +429,12 @@ $result = $conn->query($sql);
 
 				$("#parent_item_container").on('change','.myItem',function(event) {
 					var id=$(this).val();
-					var price_field=$(this).parent().next().next().find(".price");
-					var label_price=$(this).parent().next().next().find(".label_price");
 					var qty=$(this).parent().next().find(".qtyItem");
-					var disc=$(this).parent().next().next().next().find(".discount");
-					var total=$(this).parent().next().next().next().next().find(".total");
-					qty.val("");
-					disc.val(0);
-					total.val(0);
+					var price_field=$(this).parent().next().next().find(".price");
+					var discount=$(this).parent().next().next().next().find(".discount");
+					var label_price=$(this).parent().next().next().find(".label_price");
+					qty.val(0);
+					discount.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -463,6 +461,7 @@ $result = $conn->query($sql);
 						discount=0;
 					}
 					total=total-discount*total/100.0;
+
 					price_total.val(Math.round(total/1000)*1000);
 					var total=0;
 					$('.total').each(function(i, obj) {

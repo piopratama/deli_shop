@@ -37,7 +37,7 @@
 			$html=$html."</div>";
 			$html=$html."<div class='form-group'>";
 			$html=$html."<label for='' class='label_discount'>Discount (%)</label>";
-			$html=$html."<input type='text' value='".$row['discount']."' class='form-control discount' name='discount[]' placeholder='Discount' readonly='readonly'>";
+			$html=$html."<input type='text' value='".$row['discount']."' class='form-control' name='discount[]' placeholder='Discount' readonly='readonly'>";
 			$html=$html."</div>";
 			$html=$html."<div class='form-group'>";
 			$html=$html."<label for=''>Total</label>";

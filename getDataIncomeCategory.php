@@ -1,5 +1,11 @@
 <?php
-	session_start();
+    session_start();
+    function rupiah($angka){
+	
+        $hasil_rupiah = number_format($angka,0,'','.');
+        return $hasil_rupiah;
+     
+    }
 	if(empty($_SESSION['username'])){
 		header("location:index.php");
 	}
@@ -60,7 +66,7 @@
             }
             else
             {
-                echo $row["income"];
+                echo rupiah($row["income"]);
             }
         }
     }

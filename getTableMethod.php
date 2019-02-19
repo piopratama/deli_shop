@@ -1,5 +1,11 @@
 <?php
-	session_start();
+    session_start();
+    function rupiah($angka){
+	
+        $hasil_rupiah = number_format($angka,0,'','.');
+        return $hasil_rupiah;
+     
+    }
 	if(empty($_SESSION['username'])){
 		header("location:index.php");
 	}
@@ -43,7 +49,7 @@
         //$html="<option value=''>-- Select Customer --</option>";
         while($row = $result->fetch_assoc()){
             $data[$i]["method"]=$row["method"];
-            $data[$i]["payment"]=$row["payment"];
+            $data[$i]["payment"]=rupiah($row["payment"]);
             $i=$i+1;
         }
         echo json_encode($data);

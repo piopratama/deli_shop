@@ -72,25 +72,18 @@ else
 					</div>
 				</div>
 				<div class="col-md-4">
-					<a href="stock.php"><button type="button" class="btn btn-default" id="directpayMenu"> Stock</button></a>
+					<a href="stock.php"><button type="button" class="btn btn-default" id="directpayMenu">Stock</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
-
 			<div class="row">
-				<!--<div class="col-md-4"></div>-->
+				<div class="col-md-4"></div>
 				<div class="col-md-4">
 					<a href="user.php"><button type="button" class="btn btn-default" id="undirectpayMenu">User</button></a>
 				</div>
-				<div class="col-md-4">
-					<a href="expenses.php"><button type="button" class="btn btn-default buttonMenu">Expenses</button></a>
-				</div>
-				<div class="col-md-4">
-					<a href="report.php"><button type="button" class="btn btn-default buttonMenu">Report</button></a>
-				</div>
-				<!--<div class="col-md-4"></div>-->
+				<div class="col-md-4"></div>
 			</div>
-			<!--<div class="row">
+			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
 					<a href="expenses.php"><button type="button" class="btn btn-default buttonMenu">Expenses</button></a>
@@ -103,28 +96,22 @@ else
 					<a href="report.php"><button type="button" class="btn btn-default buttonMenu">Report</button></a>
 				</div>
 				<div class="col-md-4"></div>
-			</div>-->
+			</div>
 			<div class="row">
-				<!--<div class="col-md-4"></div>-->
+				<div class="col-md-4"></div>
 				<div class="col-md-4">
 					<a href="kategori.php"><button type="button" class="btn btn-default buttonMenu">Category</button></a>
 				</div>
-				<div class="col-md-4">
-					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu">Supplier</button></a>
-				</div>
-				<div class="col-md-4">
-					<a href="expired.php"><button type="button" class="btn btn-default buttonMenu">Add Expired</button></a>
-				</div>
-				<!--<div class="col-md-4"></div>-->
-			</div>
-			<!--<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu">Supplier</button></a>
-				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu">Supplier</button></a>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+			<!--<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
 					<a href="expired.php"><button type="button" class="btn btn-default buttonMenu">Add Expired</button></a>

@@ -1,5 +1,11 @@
 <?php
-	session_start();
+    session_start();
+    function rupiah($angka){
+	
+        $hasil_rupiah = number_format($angka,0,'','.');
+        return $hasil_rupiah;
+     
+    }
 	if(empty($_SESSION['username'])){
 		header("location:index.php");
 	}
@@ -12,7 +18,8 @@
 				header("location:index.php");
 			}
 		}
-	}
+    }
+    
 	
     $startDate=$_POST['dateStart'];
     $stopDate=$_POST['dateStop'];
@@ -42,8 +49,8 @@
         $i=0;
         //$html="<option value=''>-- Select Customer --</option>";
         while($row = $result->fetch_assoc()){
-            $data[$i]["nm_transaksi"]=$row["nm_transaksi"]=="" ? "Direct Pay": $k["nm_transaksi"];
-            $data[$i]["total_price"]=$row["total_price"];
+            $data[$i]["nm_transaksi"]=$row["nm_transaksi"]=="" ? "Direct Pay": $row["nm_transaksi"];
+            $data[$i]["total_price"]=rupiah($row["total_price"]);
             $i=$i+1;
         }
         echo json_encode($data);

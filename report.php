@@ -19,7 +19,9 @@ include_once 'koneksi.php';
 
 $barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi;");
 
-$kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
+$kategori= mysqli_query($conn, "SELECT TK.nm_kategori, ROUND(SUM(TB.pur_price*TT.qty)) AS pur_price, ROUND(SUM(TT.total_price)) AS income, ROUND(SUM(TT.total_price-TB.pur_price*TT.qty)) AS profit FROM tb_transaksi TT 
+INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id 
+WHERE TT.statuss=1 GROUP BY TK.nm_kategori;");
 
 $depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0);");
 
@@ -176,9 +178,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								<td><?php echo "--"?></td>
+								<td><?php echo rupiah($i["pur_price"]);?></td>
 								<td><?php echo rupiah($i["income"]);?></td>
-								<td><?php echo "--"?></td>
+								<td><?php echo rupiah($i["profit"]);?></td>
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
@@ -535,6 +537,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						data: {dateStart: startDate, dateStop: stopDate, status: status},
 						dataType: 'json',
 						success: function (data) {
+							//console.log(data);
 							oTable2.fnClearTable();
 							if(data!=[])
 							{
@@ -542,7 +545,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								{
 									oTable2.fnAddData( [
 										data[j].nm_kategori,
+										data[j].pur_price,
 										data[j].income,
+										data[j].profit
 									]);
 								}
 							}
@@ -585,6 +590,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						data: {dateStart: startDate, dateStop: stopDate},
 						dataType: 'json',
 						success: function (data) {
+							//console.log(data);
 							oTable4.fnClearTable();
 							if(data!=[])
 							{
@@ -646,7 +652,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						type: 'post',
 						data: {dateStart: startDate, dateStop: stopDate, status: status},
 						success: function (data) {
-							console.log(data);
+							//console.log(data);
 							//$("#totalIncome").val(data);
 						}
 					});
