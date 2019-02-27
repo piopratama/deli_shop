@@ -96,6 +96,14 @@
 						echo "Error: " . $sql . "<br>" . $conn->error;
 						$check=1;
 					}
+
+					$sql2 = "UPDATE tb_barang SET stock = stock - ".$data[$i]["qty"]." where id =".$data[$i]["id_item"]."";
+					if ($conn->query($sql2) === TRUE) {
+						$last_id = $conn->insert_id;
+					} else {
+						echo "Error: " . $sql2s . "<br>" . $conn->error;
+						$check=1;
+					}
 				}
 
 				if($deposit!="" && $check==0)
