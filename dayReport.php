@@ -25,7 +25,7 @@ $depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit
 
 $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit WHERE `date`=CURDATE() GROUP BY method;");
 
-$paidTrans= mysqli_query($conn,"SELECT SUM(total_price) AS total_price FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=1; ");
+$paidTrans= mysqli_query($conn,"SELECT SUM(total_price) AS total_price FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=1;");
 
 $deposit=0;
 $total_no_deposit=0;
@@ -196,6 +196,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tr>
 								<td><?php echo $j["method"];?></td>
 								<td><?php echo rupiah($j["payment"]);?></td>
+								<?php $total_income=$total_income+$j["payment"]; ?>
 							</tr>
 							<?php $no++; }?>							
 						</tbody>

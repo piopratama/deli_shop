@@ -161,7 +161,7 @@ require 'koneksi.php';
 $sql="select * from tb_transaksi where invoice='".$invoice."' and statuss=0;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-	$sql = "UPDATE tb_transaksi SET statuss=1 WHERE invoice='".$invoice."' and statuss=0";
+	$sql = "UPDATE tb_transaksi SET statuss=1, `tnggl`=NOW() WHERE invoice='".$invoice."' and statuss=0";
 	if ($conn->query($sql) === TRUE) {
 		$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date_db."','".$invoice."', 0, ".$remaining_payment.",'".$method."')";
 		if($conn->query($sql)===TRUE)
