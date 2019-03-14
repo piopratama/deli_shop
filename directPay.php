@@ -118,7 +118,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity">
+								<input type="text" step="0" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
@@ -126,7 +126,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="" class="label_discount">Discount (%)</label>
-								<input type="text" class="form-control discount" value="0" name="discount[]" placeholder="Discount">
+								<input type="text" class="form-control discount" value="0" name="discount[]" placeholder="Discount" onkeypress="return isNumberKey(event)">
 							</div>
 							<div class="form-group">
 								<label for="">Total</label>
@@ -303,16 +303,7 @@ $result = $conn->query($sql);
 							.print();
 						});
 					}
-				});*/
-
-				function formatDate (input) {
-					var currentdate = new Date();
-					var datePart = input.match(/\d+/g),
-					year = datePart[0], // get only two digits
-					month = datePart[1], day = datePart[2];
-
-					return day+'/'+month+'/'+year+' '+currentdate.getHours()+':'+currentdate.getMinutes()+':'+currentdate.getSeconds();
-				}
+				});*/				
 
 				$("#printItem").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
