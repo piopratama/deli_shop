@@ -318,7 +318,8 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('4590384132', '1811');
+						//var printer = new Recta('4590384132', '1811');
+						var printer = new Recta('3245260761', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	

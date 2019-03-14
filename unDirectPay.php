@@ -412,7 +412,8 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('4590384132', '1811');
+						//var printer = new Recta('4590384132', '1811');
+						var printer = new Recta('3245260761', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -490,8 +491,12 @@ $result = $conn->query($sql);
 
 				$("#parent_item_container").on('change','.item',function(event) {
 					var id=$(this).val();
+					var qty=$(this).parent().next().find(".qtyItem");
+					var discount=$(this).parent().next().next().next().find(".discount");
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
+					qty.val(0);
+					discount.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -519,7 +524,7 @@ $result = $conn->query($sql);
 					}
 					total=total-discount*total/100.0;
 
-					price_total.val(total);
+					price_total.val(Math.round(total/1000)*1000);
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
@@ -558,7 +563,7 @@ $result = $conn->query($sql);
 					}
 					total=total-discount*total/100.0;
 
-					price_total.val(total);
+					price_total.val(Math.round(total/1000)*1000);
 					var total=0;
 					$('.total').each(function(i, obj) {
 						if(isNaN($(this).val())==false && $(this).val()!="")
