@@ -4,7 +4,7 @@ Install: composer require phpoffice/phpspreadsheet:dev-develop
 Github: https://github.com/PHPOffice/PhpSpreadsheet/
 Document: https://phpspreadsheet.readthedocs.io/
 */
-
+ini_set('display_errors', 1);
 $status="";
 if(isset($_POST['status']))
 {
@@ -324,3 +324,4 @@ header('Pragma: public'); // HTTP/1.0
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 $writer->save('php://output');
 exit;
+?>
