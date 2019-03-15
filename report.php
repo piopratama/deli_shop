@@ -29,6 +29,10 @@ $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM
 
 $customer= mysqli_query($conn, "SELECT nm_transaksi, SUM(total_price) AS total_price FROM tb_transaksi WHERE statuss=1 GROUP BY nm_transaksi;");
 
+$debt = mysqli_query($conn, "SELECT nm_transaksi, total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 GROUP BY nm_transaksi;");
+
+$debtCustomerOption = mysqli_query($conn, "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice;");
+
 $purchase= mysqli_query($conn, "SELECT tb_kategori.`nm_kategori`, SUM(tb_barang.`pur_price`) FROM tb_barang INNER JOIN tb_kategori ON tb_barang.`kategori`=tb_kategori.`id` GROUP BY tb_kategori.`nm_kategori`;");
 
 $deposit=0;
@@ -108,122 +112,145 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				<div class="row">
 					<div class="col-md-12" id="mytable">
 					<a href="administrator.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
-					<h1> TABEL REPORT</h1>
-					<table id="example" class="table table-bordered" style="width: 100%;">
-						<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-							Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
-							Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
-							Status:
-							<select name="status" id="status">
-								<option value="">Select Status</option>
-								<option value="1">Paid</option>
-								<option value="0">Unpaid</option>
-							</select>
-							<button type="submit" class="btn btn-success" style="margin-left:10px;">Print</button>
-						</div>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Invoice</th>
-								<th>Name</th>
-								<th>Date</th>
-								<th>Employee</th>
-								<th>Item</th>
-								<th>QTY</th>
-								<th>DSC</th>
-								<th>Total Price</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
+					<div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
+						Start: <input style="margin:10px; " type="date" name="dateStart" id="date_start">
+						Until: <input style="margin:10px;" type="date" name="dateStop" id="date_end">
+						Status:
+						<select name="status" id="status">
+							<option value="">Select Status</option>
+							<option value="1">Paid</option>
+							<option value="0">Unpaid</option>
+						</select>
+						Debt Customer:
+						<select name="debt" id="debt">
 							<?php 
-							$no=1;
-							foreach ($barang as $data) {?>
-							<tr>
-								<td><?php echo $no ?></td>
-								<td><?php echo $data["invoice"];?></td>
-								<td><?php echo ($data["nm_transaksi"]=="" ? "Direct Pay": $data["nm_transaksi"]);?></td>
-								<td><?php echo $data["tnggl"];?></td>
-								<td><?php echo $data["nama_pegawai"];?></td>
-								<td><?php echo $data["item"];?></td>
-								<td><?php echo $data["qty"];?></td>
-								<td><?php echo $data["discount"];?></td>
-								<td><?php echo rupiah($data["total_price"]);?></td>
-								<td><?php if($data["statuss"]==0)
-								{
-									echo("not paid");
-								}
-								else{
-									echo("paid");
-								}
-								?></td>
-							</tr>
-							<?php $no++; }?>							
-						</tbody>
-					</table><br>
-					<h1> TABEL REPORT CATEGORY</h1>
-					<table id="example2" class="table table-bordered" style="width: 100%;">
-						<thead>
-							<tr>
-								<th>Category</th>
-								<th>Purchase Price</th>
-								<th>Income</th>
-								<th>Profit</th>
-								
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-							$no=1;
-							foreach ($kategori as $i) {?>
-							<tr>
-								<td><?php echo $i["nm_kategori"];?></td>
-								<td><?php echo rupiah($i["pur_price"]);?></td>
-								<td><?php echo rupiah($i["income"]);?></td>
-								<td><?php echo rupiah($i["profit"]);?></td>
-								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
-							</tr>
-							<?php $no++; }?>							
-						</tbody>
-					</table><br>
-					<h1> TABEL REPORT METHOD</h1>
-					<table id="example3" class="table table-bordered" style="width: 100%;">
-						<thead>
-							<tr>
-								<th>Method</th>
-								<th>Income</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-							$no=1;
-							foreach ($method as $j) {?>
-							<tr>
-								<td><?php echo $j["method"];?></td>
-								<td><?php echo rupiah($j["payment"]);?></td>
-							</tr>
-							<?php $no++; }?>							
-						</tbody>
-					</table>
-					<h1> TABEL REPORT CUSTOMER</h1>
-					<table id="example4" class="table table-bordered" style="width: 100%;">
-						<thead>
-							<tr>
-								<th>Customer</th>
-								<th>Income</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-							$no=1;
-							foreach ($customer as $k) {?>
-							<tr>
-								<td><?php echo ($k["nm_transaksi"]=="" ? "Direct Pay": $k["nm_transaksi"]);?></td>
-								<td><?php echo rupiah($k["total_price"]);?></td>
-							</tr>
-							<?php $no++; }?>							
-						</tbody>
-					</table><br>
+							foreach ($debtCustomerOption as $dc){
+							?>
+							<option value="<?php echo $dc['nm_transaksi']?>"><?php echo $dc['nm_transaksi']?></option>
+							<?php } ?>
+						</select>
+						<button type="submit" class="btn btn-success" style="margin-left:10px;">Print</button>
+					</div>
+					<div id ="table">
+						<h1> TABEL REPORT</h1>
+						<table id="example" class="table table-bordered" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Invoice</th>
+									<th>Name</th>
+									<th>Date</th>
+									<th>Employee</th>
+									<th>Item</th>
+									<th>QTY</th>
+									<th>DSC</th>
+									<th>Total Price</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$no=1;
+								foreach ($barang as $data) {?>
+								<tr>
+									<td><?php echo $no ?></td>
+									<td><?php echo $data["invoice"];?></td>
+									<td><?php echo ($data["nm_transaksi"]=="" ? "Direct Pay": $data["nm_transaksi"]);?></td>
+									<td><?php echo $data["tnggl"];?></td>
+									<td><?php echo $data["nama_pegawai"];?></td>
+									<td><?php echo $data["item"];?></td>
+									<td><?php echo $data["qty"];?></td>
+									<td><?php echo $data["discount"];?></td>
+									<td><?php echo rupiah($data["total_price"]);?></td>
+									<td><?php if($data["statuss"]==0)
+									{
+										echo("not paid");
+									}
+									else{
+										echo("paid");
+									}
+									?></td>
+								</tr>
+								<?php $no++; }?>							
+							</tbody>
+						</table><br>
+					</div>
+					<div id="table2">
+						<h1> TABEL REPORT CATEGORY</h1>
+						<table id="example2" class="table table-bordered" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Category</th>
+									<th>Purchase Price</th>
+									<th>Income</th>
+									<th>Profit</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$no=1;
+								foreach ($kategori as $i) {?>
+								<tr>
+									<td><?php echo $i["nm_kategori"];?></td>
+									<td><?php echo rupiah($i["pur_price"]);?></td>
+									<td><?php echo rupiah($i["income"]);?></td>
+									<td><?php echo rupiah($i["profit"]);?></td>
+									<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
+								</tr>
+								<?php $no++; }?>							
+							</tbody>
+						</table><br>
+					</div>
+					<div id="table3">
+						<h1 > TABEL REPORT METHOD</h1>
+						<table id="example3" class="table table-bordered" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Method</th>
+									<th>Income</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$no=1;
+								foreach ($method as $j) {?>
+								<tr>
+									<td><?php echo $j["method"];?></td>
+									<td><?php echo rupiah($j["payment"]);?></td>
+								</tr>
+								<?php $no++; }?>							
+							</tbody>
+						</table>
+					</div>
+					<div id="table4">
+						<h1> TABEL REPORT CUSTOMER</h1>
+						<table id="example4" class="table table-bordered" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Customer</th>
+									<th>Income</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$no=1;
+								foreach ($customer as $k) {?>
+								<tr>
+									<td><?php echo ($k["nm_transaksi"]=="" ? "Direct Pay": $k["nm_transaksi"]);?></td>
+									<td><?php echo rupiah($k["total_price"]);?></td>
+								</tr>
+								<?php $no++; }?>							
+							</tbody>
+						</table><br>
+					</div>
+					<div id="table5">
+						<h1> TABEL DEBT CUSTOMER</h1>
+						<table id="example5" class="table table-bordered" style="width: 100%;">
+							
+						</table><br>
+					</div>
+					</div>
 					<br><br>
 					<!--<div id="chart-div">
 						<div class="form-group">
@@ -345,6 +372,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				var oTable2=$("#example2").dataTable();
 				var oTable3=$("#example3").dataTable();
 				var oTable4=$("#example4").dataTable();
+				
 				var html=$("#parent_item_container").html();
 				$("#add_item_btn").click(function(event) {
 					$("#parent_item_container").append(html);
@@ -454,6 +482,50 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getDataDeposit();
 					getDataTotalIncome();
 				});
+
+				$("#debt").change(function(){
+					$("#table5").show();
+					getTableDebt();
+					$("#table").hide();
+					$("#table2").hide();
+					$("#table3").hide();
+					$("#table4").hide();
+				});
+
+				$("#table5").hide();
+
+				function getTableDebt()
+				{
+					var customerName=$("#debt").val();
+					$.ajax({
+							url: 'getTableDebt.php',
+							type: 'post',
+							data: {customerName:customerName},
+							dataType: 'text',
+							success: function (data) {
+								console.log(data);
+								$("#example5").html(data);
+								$('#example5').dataTable();
+								
+								//oTable.fnClearTable();
+								
+								/*for(var i=0;i<data.length;i++)
+								{
+									oTable.fnAddData( [
+										data[i].no,
+										data[i].invoice,
+										data[i].nm_transaksi,
+										data[i].tnggl,
+										data[i].nama_pegawai,
+										data[i].item,
+										data[i].qty,
+										data[i].total_price,
+										data[i].status
+									]);
+								}*/
+							}
+						});
+				}
 
 				function getCustomerStatus()
 				{
