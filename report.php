@@ -461,6 +461,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getTableCustomerStatus();
 					getDataIncome();
 					getDataDeposit();
+					$("#table").show();
+					$("#table2").show();
+					$("#table3").show();
+					$("#table4").show();
+					$("#table5").hide();
 				});
 				
 				$("#date_start").change(function(){
@@ -471,6 +476,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getDataIncome();
 					getDataDeposit();
 					getDataTotalIncome();
+					$("#table").show();
+					$("#table2").show();
+					$("#table3").show();
+					$("#table4").show();
+					$("#table5").hide();
 				});
 
 				$("#date_end").change(function(){
@@ -481,6 +491,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					getDataIncome();
 					getDataDeposit();
 					getDataTotalIncome();
+					$("#table").show();
+					$("#table2").show();
+					$("#table3").show();
+					$("#table4").show();
+					$("#table5").hide();
 				});
 
 				$("#debt").change(function(){
