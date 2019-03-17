@@ -139,7 +139,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
+								<input type="text" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
