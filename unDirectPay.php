@@ -139,7 +139,7 @@ $result = $conn->query($sql);
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label>
-								<input type="number" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
+								<input type="text" step="any" min="0" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
 							</div>
 							<div class="form-group">
 								<label for="" class="label_price">Price</label>
@@ -617,6 +617,94 @@ $result = $conn->query($sql);
 							}
 						});
 				});
+
+				$(document).scannerDetection({
+					timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+					startChar: [120], // Prefix character for the cabled scanner (OPL6845R)
+					endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+					avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
+					//ignoreIfFocusOn: 'input',
+					onComplete: function(barcode, qty){
+						
+					} // main callback function	
+				});
+
+				function getItemScanner()
+				{
+					$.ajax({
+							url: 'getItemByBarcode.php',
+							type: 'post',
+							data: {barcode:123},
+							dataType: 'json',
+							success: function (data) {
+								if(data!="")
+								{
+									var gotData=false;
+									$('.myItem').each(function(i, obj) {
+										if(isNaN($(this).val())==false && $(this).val()!="")
+										{
+											var id=$(this).val();
+											if(id==data)
+											{
+												gotData=true;
+												var currQty=$(this).parent().next().find(".qtyItem").val();
+												if(currQty=="")
+												{
+													currQty=0;
+												}
+												currQty=parseFloat(currQty)+1;
+												$(this).parent().next().find(".qtyItem").val(currQty);
+												$(this).parent().next().find(".qtyItem").keyup();
+												return false;
+											}
+										}
+									});
+									if(!gotData)
+									{
+										gotData=false;
+										$('.myItem').each(function(i, obj) {
+											if(isNaN($(this).val())==true || $(this).val()=="")
+											{
+												$(this).val(data).change();
+												gotData=true;
+												var currQty=$(this).parent().next().find(".qtyItem").val();
+												if(currQty=="")
+												{
+													currQty=0;
+												}
+												currQty=parseFloat(currQty)+1;
+												$(this).parent().next().find(".qtyItem").val(currQty);
+												$(this).parent().next().find(".qtyItem").keyup();
+												return false;
+											}
+										});
+
+										if(!gotData)
+										{
+											$('.myItem').each(function(i, obj) {
+												if(isNaN($(this).val())==true || $(this).val()=="")
+												{
+													$("#add_item_btn").click();
+													$(this).val(data).change();
+													var currQty=$(this).parent().next().find(".qtyItem").val();
+													if(currQty=="")
+													{
+														currQty=0;
+													}
+													currQty=parseFloat(currQty)+1;
+													$(this).parent().next().find(".qtyItem").val(currQty);
+													$(this).parent().next().find(".qtyItem").keyup();
+													return false;
+												}
+											});
+										}
+									}
+								}
+							}
+						});
+				}
+
+				//setInterval(getItemScanner, 3000);
 			});
 		</script>
 	</body>

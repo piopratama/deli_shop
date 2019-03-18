@@ -111,12 +111,20 @@ $result2 = $conn->query($supplier);
 										</td>
 										</tr>
 										<tr>
-											<td><div class="form-group">
-										      
+											<td>
+												<div class="form-group">
+										      <label for="barcode">Barcode :</label>
+										      <input type="text" style="width: 200%;" class="form-control" name="barcode" id="barcode">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group">
 										      <label for="usr">Name :</label>
 										      <input type="text" style="width: 200%;" class="form-control" name="name" id="usr" required="required">
-											</div>
-										</td>
+												</div>
+											</td>
 										</tr>
 										<tr>
 											
