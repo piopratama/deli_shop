@@ -230,88 +230,14 @@ $result = $conn->query($sql);
 					}
 
 					return rupiah;
-				}
-
-				/*$("#printBtn").click(function(event) {
-					var grandTotalCheck=$("#grandTotal").val();
-					if(grandTotalCheck!="" && grandTotalCheck!="0")
-					{
-						var printer = new Recta('4590384132', '1811');
-						printer.open().then(function () {
-							var x=[];
-							printer.align('center')	
-							.text('DELI POINT')
-							.bold(true)
-							.text(formatDate($("#date").val()))
-							.text('Jalan Puncak Waringin')
-							.text('Labuan Bajo - Flores')
-							.text('+62 812 3605 8607')
-							.text('delipointkomodo@gmail.com')
-							.text('cashier : '+casier_name)
-							.text('------------------------------');
-							printer.align('left')
-							.text()
-							.bold(true);
-							
-							$(".qtyItem").each(function() {
-								x.push({qty:$(this).val(),item:"",price:"", discount: "", total:""});
-							});
-							var i=0;
-							$(".myItem").each(function() {
-								x[i].item=$(this).find('option:selected').text();
-								i=i+1;
-							});
-							i=0;
-							$(".price").each(function() {
-								x[i].price=$(this).val();
-								i=i+1;
-							});
-							i=0;
-							$(".discount").each(function() {
-								if($(this).val()!="")
-								{
-									x[i].discount=$(this).val();
-								}
-								else
-								{
-									x[i].discount=0;
-								}
-								i=i+1;
-							});
-							i=0;
-							$(".total").each(function() {
-								x[i].total=$(this).val()-$(this).val()*x[i].discount/100.0;
-								i=i+1;
-							});
-							i=0;
-							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Discount(%)     Total(Rp)")
-							.bold(true);
-							printer.text("");
-							for(var j=0;j<x.length;j++)
-							{
-								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].discount+"     "+x[j].total);
-								printer.text("");
-							}
-							alert("hay");
-							printer.bold(true);
-							printer.text("------------------------------")
-							printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
-							printer.text("Payment     : "+numberToRupiah(parseFloat($("#payment").val()))).bold(true);
-							printer.text("Change : "+numberToRupiah(parseFloat($("#change").val()))).bold(true)
-							.cut()
-							.print();
-						});
-					}
-				});*/				
+				}				
 
 				$("#printItem").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						//var printer = new Recta('4590384132', '1811');
-						var printer = new Recta('3245260761', '1811');
+						var printer = new Recta('4590384132', '1811');
+						//var printer = new Recta('3245260761', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -590,16 +516,16 @@ $result = $conn->query($sql);
 					avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
 					//ignoreIfFocusOn: 'input',
 					onComplete: function(barcode, qty){
-						
+						getItemScanner(barcode);
 					} // main callback function	
 				});
 
-				function getItemScanner()
+				function getItemScanner(barcode)
 				{
 					$.ajax({
 							url: 'getItemByBarcode.php',
 							type: 'post',
-							data: {barcode:123},
+							data: {barcode:barcode},
 							dataType: 'json',
 							success: function (data) {
 								if(data!="")

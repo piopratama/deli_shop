@@ -6,7 +6,6 @@
 <script src="./assets/select2.min.js"></script>
 <script src="./assets/jquery.dataTables.min.js"></script>
 <script src="./assets/chart.js"></script>
-<script src="./assets/chart.js"></script>
 <script src="./assets/jquery.scannerdetection.compatibility.js"></script>
 <script src="./assets/jquery.scannerdetection.js"></script>
 <br>
