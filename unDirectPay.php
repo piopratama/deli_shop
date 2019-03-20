@@ -19,6 +19,9 @@ else
 require 'koneksi.php';
 $sql = "SELECT invoice, nm_transaksi FROM tb_transaksi where statuss='0' group by invoice;";
 $result = $conn->query($sql);
+
+$sql2 = "SELECT * FROM tb_api";
+$api = $conn->query($sql2);
 ?>
 <!DOCTYPE html>
 <html>
@@ -217,6 +220,13 @@ $result = $conn->query($sql);
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
 			$session_casier=(isset($_SESSION['nama']))?$_SESSION['nama']:'';
+			$apiPrinter="";
+			$portPrinter="";
+			foreach($api as $val)
+			{
+				$apiPrinter = $val["api"];
+				$portPrinter = $val["port"];
+			}
 		?>
 		<?php include('./templates/footer.php'); ?>
 		<script>
@@ -226,6 +236,8 @@ $result = $conn->query($sql);
 				var invoice='<?php if(isset($_SESSION['invoice'])){ echo $_SESSION['invoice']; } ?>';
 				$("#printBtn").attr('disabled', 'disabled');
 				$("#printItem").attr('disabled', 'disabled');
+				var api = '<?php echo $apiPrinter;?>';
+				var port = '<?php echo $portPrinter;?>';
 				
 				if(message!="")
 				{
@@ -345,7 +357,7 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('7663845452', '1811');
+						var printer = new Recta(api.toString(), port.toString());
 						//var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];

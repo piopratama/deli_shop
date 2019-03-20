@@ -203,6 +203,14 @@ $api = $conn->query($sql2);
 			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
 			unset($_SESSION['message']);
 			$session_casier=(isset($_SESSION['nama']))?$_SESSION['nama']:'';
+			$apiPrinter="";
+			$portPrinter="";
+			foreach($api as $val)
+			{
+				$apiPrinter = $val["api"];
+				$portPrinter = $val["port"];
+			}
+			
 		?>
 		<?php include('./templates/footer.php'); ?>
 		<script>
@@ -211,6 +219,8 @@ $api = $conn->query($sql2);
 				var casier_name='<?php echo $session_casier;?>';
 				$("#printBtn").attr('disabled', 'disabled');
 				$("#printItem").attr('disabled', 'disabled');
+				var api = '<?php echo $apiPrinter;?>';
+				var port = '<?php echo $portPrinter;?>';
 				var manyItem=1;
 
 				if(message!="")
@@ -241,7 +251,7 @@ $api = $conn->query($sql2);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('7663845452', '1811');
+						var printer = new Recta(api.toString(), port.toString());
 						//var printer = new Recta('4590384132', '1811');
 
 						printer.open().then(function () {
