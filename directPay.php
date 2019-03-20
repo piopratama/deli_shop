@@ -359,8 +359,9 @@ $result = $conn->query($sql);
 					var price_field=$(this).parent().next().next().find(".price");
 					var discount=$(this).parent().next().next().next().find(".discount");
 					var label_price=$(this).parent().next().next().find(".label_price");
-					qty.val(0);
-					discount.val(0);
+					var total=$(this).parent().next().next().next().next().find(".total");
+					//qty.val(0);
+					//discount.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -371,6 +372,7 @@ $result = $conn->query($sql);
 								//console.log(data);
 								price_field.val(data[0].price);
 								label_price.html("Price ("+data[0].unit+")");
+								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
 							}
 						});
 				});
@@ -518,18 +520,19 @@ $result = $conn->query($sql);
 					avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
 					//ignoreIfFocusOn: 'input',
 					onComplete: function(barcode, qty){
-						
+						getItemScanner(barcode);
 					} // main callback function	
 				});
 
-				function getItemScanner()
+				function getItemScanner(barcode)
 				{
 					$.ajax({
 							url: 'getItemByBarcode.php',
 							type: 'post',
-							data: {barcode:123},
+							data: {barcode:barcode},
 							dataType: 'json',
 							success: function (data) {
+								console.log(data);
 								if(data!="")
 								{
 									var gotData=false;
@@ -558,7 +561,7 @@ $result = $conn->query($sql);
 										$('.myItem').each(function(i, obj) {
 											if(isNaN($(this).val())==true || $(this).val()=="")
 											{
-												$(this).val(data).change();
+												
 												gotData=true;
 												var currQty=$(this).parent().next().find(".qtyItem").val();
 												if(currQty=="")
@@ -567,18 +570,17 @@ $result = $conn->query($sql);
 												}
 												currQty=parseFloat(currQty)+1;
 												$(this).parent().next().find(".qtyItem").val(currQty);
-												$(this).parent().next().find(".qtyItem").keyup();
+												$(this).val(data).change();
 												return false;
 											}
 										});
 
 										if(!gotData)
 										{
+											$("#add_item_btn").click();
 											$('.myItem').each(function(i, obj) {
 												if(isNaN($(this).val())==true || $(this).val()=="")
-												{
-													$("#add_item_btn").click();
-													$(this).val(data).change();
+												{													
 													var currQty=$(this).parent().next().find(".qtyItem").val();
 													if(currQty=="")
 													{
@@ -586,7 +588,7 @@ $result = $conn->query($sql);
 													}
 													currQty=parseFloat(currQty)+1;
 													$(this).parent().next().find(".qtyItem").val(currQty);
-													$(this).parent().next().find(".qtyItem").keyup();
+													$(this).val(data).change();
 													return false;
 												}
 											});

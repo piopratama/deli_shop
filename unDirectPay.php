@@ -485,10 +485,9 @@ $result = $conn->query($sql);
 					var id=$(this).val();
 					var qty=$(this).parent().next().find(".qtyItem");
 					var discount=$(this).parent().next().next().next().find(".discount");
+					var total=$(this).parent().next().next().next().next().find(".total");
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
-					qty.val(0);
-					discount.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -498,6 +497,7 @@ $result = $conn->query($sql);
 								//price_field.val(data);
 								price_field.val(data[0].price);
 								label_price.html("Price ("+data[0].unit+")");
+								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
 							}
 						});
 				});
@@ -657,7 +657,6 @@ $result = $conn->query($sql);
 										$('.myItem').each(function(i, obj) {
 											if(isNaN($(this).val())==true || $(this).val()=="")
 											{
-												$(this).val(data).change();
 												gotData=true;
 												var currQty=$(this).parent().next().find(".qtyItem").val();
 												if(currQty=="")
@@ -666,7 +665,7 @@ $result = $conn->query($sql);
 												}
 												currQty=parseFloat(currQty)+1;
 												$(this).parent().next().find(".qtyItem").val(currQty);
-												$(this).parent().next().find(".qtyItem").keyup();
+												$(this).val(data).change();
 												return false;
 											}
 										});
@@ -677,7 +676,6 @@ $result = $conn->query($sql);
 												if(isNaN($(this).val())==true || $(this).val()=="")
 												{
 													$("#add_item_btn").click();
-													$(this).val(data).change();
 													var currQty=$(this).parent().next().find(".qtyItem").val();
 													if(currQty=="")
 													{
@@ -685,7 +683,7 @@ $result = $conn->query($sql);
 													}
 													currQty=parseFloat(currQty)+1;
 													$(this).parent().next().find(".qtyItem").val(currQty);
-													$(this).parent().next().find(".qtyItem").keyup();
+													$(this).val(data).change();
 													return false;
 												}
 											});
