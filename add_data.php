@@ -92,8 +92,8 @@ $result2 = $conn->query($supplier);
 											<td>
 												<div class="form-group">
 										      
-										      <label>category :</label>
-										      <select class="form-control myItem2" name="category" style="width: 200%;">
+										      <label>category* :</label>
+										      <select class="form-control myItem2" name="category" style="width: 200%;" required="required">
 													<option value="">-- Select Category --</option>
 													<?php
 														if ($result->num_rows > 0) {
@@ -121,7 +121,7 @@ $result2 = $conn->query($supplier);
 										<tr>
 											<td>
 												<div class="form-group">
-										      <label for="usr">Name :</label>
+										      <label for="usr">Name* :</label>
 										      <input type="text" style="width: 200%;" class="form-control" name="name" id="usr" required="required">
 												</div>
 											</td>
@@ -129,28 +129,28 @@ $result2 = $conn->query($supplier);
 										<tr>
 											
 											<td>	<div class="form-group">
-										      <label for="usr">Price :</label>
+										      <label for="usr">Price* :</label>
 										      <input type="text" class="form-control" name="price" id="rupiah" style="width: 200%;" required="required">
 										    </div></td>
 										</tr>
 										<tr>
 											
 											<td>	<div class="form-group">
-										      <label for="usr">Stock :</label>
+										      <label for="usr">Stock (Current Stock + New Stock)* :</label>
 										      <input type="text" class="form-control" name="stock" id="usr" style="width: 200%;" required="required">
 										    </div></td>
 										</tr>
 										<tr>
 											
 											<td>	<div class="form-group">
-										      <label for="usr">Unit</label>
+										      <label for="usr">Unit*:</label>
 										      <input type="text" class="form-control" name="unit" id="usr" style="width: 200%;" required="required">
 										    </div></td>
 										</tr>
 										<tr>
 											
 											<td>	<div class="form-group">
-										      <label for="usr">Purchase Price :</label>
+										      <label for="usr">Purchase Price* :</label>
 										      <input type="text" class="form-control" name="purchase_price" id="rupiah" style="width: 200%;" required="required">
 										    </div></td>
 										</tr>
