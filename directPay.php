@@ -205,10 +205,20 @@ $api = $conn->query($sql2);
 			$session_casier=(isset($_SESSION['nama']))?$_SESSION['nama']:'';
 			$apiPrinter="";
 			$portPrinter="";
+			$namePrinter="";
+			$address="";
+			$address2="";
+			$phone="";
+			$email="";
 			foreach($api as $val)
 			{
 				$apiPrinter = $val["api"];
 				$portPrinter = $val["port"];
+				$namePrinter = $val["name"];
+				$address=$val["address"];
+				$address2=$val["address2"];
+				$phone=$val["phone"];
+				$email=$val["email"];
 			}
 			
 		?>
@@ -221,6 +231,11 @@ $api = $conn->query($sql2);
 				$("#printItem").attr('disabled', 'disabled');
 				var api = '<?php echo $apiPrinter;?>';
 				var port = '<?php echo $portPrinter;?>';
+				var namePrinter = '<?php echo $namePrinter;?>';
+				var address = '<?php echo $address;?>';
+				var address2 = '<?php echo $address2;?>';
+				var phone = '<?php echo $phone;?>';
+				var email = '<?php echo $email;?>';
 				var manyItem=1;
 
 				if(message!="")
@@ -257,13 +272,13 @@ $api = $conn->query($sql2);
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
-							.text('DELI POINT')
+							.text(namePrinter)
 							.bold(true)
 							.text(mydate)
-							.text('Jalan Puncak Waringin')
-							.text('Labuan Bajo - Flores')
-							.text('+62 812 3605 8607')
-							.text('delipointkomodo@gmail.com')
+							.text(address)
+							.text(address2)
+							.text(phone)
+							.text(email)
 							.text('cashier : '+casier_name)
 							.text('------------------------------');
 							printer.align('left')
