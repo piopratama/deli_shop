@@ -230,7 +230,11 @@ $result = $conn->query($sql);
 					}
 
 					return rupiah;
+<<<<<<< HEAD
+				}				
+=======
 				}
+>>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
 
 				$("#printItem").click(function(event) {
 					var mydate = formatDate(new Date($("#date").val()));
@@ -238,8 +242,17 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
+<<<<<<< HEAD
 						//var printer = new Recta('4590384132', '1811');
 						var printer = new Recta('7663845452', '1811');
+=======
+						var printer = new Recta('4590384132', '1811');
+<<<<<<< HEAD
+						//var printer = new Recta('3245260761', '1811');
+=======
+						//var printer = new Recta('7663845452', '1811');
+>>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
+>>>>>>> c40fce564a079a6d91e27196ef1fad225788dfe1
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
