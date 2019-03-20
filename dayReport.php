@@ -93,10 +93,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					</div>
 				</div>
 			</div>
-
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
-
 					<div class="col-md-12" id="mytable">
 					<a href="mainMenu.php" style="margin-left: 5px; margin-bottom: 10px;" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a><br>
 					<h1> TABEL REPORT</h1>

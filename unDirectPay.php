@@ -456,6 +456,7 @@ $api = $conn->query($sql2);
 					var total=$(this).parent().next().next().next().next().find(".total");
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
+					var grand = 0;
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -466,6 +467,14 @@ $api = $conn->query($sql2);
 								price_field.val(data[0].price);
 								label_price.html("Price ("+data[0].unit+")");
 								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
+								$('.total').each(function(i, obj) {
+									if(isNaN($(this).val())==false && $(this).val()!="")
+									{
+										grand=grand+parseFloat($(this).val());
+										//total=total+trash*total;
+									}
+								});
+								$("#grandTotal").val(grand);
 							}
 						});
 				});
@@ -585,7 +594,7 @@ $api = $conn->query($sql2);
 					avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
 					//ignoreIfFocusOn: 'input',
 					onComplete: function(barcode, qty){
-						
+						getItemScanner(barcode);
 					} // main callback function	
 				});
 

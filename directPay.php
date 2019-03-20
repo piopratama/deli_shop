@@ -389,6 +389,7 @@ $api = $conn->query($sql2);
 					var discount=$(this).parent().next().next().next().find(".discount");
 					var label_price=$(this).parent().next().next().find(".label_price");
 					var total=$(this).parent().next().next().next().next().find(".total");
+					var grand=0;
 					//qty.val(0);
 					//discount.val(0);
 					$.ajax({
@@ -402,6 +403,14 @@ $api = $conn->query($sql2);
 								price_field.val(data[0].price);
 								label_price.html("Price ("+data[0].unit+")");
 								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
+								$('.total').each(function(i, obj) {
+									if(isNaN($(this).val())==false && $(this).val()!="")
+									{
+										grand=grand+parseFloat($(this).val());
+										//total=total+trash*total;
+									}
+								});
+								$("#grandTotal").val(grand);
 							}
 						});
 				});
