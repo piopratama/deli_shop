@@ -340,6 +340,7 @@ $result = $conn->query($sql);
 						});
 					}
 				});
+<<<<<<< HEAD
 				
 				function formatDate (input) {
 					var currentdate = new Date();
@@ -349,19 +350,84 @@ $result = $conn->query($sql);
 
 					return day+'/'+month+'/'+year+' '+currentdate.getHours()+':'+currentdate.getMinutes()+':'+currentdate.getSeconds();
 				}
+=======
 
-				$("#printItem").click(function(event) {
+				/*$("#printBtn").click(function(event) {
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
 						var printer = new Recta('4590384132', '1811');
+						printer.open().then(function () {
+							var x=[];
+							printer.align('center')	
+							.text('DELI SHOP')
+							.bold(true)
+							.text($("#date").val())	
+							.text("Invoice : ")
+							printer.text(invoice)
+							.text('------------------------------');
+							printer.align('left')
+							.text()
+							.bold(true);
+							
+							$(".qtyItem").each(function() {
+								x.push({qty:$(this).val(),item:"",price:"",total:""});
+							});
+							var i=0;
+							$(".item").each(function() {
+								x[i].item=$(this).find('option:selected').text();
+								i=i+1;
+							});
+							i=0;
+							$(".price").each(function() {
+								x[i].price=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							$(".total").each(function() {
+								x[i].total=$(this).val();
+								i=i+1;
+							});
+							i=0;
+							printer.text("Item").bold(true);
+							printer.text("Qty     Price(Rp)     Total(Rp)")
+							.bold(true);
+							printer.text("");
+							for(var j=0;j<x.length;j++)
+							{
+								printer.text(x[j].item);
+								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
+								printer.text("");
+							}
+							
+							printer.bold(true);
+							printer.text("------------------------------")
+							printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
+							printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true)
+							.cut()
+							.print();
+						});
+					}
+				});*/
+>>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
+
+				$("#printItem").click(function(event) {
+					var mydate = formatDate(new Date($("#date").val()));
+					var grandTotalCheck=$("#grandTotal").val();
+					if(grandTotalCheck!="" && grandTotalCheck!="0")
+					{
+						var printer = new Recta('4590384132', '1811');
+<<<<<<< HEAD
 						//var printer = new Recta('3245260761', '1811');
+=======
+						//var printer = new Recta('7663845452', '1811');
+>>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
 							.text('DELI POINT')
 							.bold(true)
-							.text(formatDate($("#date").val()))
+							.text(mydate)
 							.text('Jalan Puncak Waringin')
 							.text('Labuan Bajo - Flores')
 							.text('+62 812 3605 8607')
@@ -435,10 +501,9 @@ $result = $conn->query($sql);
 					var id=$(this).val();
 					var qty=$(this).parent().next().find(".qtyItem");
 					var discount=$(this).parent().next().next().next().find(".discount");
+					var total=$(this).parent().next().next().next().next().find(".total");
 					var price_field=$(this).parent().next().next().find(".price");
 					var label_price=$(this).parent().next().next().find(".label_price");
-					qty.val(0);
-					discount.val(0);
 					$.ajax({
 							url: 'checkItemPrice.php',
 							type: 'post',
@@ -448,6 +513,7 @@ $result = $conn->query($sql);
 								//price_field.val(data);
 								price_field.val(data[0].price);
 								label_price.html("Price ("+data[0].unit+")");
+								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
 							}
 						});
 				});
@@ -607,7 +673,6 @@ $result = $conn->query($sql);
 										$('.myItem').each(function(i, obj) {
 											if(isNaN($(this).val())==true || $(this).val()=="")
 											{
-												$(this).val(data).change();
 												gotData=true;
 												var currQty=$(this).parent().next().find(".qtyItem").val();
 												if(currQty=="")
@@ -616,7 +681,7 @@ $result = $conn->query($sql);
 												}
 												currQty=parseFloat(currQty)+1;
 												$(this).parent().next().find(".qtyItem").val(currQty);
-												$(this).parent().next().find(".qtyItem").keyup();
+												$(this).val(data).change();
 												return false;
 											}
 										});
@@ -627,7 +692,6 @@ $result = $conn->query($sql);
 												if(isNaN($(this).val())==true || $(this).val()=="")
 												{
 													$("#add_item_btn").click();
-													$(this).val(data).change();
 													var currQty=$(this).parent().next().find(".qtyItem").val();
 													if(currQty=="")
 													{
@@ -635,7 +699,7 @@ $result = $conn->query($sql);
 													}
 													currQty=parseFloat(currQty)+1;
 													$(this).parent().next().find(".qtyItem").val(currQty);
-													$(this).parent().next().find(".qtyItem").keyup();
+													$(this).val(data).change();
 													return false;
 												}
 											});

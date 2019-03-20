@@ -20,6 +20,11 @@ if(isset($_POST['dateStart']))
 {
     $stopDate=$_POST['dateStop'];
 }
+$debt="";
+if(isset($_POST['debt']))
+{
+    $debt=$_POST['debt'];
+}
 
 require 'vendor/autoload.php';
 
@@ -143,6 +148,8 @@ else
         $sql = "SELECT nm_transaksi, SUM(total_price) AS total_price FROM tb_transaksi WHERE statuss=1 GROUP BY nm_transaksi;";
 }
 $customer=mysqli_query($conn, $sql);
+
+$debt=mysqli_query($conn,"SELECT nm_transaksi, SUM(total_price) AS total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND nm_transaksi='$debt'");
 
 $deposit=0;
 $total_no_deposit=0;
@@ -288,21 +295,51 @@ $spreadsheet->setActiveSheetIndex(3)
 // Rename worksheet
 $spreadsheet->getActiveSheet()->setTitle('Customer Report');
 
-
+//--------------------------------------------------------------------------------------
 $spreadsheet->createSheet();
 // Add some data
 $spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(1, 1, "No.");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(2, 1, "Customer");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(3, 1, "Total Price");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(4, 1, "Deposit");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(5, 1, "Debt");
+
+$m=2;
+foreach ($debt as $data5) {
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(1, $m, $m-1);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(2, $m, $data5["nm_transaksi"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(3, $m, $data5["total_price"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(4, $m, $data5["deposit"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(5, $m, $data5["total_price"]-$data5["deposit"]);
+        $m=$m+1;
+}
+// Rename worksheet
+$spreadsheet->getActiveSheet()->setTitle('Customer Debt');
+
+$spreadsheet->createSheet();
+// Add some data
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(1, 1, "Total Category :");
-$spreadsheet->setActiveSheetIndex(4)
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(1, 2, "Total Deposit  :");
-$spreadsheet->setActiveSheetIndex(4)
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(1, 3, "Total Income   :");
 
-$spreadsheet->setActiveSheetIndex(4)
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(2, 1, "Rp.".($total_no_deposit));
-$spreadsheet->setActiveSheetIndex(4)
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(2, 2, "Rp.".($deposit));
-$spreadsheet->setActiveSheetIndex(4)
+$spreadsheet->setActiveSheetIndex(5)
         ->setCellValueByColumnAndRow(2, 3, "Rp.".($total_no_deposit+$deposit));
 
 // Rename worksheet

@@ -19,6 +19,8 @@
 						return true;
 					return false;
 				}
+
+       
     </script>
     <?php
         function rupiah($angka){

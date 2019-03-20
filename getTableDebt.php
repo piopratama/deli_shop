@@ -20,11 +20,11 @@
 		}
 	}
 	
-    $customerName=$_POST['customerName'];
+    $invoice=$_POST['invoice'];
 
     require 'koneksi.php';
     //echo json_encode($debt);
-    $sql = "SELECT nm_transaksi, SUM(total_price) AS total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND nm_transaksi='$customerName'";
+    $sql = "SELECT nm_transaksi, SUM(total_price) AS total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='$invoice'";
     //echo json_encode($sql);
     
     $result = $conn->query($sql);
