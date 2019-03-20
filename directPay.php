@@ -238,8 +238,8 @@ $result = $conn->query($sql);
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-						var printer = new Recta('4590384132', '1811');
-						//var printer = new Recta('7663845452', '1811');
+						//var printer = new Recta('4590384132', '1811');
+						var printer = new Recta('7663845452', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
@@ -396,7 +396,7 @@ $result = $conn->query($sql);
 						if(isNaN($(this).val())==false && $(this).val()!="")
 						{
 							total=total+parseFloat($(this).val());
-							//total=total+0.1*total;
+							//total=total+trash*total;
 							grand.val(total);
 							var grandtotal=parseFloat(grand.val())+parseFloat(grand.val())*0;
 							grand_total.val(grandtotal);

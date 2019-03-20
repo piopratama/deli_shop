@@ -130,14 +130,14 @@ $result2 = $conn->query($supplier);
 											
 											<td>	<div class="form-group">
 										      <label for="usr">Price* :</label>
-										      <input type="text" class="form-control" name="price" id="rupiah" style="width: 200%;" required="required">
+										      <input type="text" class="form-control" name="price" id="rupiah" style="width: 200%;" required="required" onkeypress="return isNumberKey(event)">
 										    </div></td>
 										</tr>
 										<tr>
 											
 											<td>	<div class="form-group">
 										      <label for="usr">Stock (Current Stock + New Stock)* :</label>
-										      <input type="text" class="form-control" name="stock" id="usr" style="width: 200%;" required="required">
+										      <input type="text" class="form-control" name="stock" id="usr" style="width: 200%;" required="required" onkeypress="return isNumberKey(event)">
 										    </div></td>
 										</tr>
 										<tr>
@@ -151,7 +151,7 @@ $result2 = $conn->query($supplier);
 											
 											<td>	<div class="form-group">
 										      <label for="usr">Purchase Price* :</label>
-										      <input type="text" class="form-control" name="purchase_price" id="rupiah" style="width: 200%;" required="required">
+										      <input type="text" class="form-control" name="purchase_price" id="rupiah" style="width: 200%;" required="required" onkeypress="return isNumberKey(event)">
 										    </div></td>
 										</tr>
 										<tr>

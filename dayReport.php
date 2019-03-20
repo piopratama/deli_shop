@@ -162,6 +162,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</div>
 					</div>
 					<h1> TABEL REPORT CATEGORY</h1>
+					<h3>Only Paid Transaction (Does't Include Deposit)</h3>
 					<table id="example2" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -182,6 +183,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						</tbody>
 					</table>
 					<h1> TABEL REPORT METHOD</h1>
+					<h3>Finished Transaction Include Deposit Unfinished Transaction</h3>
 					<table id="example3" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -192,6 +194,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 						<tbody>
 							<?php 
 							$no=1;
+							$total_income=0;
 							foreach ($method as $j) {?>
 							<tr>
 								<td><?php echo $j["method"];?></td>
