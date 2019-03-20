@@ -598,18 +598,18 @@ $api = $conn->query($sql2);
 					} // main callback function	
 				});
 
-				function getItemScanner()
+				function getItemScanner(barcode)
 				{
 					$.ajax({
 							url: 'getItemByBarcode.php',
 							type: 'post',
-							data: {barcode:123},
+							data: {barcode:barcode},
 							dataType: 'json',
 							success: function (data) {
 								if(data!="")
 								{
 									var gotData=false;
-									$('.myItem').each(function(i, obj) {
+									$('.item').each(function(i, obj) {
 										if(isNaN($(this).val())==false && $(this).val()!="")
 										{
 											var id=$(this).val();
@@ -631,7 +631,7 @@ $api = $conn->query($sql2);
 									if(!gotData)
 									{
 										gotData=false;
-										$('.myItem').each(function(i, obj) {
+										$('.item').each(function(i, obj) {
 											if(isNaN($(this).val())==true || $(this).val()=="")
 											{
 												gotData=true;
@@ -649,7 +649,7 @@ $api = $conn->query($sql2);
 
 										if(!gotData)
 										{
-											$('.myItem').each(function(i, obj) {
+											$('.item').each(function(i, obj) {
 												if(isNaN($(this).val())==true || $(this).val()=="")
 												{
 													$("#add_item_btn").click();
