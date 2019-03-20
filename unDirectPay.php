@@ -338,93 +338,15 @@ $result = $conn->query($sql);
 						});
 					}
 				});
-<<<<<<< HEAD
-				
-				function formatDate (input) {
-					var currentdate = new Date();
-					var datePart = input.match(/\d+/g),
-					year = datePart[0], // get only two digits
-					month = datePart[1], day = datePart[2];
 
-					return day+'/'+month+'/'+year+' '+currentdate.getHours()+':'+currentdate.getMinutes()+':'+currentdate.getSeconds();
-				}
-=======
-
-				/*$("#printBtn").click(function(event) {
-					var grandTotalCheck=$("#grandTotal").val();
-					if(grandTotalCheck!="" && grandTotalCheck!="0")
-					{
-						var printer = new Recta('4590384132', '1811');
-						printer.open().then(function () {
-							var x=[];
-							printer.align('center')	
-							.text('DELI SHOP')
-							.bold(true)
-							.text($("#date").val())	
-							.text("Invoice : ")
-							printer.text(invoice)
-							.text('------------------------------');
-							printer.align('left')
-							.text()
-							.bold(true);
-							
-							$(".qtyItem").each(function() {
-								x.push({qty:$(this).val(),item:"",price:"",total:""});
-							});
-							var i=0;
-							$(".item").each(function() {
-								x[i].item=$(this).find('option:selected').text();
-								i=i+1;
-							});
-							i=0;
-							$(".price").each(function() {
-								x[i].price=$(this).val();
-								i=i+1;
-							});
-							i=0;
-							$(".total").each(function() {
-								x[i].total=$(this).val();
-								i=i+1;
-							});
-							i=0;
-							printer.text("Item").bold(true);
-							printer.text("Qty     Price(Rp)     Total(Rp)")
-							.bold(true);
-							printer.text("");
-							for(var j=0;j<x.length;j++)
-							{
-								printer.text(x[j].item);
-								printer.text(x[j].qty+"       "+x[j].price+"     "+x[j].total);
-								printer.text("");
-							}
-							
-							printer.bold(true);
-							printer.text("------------------------------")
-							printer.text("Grand Total : "+numberToRupiah(parseFloat($("#grandTotal").val()))).bold(true);
-							printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true)
-							.cut()
-							.print();
-						});
-					}
-				});*/
->>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
 
 				$("#printItem").click(function(event) {
 					var mydate = formatDate(new Date($("#date").val()));
 					var grandTotalCheck=$("#grandTotal").val();
 					if(grandTotalCheck!="" && grandTotalCheck!="0")
 					{
-<<<<<<< HEAD
-						//var printer = new Recta('4590384132', '1811');
 						var printer = new Recta('7663845452', '1811');
-=======
-						var printer = new Recta('4590384132', '1811');
-<<<<<<< HEAD
-						//var printer = new Recta('3245260761', '1811');
-=======
-						//var printer = new Recta('7663845452', '1811');
->>>>>>> b01b6267187ef85f1adeaeaa869d0b387d89178b
->>>>>>> c40fce564a079a6d91e27196ef1fad225788dfe1
+						//var printer = new Recta('4590384132', '1811');
 						printer.open().then(function () {
 							var x=[];
 							printer.align('center')	
