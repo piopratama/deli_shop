@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-$title="Update Stock";
+$title="Perbarui API";
 
 if(empty($_SESSION['username'])){
 	header("location:index.php");
@@ -62,7 +62,7 @@ $result = $conn->query($sql);
 
 					
 					<div class="col-md-4 sidebar">
-						<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left"  href="stock.php"></a>
+						<a type="button" class="btn btn-danger glyphicon glyphicon-arrow-left"  href="api.php"></a>
 					</div>
 					
 					<div class="col-md-8 articles">
