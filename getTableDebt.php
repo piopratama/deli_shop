@@ -40,9 +40,10 @@
             $i=$i+1;
         }
         echo json_encode($data);*/
+        $html="";
         while($row = $result->fetch_assoc()){
         $debt=$row['total_price']-$row['deposit'];
-        $html="<thead>";
+        $html=$html."<thead>";
         $html=$html."<tr>";
         $html=$html."<th>Customer</th>";
         $html=$html."<th>Total Price</th>";
@@ -64,7 +65,7 @@
     }
     else
     {
-        echo json_encode($data);
+        echo json_encode($sql);
     }
     
 ?>

@@ -5,6 +5,9 @@ Github: https://github.com/PHPOffice/PhpSpreadsheet/
 Document: https://phpspreadsheet.readthedocs.io/
 */
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $status="";
 if(isset($_POST['status']))
 {
@@ -20,10 +23,10 @@ if(isset($_POST['dateStart']))
 {
     $stopDate=$_POST['dateStop'];
 }
-$debt="";
+$debtInvoice="";
 if(isset($_POST['debt']))
 {
-    $debt=$_POST['debt'];
+    $debtInvoice=$_POST['debt'];
 }
 
 require 'vendor/autoload.php';
@@ -149,7 +152,9 @@ else
 }
 $customer=mysqli_query($conn, $sql);
 
-$debt=mysqli_query($conn,"SELECT nm_transaksi, SUM(total_price) AS total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND nm_transaksi='$debt'");
+$debt=mysqli_query($conn,"SELECT tnggl,nm_transaksi, total_price, qty , item, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice INNER JOIN tb_barang tb ON tt.id_item=tb.id WHERE statuss=0 AND tt.invoice='".$debtInvoice."' ORDER BY tnggl");
+
+$totalDebt=mysqli_query($conn,"SELECT SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='".$debtInvoice."'");
 
 $deposit=0;
 $total_no_deposit=0;
@@ -303,11 +308,15 @@ $spreadsheet->setActiveSheetIndex(4)
 $spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(2, 1, "Customer");
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(3, 1, "Total Price");
+        ->setCellValueByColumnAndRow(3, 1, "Date");
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(4, 1, "Deposit");
+        ->setCellValueByColumnAndRow(4, 1, "Item");
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(5, 1, "Debt");
+        ->setCellValueByColumnAndRow(5, 1, "Quantity");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(6, 1, "Total Price");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(7, 1, "Deposit");
 
 $m=2;
 foreach ($debt as $data5) {
@@ -316,12 +325,33 @@ $spreadsheet->setActiveSheetIndex(4)
 $spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(2, $m, $data5["nm_transaksi"]);
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(3, $m, $data5["total_price"]);
+        ->setCellValueByColumnAndRow(3, $m, $data5["tnggl"]);
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(4, $m, $data5["deposit"]);
+        ->setCellValueByColumnAndRow(4, $m, $data5["item"]);
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(5, $m, $data5["total_price"]-$data5["deposit"]);
-        $m=$m+1;
+        ->setCellValueByColumnAndRow(5, $m, $data5["qty"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(6, $m, $data5["total_price"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(7, $m, $data5["deposit"]);
+$m=$m+1;
+}
+
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(9, 2, "Grand Total :");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(9, 3, "Deposit :");
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(9, 4, "Debt :");
+
+foreach($totalDebt as $data6)
+{
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(10, 2, $data6["total_price"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(10, 3, $data6["deposit"]);
+$spreadsheet->setActiveSheetIndex(4)
+        ->setCellValueByColumnAndRow(10, 4, $data6["total_price"]-$data6["deposit"]);
 }
 // Rename worksheet
 $spreadsheet->getActiveSheet()->setTitle('Customer Debt');
