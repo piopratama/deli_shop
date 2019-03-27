@@ -11,6 +11,22 @@
     <script src="./assets/pace.js"></script>
     <link rel="stylesheet" href="./assets/pace.css">
 
+    <style>
+        label, input {
+            letter-spacing:1px !important;
+        }
+        .header {
+            border-radius:0px;
+            padding-left:0px;
+            padding-right:0px;
+        }
+        .navbar-default {
+            background-color: #38B593;
+            border-radius:0px;
+            height:80px;
+        }
+    </style>
+
     <script>
         function isNumberKey(evt){
 					var charCode = (evt.which) ? evt.which : event.keyCode
