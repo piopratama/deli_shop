@@ -56,7 +56,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
             </div>
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12" id="mytable">
                 <table id="example" class="table table-bordered" style="width: 100%;">
@@ -75,8 +75,6 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
                     </thead>
                     <tbody>
                         <?php 
-                        if(count($category)>0)
-                        {
                             $no=1;
                             foreach ($category as $data) {?>
                             <tr>
@@ -92,7 +90,6 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
                             <?php 
                             $no++; 
                             }
-                        }
                         ?>							
                     </tbody>
                 </table>

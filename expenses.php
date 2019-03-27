@@ -48,7 +48,7 @@ $category = mysqli_query($conn, "SELECT * FROM tb_kategori");
             </div>
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12" id="mytable">
                 <table id="example" class="table table-bordered" style="width: 100%;">
