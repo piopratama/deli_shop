@@ -25,6 +25,12 @@
             border-radius:0px;
             height:80px;
         }
+
+        .navbar-brand {
+            font-size: 40px;
+            margin-top:15px; 
+            color:black;
+        }
     </style>
 
     <script>
