@@ -54,9 +54,9 @@ else
 				</div>
 			</div>
 
-			<div class="container">
+			<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4" >
+				<div class="col-md-2" >
 					<div style="height:200px; position: absolute;">
 						<table>
 						<p>User Online</p>
@@ -72,51 +72,42 @@ else
 					</div>
 				</div>
 				<div class="col-md-4">
-					<a href="stock.php"><button type="button" class="btn btn-default" id="directpayMenu">Stock</button></a>
+					<a href="stock.php"><button type="button" class="btn btn-default" id="directpayMenu" style="height:170px; background-color:#85cdcc; border:none;">Stock</button></a>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="user.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#fdcd27; border:none;">User</button></a>
+				</div>
+				<div class="col-md-2"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="user.php"><button type="button" class="btn btn-default" id="undirectpayMenu">User</button></a>
+					<a href="expenses.php"><button type="button" class="btn btn-default buttonMenu" style="height:170px; background-color:#97e0b6; border:none;">Expenses</button></a>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="report.php"><button type="button" class="btn btn-default buttonMenu" style="height:170px; background-color:#e06947">Report</button></a>
+				</div>
+				<div class="col-md-2"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="expenses.php"><button type="button" class="btn btn-default buttonMenu">Expenses</button></a>
+					<a href="kategori.php"><button type="button" class="btn btn-default buttonMenu" style="height:170px; background-color:#aabfd0; border:none;">Category</button></a>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu" style="height:170px; background-color:#8fc23f">Supplier</button></a>
+				</div>
+				<div class="col-md-2"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="report.php"><button type="button" class="btn btn-default buttonMenu">Report</button></a>
+					<a href="api.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#fff79c">Printer Setting</button></a>
 				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="kategori.php"><button type="button" class="btn btn-default buttonMenu">Category</button></a>
+					<a href=""><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#cbbca9">Income Graph</button></a>
 				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<a href="supplier.php"><button type="button" class="btn btn-default buttonMenu">Supplier</button></a>
-				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<a href="api.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Printer Setting</button></a>
-				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 			</div>
 			<!--<div class="row">
 				<div class="col-md-4"></div>
