@@ -525,7 +525,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							data: {invoice:invoice},
 							dataType: 'text',
 							success: function (data) {
-								console.log(data);
+								//console.log(data);
 								$("#example5").html(data);
 								
 								//oTable.fnClearTable();
