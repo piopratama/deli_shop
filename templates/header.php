@@ -30,6 +30,11 @@
             font-size: 40px;
             margin-top:15px; 
             color:black;
+            
+        }
+
+        .btn {
+            border: none;
         }
     </style>
 
