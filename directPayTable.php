@@ -42,7 +42,7 @@ $api = $conn->query($sql2);
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 								</button>
-								<a class="navbar-brand" style="font-size: 40px;" href="#">Barong</a>
+								<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 							</div>
 							<div class="collapse navbar-collapse navbar-ex1-collapse">						
 								<ul class="nav navbar-nav navbar-right">
@@ -57,7 +57,7 @@ $api = $conn->query($sql2);
 		</div>
 		<div class="container-fluid">
 			<div class="row" id="parent_item_container">
-				<div class="col-md-3" style="background:orange;padding-top:10px;padding-bottom:10px;">
+				<div class="col-md-3" style="background:orange;padding-top:10px;padding-bottom:10px;height: 660px !important;overflow: scroll;">
 					<a class="btn btn-danger glyphicon glyphicon-arrow-left" href="mainMenu.php"></a>
 					<hr>
 					<div style="margin-top:10px;">
@@ -70,7 +70,7 @@ $api = $conn->query($sql2);
 							<label for="">Item</label>
 							
 							<select class="form-control myItem" name="item[]" id="myItem">
-								<option value="">-- Pilih Item --</option>
+								<option value="">-- Select Item --</option>
 								<?php
 								if ($result->num_rows > 0) {
 									// output data of each row
@@ -94,7 +94,7 @@ $api = $conn->query($sql2);
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="">Jumlah</label>
+							<label for="">Quantity</label>
 							<input type="text" step="0" min="0" id="myQty" class="form-control qtyItem" name="qty[]" placeholder="Quantity" onkeypress="return isNumberKey(event)">
 						</div>
 						<div class="form-group">
@@ -109,22 +109,22 @@ $api = $conn->query($sql2);
 					<hr>
 					<div>
 						<div class="form-group">
-							<label for="">Total Bayar</label>
+							<label for="">Grand Total</label>
 							<input type="text" class="form-control" id="grandTotal" placeholder="Grand Total" readonly="readonly">
 						</div>
 						<div class="form-group">
-							<label for="">Metode Pembayaran</label>
+							<label for="">Payment Method</label>
 							<select class="form-control" name="method" id="method">
 								<option value="cash">Cash</option>
 								<option value="transfer">Transfer</option>
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="">Pembayaran</label>
+							<label for="">Payment</label>
 							<input type="text" class="form-control" name="payment" id="payment" placeholder="Payment" required="required">
 						</div>
 						<div class="form-group">
-							<label for="">Kembalian</label>
+							<label for="">Change</label>
 							<input type="text" class="form-control" id="change" placeholder="Change" readonly="readonly">
 						</div>
 						
@@ -136,18 +136,18 @@ $api = $conn->query($sql2);
 					<hr>
 				</div>
 				<div class="col-md-9">
-					<div style="height: 850px !important;overflow: scroll;">
+					<div style="height: 660px !important;overflow: scroll;">
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-								<th scope="col">#</th>
-								<th scope="col">Item</th>
-								<th scope="col">Jum</th>
-								<th scope="col">Unit</th>
-								<th scope="col">Harga</th>
-								<th scope="col">Discount (%)</th>
-								<th scope="col">Total</th>
-								<th scope="col">Action</th>
+									<th scope="col">#</th>
+									<th scope="col">Item</th>
+									<th scope="col">Qty</th>
+									<th scope="col">Unit</th>
+									<th scope="col">Price</th>
+									<th scope="col">Discount (%)</th>
+									<th scope="col">Total</th>
+									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody id="table_body">

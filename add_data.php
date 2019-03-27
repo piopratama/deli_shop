@@ -113,7 +113,7 @@ $result2 = $conn->query($supplier);
 										<tr>
 											<td>
 												<div class="form-group">
-										      <label for="barcode">Barcode :</label>
+										      <label for="barcode">Barcode : <span style="color:red;font-size:12px;">(new)</span></label>
 										      <input type="text" style="width: 200%;" class="form-control" name="barcode" id="barcode">
 												</div>
 											</td>

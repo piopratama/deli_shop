@@ -37,7 +37,7 @@ else
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Barong</a>
+									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
@@ -54,28 +54,42 @@ else
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenu">Transaksi</button></a>
+					<a href="directPay.php"><button type="button" class="btn btn-default" id="directpayMenu">Direct Pay</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="unDirectPayTable.php" style="display:none;"><button type="button" class="btn btn-default" id="undirectpayMenu">Undirect Pay</button></a>
+					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenuTable">Direct Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="paymentUnDirect.php" style="display:none;"><button type="button" class="btn btn-default" id="undirectpayMenu">Transaction</button></a>
+					<a href="unDirectPay.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Undirect Pay</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Laporan Harian</button></a>
+					<a href="unDirectPayTable.php"><button type="button" class="btn btn-default" id="undirectpayMenuTable">Undirect Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="paymentUnDirect.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Transaction</button></a>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Day Report</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>

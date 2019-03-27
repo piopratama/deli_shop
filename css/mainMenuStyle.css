@@ -4,28 +4,42 @@ html,body {
 }
 
 #directpayMenu{
-	width: 80%;
+	width: 100%;
 	height: 10%;
 	font-size: 35px;
-	margin-top: 30%;
+	margin-top: 10%;
 }
 
 #undirectpayMenu{
-	width: 80%;
+	width: 100%;
+	height: 10%;
+	font-size: 35px;
+	margin-top: 10%;
+}
+
+#directpayMenuTable{
+	width: 100%;
+	height: 10%;
+	font-size: 35px;
+	margin-top: 10%;
+}
+
+#undirectpayMenuTable{
+	width: 100%;
 	height: 10%;
 	font-size: 35px;
 	margin-top: 10%;
 }
 
 .buttonMenu{
-	width: 80%;
+	width: 100%;
 	height: 10%;
 	font-size: 35px;
 	margin-top: 10%;
 }
 
 #transactionlistMenu{
-	width: 80%;
+	width: 100%;
 	height: 10%;
 	font-size: 35px;
 	margin-top: 10%;
