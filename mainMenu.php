@@ -57,7 +57,7 @@ else
 					<a href="directPay.php"><button type="button" class="btn btn-default" id="directpayMenu" style="height:200px; background-color:#85cdcc">Direct Pay</button></a>
 				</div>	
 				<div class="col-md-4">
-					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenuTable" style="height:200px; background-color:#fdcd27">Direct Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenuTable" style="height:200px; background-color:#fdcd27">Direct Pay Table <span style="color:white;font-size:12px;">(new)</span></button></a>
 				</div>
 				<div class ="col-md-2"></div>
 			</div>
@@ -67,7 +67,7 @@ else
 					<a href="unDirectPay.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:200px; background-color:#97e0b6">Undirect Pay</button></a>
 				</div>
 				<div class="col-md-4">
-					<a href="unDirectPayTable.php"><button type="button" class="btn btn-default" id="undirectpayMenuTable"style="height:200px; background-color:#e06947">Undirect Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+					<a href="unDirectPayTable.php"><button type="button" class="btn btn-default" id="undirectpayMenuTable"style="height:200px; background-color:#e06947">Undirect Pay Table <span style="color:white;font-size:12px;">(new)</span></button></a>
 				</div>
 				<div class="col-md-2"></div>
 			</div>
