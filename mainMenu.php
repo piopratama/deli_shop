@@ -50,48 +50,36 @@ else
 					</div>
 				</div>
 			</div>
-			<div class="container">
+			<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class ="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="directPay.php"><button type="button" class="btn btn-default" id="directpayMenu">Direct Pay</button></a>
+					<a href="directPay.php"><button type="button" class="btn btn-default" id="directpayMenu" style="height:200px; background-color:#85cdcc">Direct Pay</button></a>
+				</div>	
+				<div class="col-md-4">
+					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenuTable" style="height:200px; background-color:#fdcd27">Direct Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
 				</div>
-				<div class="col-md-4"></div>
+				<div class ="col-md-2"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenuTable">Direct Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+					<a href="unDirectPay.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:200px; background-color:#97e0b6">Undirect Pay</button></a>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<a href="unDirectPayTable.php"><button type="button" class="btn btn-default" id="undirectpayMenuTable"style="height:200px; background-color:#e06947">Undirect Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+				</div>
+				<div class="col-md-2"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 				<div class="col-md-4">
-					<a href="unDirectPay.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Undirect Pay</button></a>
+					<a href="paymentUnDirect.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:200px; background-color:#aabfd0">Transaction</button></a>
 				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="unDirectPayTable.php"><button type="button" class="btn btn-default" id="undirectpayMenuTable">Undirect Pay Table <span style="color:red;font-size:12px;">(new)</span></button></a>
+					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:200px; background-color:#8fc23f">Day Report</button></a>
 				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<a href="paymentUnDirect.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Transaction</button></a>
-				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Day Report</button></a>
-				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 			</div>
 		</div>
 		<?php include("./templates/footer.php"); ?>
