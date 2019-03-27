@@ -11,8 +11,8 @@ $title="Login";
 		
 		<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12 header">
-						<nav class="navbar navbar-default" role="navigation">
+					<div class="col-md-12 header" style="border-radius:0px;padding-left:0px;padding-right:0px;">
+						<nav class="navbar navbar-default" role="navigation" style="background-color: #38B593;border-radius:0px;height:80px;">
 							<div class="container-fluid">
 								<!-- Brand and toggle get grouped for better mobile display -->
 								<div class="navbar-header">
@@ -22,7 +22,7 @@ $title="Login";
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
+									<a class="navbar-brand" style="font-size: 40px;margin-top:15px; color:black;" href="#">Deli Point</a>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
@@ -33,23 +33,25 @@ $title="Login";
 					</div>
 				</div>
 			</div>
-			<div class="container">
+			<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-4">
 					
 				</div>
 				<div class="col-md-4" id="container-form">
-					<form action="loginProcess.php" method="POST" role="form">
-						<legend>Login</legend>
+					<form action="loginProcess.php" method="POST" role="form" style="background-color: #38B593;padding:50px;">
+						<legend style="font-size:30px;">Login</legend>
 					
-						<div class="form-group">
+						<div class="form-group" style="position:relative;">
 							<label for="">Username</label>
 							<input type="text" name="username" class="form-control" id="username" placeholder="Username" required="required">
+							<span class="glyphicon glyphicon-user" style="position:absolute;Right:10px;Top:35px;"></span>
 						</div>
 						
-						<div class="form-group">
+						<div class="form-group" style="position:relative;">
 							<label for="">Password</label>
 							<input type="password" name="password" class="form-control" id="password" placeholder="Password" required="required">
+							<span class="glyphicon glyphicon-lock" style="position:absolute;Right:10px;Top:35px;"></span>
 						</div>
 						<!-- <div class="form-group">
 							<label>Level</label>
@@ -61,8 +63,8 @@ $title="Login";
 						</div> -->
 						
 					
-						<button type="submit" class="btn btn-primary">Login</button>
-						
+						<button type="submit" class="btn btn-default pull-right" style="border-radius:0px;width:100px;background-color:white;">Login</button>
+						<div class="clear" style="clear:both;"></div>
 					</form>
 				</div>
 				<div class="col-md-4">
