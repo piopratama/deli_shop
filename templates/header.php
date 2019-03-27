@@ -29,8 +29,7 @@
         .navbar-brand {
             font-size: 40px;
             margin-top:15px; 
-            color:black;
-            
+            color:black !important;   
         }
 
         .btn {
