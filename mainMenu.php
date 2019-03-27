@@ -37,7 +37,7 @@ else
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 									</button>
-									<a class="navbar-brand" style="font-size: 40px;" href="#">Deli Point</a>
+									<a class="navbar-brand" style="font-size: 40px;" href="#">Barong</a>
 								</div>
 								<div class="collapse navbar-collapse navbar-ex1-collapse">						
 									<ul class="nav navbar-nav navbar-right">
@@ -54,28 +54,28 @@ else
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="directPay.php"><button type="button" class="btn btn-default" id="directpayMenu">Direct Pay</button></a>
+					<a href="directPayTable.php"><button type="button" class="btn btn-default" id="directpayMenu">Transaksi</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="unDirectPay.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Undirect Pay</button></a>
+					<a href="unDirectPayTable.php" style="display:none;"><button type="button" class="btn btn-default" id="undirectpayMenu">Undirect Pay</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="paymentUnDirect.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Transaction</button></a>
+					<a href="paymentUnDirect.php" style="display:none;"><button type="button" class="btn btn-default" id="undirectpayMenu">Transaction</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Day Report</button></a>
+					<a href="dayReport.php"><button type="button" class="btn btn-default" id="undirectpayMenu">Laporan Harian</button></a>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
