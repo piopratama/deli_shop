@@ -25,14 +25,27 @@
 	$discount=$_POST["discount"];
 	$grand_total=0;
 	$date=date('Y-m-d H:i:s');
+	$mode=0;
+	if(isset($_POST["mode"]))
+	{
+		$mode=1;
+	}
 
 	$new_transaction=0;
 	
 	if($name=="")
 	{
 		$_SESSION["message"]="Name can`t be empty";		
-		header("location:unDirectPay.php");
-		return;
+		if($mode!=1)
+		{
+			header("location:unDirectPay.php");
+			return;
+		}
+		else
+		{
+			echo json_encode("");
+			return;
+		}
 	}
 	else
 	{
@@ -44,7 +57,7 @@
 				if(trim($item[$i])!="" || $item[$i]!=null)
 				{
 					$where_in=$where_in.",".$item[$i];
-				}	
+				}
 			}
 		}
 		//echo $where_in;
@@ -53,7 +66,6 @@
 		{
 			$sql = "SELECT id,price FROM tb_barang WHERE id in(".$where_in.");";
 			$result = $conn->query($sql);
-			echo $sql;
 			if ($result->num_rows > 0) {
 				// output data of each row
 				
@@ -94,8 +106,6 @@
 				for($i=0;$i<count($data);$i++)
 				{
 					$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, description, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", '".$data[$i]["description"]."', ".$data[$i]["statuss"].")";
-
-					echo $sql;
 					if ($conn->query($sql) === TRUE) {
 						$last_id = $conn->insert_id;
 						//echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -117,6 +127,14 @@
 				{
 					$sql="INSERT INTO tb_deposit (`date`,invoice, deposit, payment, method) VALUES ('".$date."','".$invoice."', ".$deposit.", 0,'".$method."')";
 
+					/*if($new_transaction==1)
+					{
+						$sql="INSERT INTO tb_deposit (invoice, deposit, method, rest_total, history) VALUES ('".$invoice."', ".$deposit.", '".$method."', ".($grand_total-$deposit).",".$deposit.")";
+					}
+					else
+					{
+						$sql="UPDATE tb_deposit set deposit=deposit+".$deposit.", rest_total=rest_total-".$deposit."+".$grand_total.", method=CONCAT(method,',".$method."'), history=CONCAT(history,',".$deposit."') where invoice='".$invoice."'";
+					}*/
 					if ($conn->query($sql) === TRUE) {
 						//$last_id = $conn->insert_id;
 						//echo "New record created successfully. Last inserted ID is: " . $last_id;
@@ -149,6 +167,13 @@
 		}
 		
 		$conn->close();
-		header("location:unDirectPay.php");
+		if($mode!=1)
+		{
+			header("location:unDirectPay.php");
+		}
+		else
+		{
+			echo json_encode("");
+		}
 	}
 ?>

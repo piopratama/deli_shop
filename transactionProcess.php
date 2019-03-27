@@ -26,6 +26,12 @@
 	$grand_total=0;
 	$date=date('Y-m-d H:i:s');
 
+	$mode=0;
+	if(isset($_POST["mode"]))
+	{
+		$mode=1;
+	}
+
 	$new_transaction=0;
 	
 	if(count($item)>0)
@@ -36,7 +42,7 @@
 			if(trim($item[$i])!="" || $item[$i]!=null)
 			{
 				$where_in=$where_in.",".$item[$i];
-			}	
+			}
 		}
 	}
 	if($where_in!="")
@@ -120,7 +126,7 @@
 			if($check==0)
 			{	
 				$_SESSION["invoice"]=$invoice;
-				$_SESSION["message"]="Insert Successfully";
+				$_SESSION["message"]="Transaksi Berhasil";
 			}
 			else
 			{
@@ -141,5 +147,13 @@
 	}*/
 	
 	$conn->close();
-	header("location:directPay.php");
+	if($mode!=1)
+	{
+		header("location:directPay.php");
+	}
+	else
+	{
+		echo json_encode("");
+		return;
+	}
 ?>
