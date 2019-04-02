@@ -233,6 +233,11 @@ $purchase= mysqli_query($conn, "SELECT tb_kategori.`nm_kategori`, SUM(tb_barang.
                 </div>
             </form>
         </div>
+		
+		<?php 
+			$session_value=(isset($_SESSION['message']))?$_SESSION['message']:'';
+			unset($_SESSION['message']);
+		?>
 
 		<script src="./assets/jquery.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
@@ -242,6 +247,14 @@ $purchase= mysqli_query($conn, "SELECT tb_kategori.`nm_kategori`, SUM(tb_barang.
 		<script>
 		
 			$(document).ready(function() {
+				var message='<?php echo $session_value;?>';
+				if(message!="")
+				{
+					alert(message);
+					/*$("#warning_modal_msg").html(message);
+					$("#exampleModal2").modal('show');*/
+				}
+
 				$("#example").DataTable();
 				$("#example2").DataTable();
 				$("#example3").DataTable();
