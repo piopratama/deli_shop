@@ -105,7 +105,7 @@ else
 					<a href="api.php"><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#fff79c">Printer Setting</button></a>
 				</div>
 				<div class="col-md-4">
-					<a href=""><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#cbbca9">Income Graph<span style="color:red;font-size:12px; border:none;">(coming soon)</span></button></a>
+					<a href=""><button type="button" class="btn btn-default" id="undirectpayMenu" style="height:170px; background-color:#cbbca9">Income Graph <span style="color:red;font-size:12px; border:none;">(coming soon)</span></button></a>
 				</div>
 				<div class="col-md-2"></div>
 			</div>
