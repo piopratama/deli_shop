@@ -17,7 +17,7 @@ else
 $id=$_POST["id_delete"];
 
 include 'koneksi.php';
-$sql="DELETE FROM tb_expenses WHERE id = $id";
+$sql="DELETE FROM tb_transaksi WHERE id = $id";
 if ($conn->query($sql) === TRUE) {
     $_SESSION['message']="Delete Successfully";
 } else {

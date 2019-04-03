@@ -46,6 +46,21 @@
 					return false;
 				}
 
+        function formatDate(date) {
+            var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+            ];
+
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
+            var d = new Date(); // for now
+            return day + ' ' + monthNames[monthIndex] + ' ' + year+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+        }
+
        
     </script>
     <?php
