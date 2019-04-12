@@ -347,7 +347,7 @@ $spreadsheet->setActiveSheetIndex(4)
 foreach($totalDebt as $data6)
 {
 $spreadsheet->setActiveSheetIndex(4)
-        ->setCellValueByColumnAndRow(10, 2, $data6["total_price"]*1000);
+        ->setCellValueByColumnAndRow(10, 2, $data6["total_price"]);
 $spreadsheet->setActiveSheetIndex(4)
         ->setCellValueByColumnAndRow(10, 3, $data6["deposit"]);
 $spreadsheet->setActiveSheetIndex(4)
