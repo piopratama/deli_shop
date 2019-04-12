@@ -74,11 +74,11 @@
 						$data[$k]["invoice"]=$invoice;
 						$data[$k]["tnggl"]=$date;
 						$data[$k]["id_employee"]=$id_kasir;
-						$data[$k]["total_price"]=$qty[$j]*$row["price"]-($qty[$j]*$row["price"]*$discount[$j]/100.0);
+						$data[$k]["total_price"]=round($qty[$j]*$row["price"]/1000.0)*1000-(round($qty[$j]*$row["price"]/1000.0)*1000*$discount[$j]/100.0);
 						$data[$k]["discount"]=$discount[$j];
 						$data[$k]["description"]="";
 						$data[$k]["statuss"]=1;
-						$grand_total=$grand_total+($qty[$j]*$row["price"]-$qty[$j]*$row["price"]*$discount[$j]/100.0);
+						$grand_total=$grand_total+(round($qty[$j]*$row["price"]/1000.0)*1000-round($qty[$j]*$row["price"]/1000.0)*1000*$discount[$j]/100.0);
 						$k=$k+1;
 					}
 				}
