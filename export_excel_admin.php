@@ -152,9 +152,10 @@ else
 }
 $customer=mysqli_query($conn, $sql);
 
-$debt=mysqli_query($conn,"SELECT tnggl,nm_transaksi, total_price, qty , item, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice INNER JOIN tb_barang tb ON tt.id_item=tb.id WHERE statuss=0 AND tt.invoice='".$debtInvoice."' ORDER BY tnggl");
-
-$totalDebt=mysqli_query($conn,"SELECT SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='".$debtInvoice."'");
+$debt=mysqli_query($conn,"SELECT tnggl,nm_transaksi, total_price, qty , item, deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit WHERE invoice='$debtInvoice') td ON tt.invoice=td.invoice INNER JOIN tb_barang tb ON tt.id_item=tb.id WHERE statuss=0 AND tt.invoice='".$debtInvoice."' ORDER BY tnggl");
+//echo "SELECT SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit WHERE invoice='$deptInvoice') td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='$debtInvoice'";
+//echo "SELECT SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit WHERE invoice='$debtInvoice') td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='".$debtInvoice."'";
+$totalDebt=mysqli_query($conn,"SELECT SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit WHERE invoice='$debtInvoice') td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='".$debtInvoice."'");
 
 $deposit=0;
 $total_no_deposit=0;

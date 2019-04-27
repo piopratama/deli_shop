@@ -24,7 +24,7 @@
 
     require 'koneksi.php';
     //echo json_encode($debt);
-    $sql = "SELECT nm_transaksi, SUM(total_price) AS total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='$invoice'";
+    $sql = "SELECT nm_transaksi, SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit WHERE invoice='$invoice') td ON tt.invoice=td.invoice WHERE statuss=0 AND tt.invoice='$invoice';";
     //echo json_encode($sql);
     
     $result = $conn->query($sql);
