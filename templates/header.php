@@ -40,7 +40,6 @@
     <script>
         function isNumberKey(evt){
 					var charCode = (evt.which) ? evt.which : event.keyCode
-					console.log(charCode);
 					if ((charCode <= 57 && charCode >= 48) || charCode == 46)
 						return true;
 					return false;

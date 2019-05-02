@@ -101,7 +101,7 @@
 			$html=$html."</div>";
 			$html=$html."<div class='form-group'>";
 			$html=$html."<label for=''>Deposit</label>";
-			$html=$html."<input type='text' class='form-control' readonly='readonly' value='".$deposit."'>";
+			$html=$html."<input type='text' class='form-control deposit_history' readonly='readonly' value='".$deposit."'>";
 			$html=$html."</div>";
 			echo $html;
 		}
