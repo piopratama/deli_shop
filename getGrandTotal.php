@@ -26,6 +26,7 @@
 
 		}
 		$sum=$sum+0*$sum;
+		$sum=Round($sum/1000)*1000;
 		echo $sum;
 	}
 ?>

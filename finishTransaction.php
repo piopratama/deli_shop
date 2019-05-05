@@ -65,7 +65,7 @@ if ($result->num_rows > 0)
         $data[$i][3]=$row["qty"];
         $data[$i][4]=$row["discount"];
         $data[$i][5]=$row["price"];
-        $data[$i][6]=$row["total_price"];
+        $data[$i][6]=ROUND($row["total_price"]/1000)*1000;
         if($row["statuss"]==1)
         {
             $data[$i][7]="paid";
@@ -74,6 +74,7 @@ if ($result->num_rows > 0)
             $data[$i][7]="not paid";
         }
         $sum=$sum+$row["total_price"];
+        $sum=ROUND($sum/1000)*1000;
         $nama=$row["nama"];
 
         $i=$i+1;

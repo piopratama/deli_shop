@@ -126,7 +126,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $data["item"];?></td>
 								<td><?php echo $data["qty"];?></td>
 								<td><?php echo $data["discount"];?></td>
-								<td><?php echo rupiah($data["total_price"]);?></td>
+								<td><?php echo rupiah(ROUND($data["total_price"]/1000)*1000);?></td>
 								<td><?php if($data["statuss"]==0)
 								{
 									echo("not paid");
@@ -145,7 +145,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<div class="form-group fontsize">
 								<label for="">Paid Transaction Income</label>
 								<div class="form-control"
-								><?php echo "Rp.".rupiah($paidIncome); ?></div>
+								><?php echo "Rp.".rupiah(ROUND($paidIncome/1000)*1000); ?></div>
 							</div>
 						</div>
 					</div>
@@ -208,15 +208,15 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				<div class="col-md-4">
 					<div class="form-group fontsize">
 						<label for="">Category (Category doesn't include deposit)</label>
-						<div class="form-control"><?php echo "Rp.".rupiah($total_no_deposit); ?></div>
+						<div class="form-control"><?php echo "Rp.".rupiah(ROUND($total_no_deposit/1000)*1000); ?></div>
 					</div>
 					<div class="form-group fontsize">
 						<label for="">Deposit</label>
-						<div class="form-control"><?php echo "Rp.".rupiah($deposit); ?></div>
+						<div class="form-control"><?php echo "Rp.".rupiah(ROUND($deposit/1000)*1000); ?></div>
 					</div>
 					<div class="form-group fontsize">
 						<label for="">Total Income</label>
-						<div class="border border-primary form-control"><?php echo "Rp.".rupiah($total_no_deposit+$deposit); ?></div>
+						<div class="border border-primary form-control"><?php echo "Rp.".rupiah(ROUND(($total_no_deposit+$deposit)/1000)*1000); ?></div>
 					</div>
 					<a href="export_excel.php" type="button" class="btn btn-success" >Print</a><br>
 				</div>

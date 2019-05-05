@@ -47,7 +47,8 @@
 			$html=$html."<td class='qty'>".$row['qty']."</td>";
 			$html=$html."<td class='discount'>".$row['discount']."</td>";
 			$html=$html."<td class='price'>".$row['price']."</td>";
-			$html=$html."<td class='total'>".$row['total_price']."</td>";
+			$total=Round(($row['total_price'])/1000)*1000;
+			$html=$html."<td class='total'>".$total."</td>";
 			if($row['statuss']==0)
 			{
 				$html=$html."<td>not paid</td>";
