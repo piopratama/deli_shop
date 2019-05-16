@@ -203,6 +203,9 @@ $result = $conn->query($sql);
 							}
 						});
 				});
+				$("#printBtn").click(function(){
+					$(".status").html("paid");
+				})
 			});
 		</script>
 	</body>

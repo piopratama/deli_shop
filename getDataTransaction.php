@@ -51,11 +51,11 @@
 			$html=$html."<td class='total'>".$total."</td>";
 			if($row['statuss']==0)
 			{
-				$html=$html."<td>not paid</td>";
+				$html=$html."<td class='status'>not paid</td>";
 			}
 			else
 			{
-				$html=$html."<td>paid</td>";
+				$html=$html."<td class='status'>paid</td>";
 			}
 			$html=$html."</tr>";
 			$html=$html."</tbody>";

@@ -59,7 +59,7 @@ if ($result->num_rows > 0)
     while($row = $result->fetch_assoc()) {
 
         $data[$i][0]=$i+1;
-        $data[$i][1]=date("d/m/Y", strtotime($row["tnggl"]));
+        $data[$i][1]=date("d/m/Y", strtotime($row["tnggl2"]));
         $customer=$row["nm_transaksi"];
         $data[$i][2]=$row["item"];
         $data[$i][3]=$row["qty"];
