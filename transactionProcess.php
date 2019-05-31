@@ -120,7 +120,7 @@
 
 					$stock_awal=$result4->fetch_array()[0];
 
-					$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$data[$i]["id_item"].", ".$stock_awal.", ".$data[$i]["qty"].", ".($stock_awal-$data[$i]["qty"]).", 0)";
+					$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$data[$i]["id_item"].", ".$stock_awal.", ".$data[$i]["qty"].", ".($stock_awal-$data[$i]["qty"]).", 0, '".$_SESSION['username']."')";
 					if ($conn->query($sql3) === TRUE) {
 					} else {
 						echo "Error: " . $sql3 . "<br>" . $conn->error;
@@ -174,7 +174,7 @@
 	$conn->close();
 	if($mode!=1)
 	{
-		//header("location:directPay.php");
+		header("location:directPay.php");
 	}
 	else
 	{
