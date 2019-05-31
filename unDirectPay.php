@@ -314,6 +314,19 @@ $api = $conn->query($sql2);
 						}
 					});
 				});
+
+				$("#deposit").keyup(function(){
+					$("#printBtn").attr('disabled', 'disabled');
+					$("#printItem").attr('disabled', 'disabled');
+					if($(this).val()!="")
+					{
+						if($(this).val()>0)
+						{
+							$("#printBtn").removeAttr('disabled');
+							$("#printItem").removeAttr('disabled');
+						}
+					}
+				})
 				
 				$("#invoice").change(function(event) {
 					var invoice=$(this).val();
@@ -324,17 +337,6 @@ $api = $conn->query($sql2);
 					}
 					else
 					{
-					$.ajax({
-							url: 'checkInvoiceDeposit.php',
-							type: 'post',
-							data: {invoice:invoice},
-							success: function (data) {
-								$("#deposit_label").html("deposit ("+data+")");
-								$("#grand_total").html("total ("+data+")");
-							}
-						});
-
-					
 					$.ajax({
 							url: 'checkInvoice.php',
 							type: 'post',
@@ -361,6 +363,17 @@ $api = $conn->query($sql2);
 										}
 									}
 								});
+
+								$.ajax({
+									url: 'checkInvoiceDeposit.php',
+									type: 'post',
+									data: {invoice:invoice},
+									success: function (data) {
+										$("#deposit_label").html("deposit ("+data+")");
+										$("#grand_total").html("total ("+data+")");
+										$(".deposit_history").val(data);
+									}
+								});
 							}
 						});
 					}
@@ -370,7 +383,7 @@ $api = $conn->query($sql2);
 				$("#printItem").click(function(event) {
 					var mydate = formatDate(new Date($("#date").val()));
 					var grandTotalCheck=$("#grandTotal").val();
-					if(grandTotalCheck!="" && grandTotalCheck!="0")
+					if((grandTotalCheck!="" && grandTotalCheck!="0") || ($("#deposit").val()!="" && $("#deposit").val()>0))
 					{
 						var printer = new Recta(api.toString(), port.toString());
 						//var printer = new Recta('4590384132', '1811');
@@ -441,6 +454,28 @@ $api = $conn->query($sql2);
 							}
 							if($("#deposit").val()!="")
 							{
+								var grand_total_history=$("#grand_total_history").val();
+								var grand_total=$("#grandTotal").val();
+								var deposit=$("#deposit").val();
+								var deposit_history=$("#deposit_history").val();
+
+								if(grand_total_history=="")
+								{
+									grand_total_history=0;
+								}
+								if(grand_total=="")
+								{
+									grand_total=0;
+								}
+								if(deposit=="")
+								{
+									deposit=0;
+								}
+								if(deposit_history=="")
+								{
+									deposit_history=0;
+								}
+								var remaining_pay=parseFloat(grand_total_history)+parseFloat(grand_total)-parseFloat(deposit)-parseFloat(deposit_history);
 								printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true);
 							}
 							printer.cut()
@@ -465,6 +500,10 @@ $api = $conn->query($sql2);
 							success: function (data) {
 								//price_field.val(data);
 								price_field.val(data[0].price);
+								if(data[0].stock<parseFloat(qty.val()))
+								{
+									qty.val(0);
+								}
 								label_price.html("Price ("+data[0].unit+")");
 								total.val(Math.round((price_field.val()*qty.val()-(discount.val()*price_field.val()*qty.val())/100)/1000)*1000);
 								$('.total').each(function(i, obj) {
@@ -520,6 +559,16 @@ $api = $conn->query($sql2);
 
 				$("#parent_item_container").on('keyup','.qtyItem',function(event) {
 					var qty=$(this).val();
+
+					//pio get stock
+					var selectedText=$(this).parent().prev().find(".item option:selected").html();
+					var stock=(selectedText.split("*(")[1]).split(" ")[0];
+					if(parseFloat(qty)>parseFloat(stock))
+					{
+						alert("quantity lebih dari stock");
+						$(this).val(0);
+						qty=0;
+					}
 					var price_field=$(this).parent().next().find(".price");
 					var total=qty*price_field.val();
 					var discount=$(this).parent().next().next().find('.discount').val();

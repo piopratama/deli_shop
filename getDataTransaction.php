@@ -16,7 +16,7 @@
 	
 	$invoice=$_POST['invoice'];
 	require 'koneksi.php';
-	$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+	$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."' and tb_transaksi.statuss=0 order by tnggl2 asc;";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		$html="<table id=\"example\" class=\"display\" style='width:100%'>";
@@ -47,14 +47,15 @@
 			$html=$html."<td class='qty'>".$row['qty']."</td>";
 			$html=$html."<td class='discount'>".$row['discount']."</td>";
 			$html=$html."<td class='price'>".$row['price']."</td>";
-			$html=$html."<td class='total'>".$row['total_price']."</td>";
+			$total=Round(($row['total_price'])/1000)*1000;
+			$html=$html."<td class='total'>".$total."</td>";
 			if($row['statuss']==0)
 			{
-				$html=$html."<td>not paid</td>";
+				$html=$html."<td class='status'>not paid</td>";
 			}
 			else
 			{
-				$html=$html."<td>paid</td>";
+				$html=$html."<td class='status'>paid</td>";
 			}
 			$html=$html."</tr>";
 			$html=$html."</tbody>";

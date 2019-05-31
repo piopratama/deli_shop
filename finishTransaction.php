@@ -34,7 +34,7 @@ $date=date('Y-m-d H:i:s');
 $date_db = date("Y-m-d", strtotime($date));
 $customer='';
 
-$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."' order by tnggl2 asc;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) 
@@ -59,13 +59,13 @@ if ($result->num_rows > 0)
     while($row = $result->fetch_assoc()) {
 
         $data[$i][0]=$i+1;
-        $data[$i][1]=date("d/m/Y", strtotime($row["tnggl"]));
+        $data[$i][1]=date("d/m/Y", strtotime($row["tnggl2"]));
         $customer=$row["nm_transaksi"];
         $data[$i][2]=$row["item"];
         $data[$i][3]=$row["qty"];
         $data[$i][4]=$row["discount"];
         $data[$i][5]=$row["price"];
-        $data[$i][6]=$row["total_price"];
+        $data[$i][6]=ROUND($row["total_price"]/1000)*1000;
         if($row["statuss"]==1)
         {
             $data[$i][7]="paid";
@@ -74,6 +74,7 @@ if ($result->num_rows > 0)
             $data[$i][7]="not paid";
         }
         $sum=$sum+$row["total_price"];
+        $sum=ROUND($sum/1000)*1000;
         $nama=$row["nama"];
 
         $i=$i+1;

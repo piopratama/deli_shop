@@ -14,6 +14,7 @@
 			}
 		}
 	}
+	$isValid=true;
 
 	require ("koneksi.php");
 	$invoice=$_POST["invoice"];
@@ -64,7 +65,7 @@
 		//require 'koneksi.php';
 		if($where_in!="")
 		{
-			$sql = "SELECT id,price FROM tb_barang WHERE id in(".$where_in.");";
+			$sql = "SELECT id,price,stock FROM tb_barang WHERE id in(".$where_in.");";
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				// output data of each row
@@ -82,50 +83,86 @@
 					{
 						if($row["id"]==$item[$j])
 						{
-							$data[$k]["id_item"]=$item[$j];
-							$data[$k]["nm_transaksi"]=$name;
-							$data[$k]["price"]=$row["price"];
-							$data[$k]["qty"]=$qty[$j];
-							$data[$k]["invoice"]=$invoice;
-							$data[$k]["tnggl"]=$date;
-							$data[$k]["id_employee"]=$id_kasir;
-							$data[$k]["method"]=$method;
-							$data[$k]["total_price"]=$qty[$j]*$row["price"]-($qty[$j]*$row["price"]*$discount[$j]/100.0);
-							$data[$k]["discount"]=$discount[$j];
-							$data[$k]["deposit"]=$deposit;
-							$data[$k]["rest_total"]=$qty[$j]*$row["price"]-$deposit;
-							$data[$k]["description"]="";
-							$data[$k]["statuss"]=0;
-							$grand_total=$grand_total+($qty[$j]*$row["price"]-$qty[$j]*$row["price"]*$discount[$j]/100.0);
-							$k=$k+1;
+							if($row["stock"]<$qty[$j])
+							{
+								$isValid=false;
+								break;
+							}
+							else
+							{
+								$data[$k]["id_item"]=$item[$j];
+								$data[$k]["nm_transaksi"]=$name;
+								$data[$k]["price"]=$row["price"];
+								$data[$k]["qty"]=$qty[$j];
+								$data[$k]["invoice"]=$invoice;
+								$data[$k]["tnggl"]=$date;
+								$data[$k]["id_employee"]=$id_kasir;
+								$data[$k]["method"]=$method;
+								$data[$k]["total_price"]=round($qty[$j]*$row["price"]/1000.0)*1000-(round($qty[$j]*$row["price"]/1000.0)*1000*$discount[$j]/100.0);
+								$data[$k]["discount"]=$discount[$j];
+								$data[$k]["deposit"]=$deposit;
+								$data[$k]["rest_total"]=round($qty[$j]*$row["price"]/1000.0)*1000-$deposit;
+								$data[$k]["description"]="";
+								$data[$k]["statuss"]=0;
+								$grand_total=$grand_total+(round($qty[$j]*$row["price"]/1000.0)*1000-round($qty[$j]*$row["price"]/1000.0)*1000*$discount[$j]/100.0);
+								$k=$k+1;
+							}
 						}
 					}
+
+					if(!$isValid)
+					{
+						break;
+					}
 				}
+				
 				
 				$conn->autocommit(FALSE);
 			    $conn->query("START TRANSACTION");
 
 				$check=0;
-				for($i=0;$i<count($data);$i++)
+				
+				if($isValid)
 				{
-					$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, description, statuss) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", '".$data[$i]["description"]."', ".$data[$i]["statuss"].")";
-					if ($conn->query($sql) === TRUE) {
-						$last_id = $conn->insert_id;
-						//echo "New record created successfully. Last inserted ID is: " . $last_id;
-					} else {
-						echo "Error: " . $sql . "<br>" . $conn->error;
-						$check=1;
-						break;
-					}
+					for($i=0;$i<count($data);$i++)
+					{
+						$sql = "INSERT INTO tb_transaksi (invoice, `nm_transaksi`, `tnggl`, id_employee, id_item, qty, discount, total_price, description, statuss, tnggl2) VALUES ('".$data[$i]["invoice"]."', '".$data[$i]["nm_transaksi"]."','".$data[$i]["tnggl"]."', ".$data[$i]["id_employee"].", ".$data[$i]["id_item"].", ".$data[$i]["qty"].", ".$data[$i]["discount"].", ".$data[$i]["total_price"].", '".$data[$i]["description"]."', ".$data[$i]["statuss"].", '".$data[$i]["tnggl"]."')";
+						if ($conn->query($sql) === TRUE) {
+							$last_id = $conn->insert_id;
+							//echo "New record created successfully. Last inserted ID is: " . $last_id;
+						} else {
+							echo "Error: " . $sql . "<br>" . $conn->error;
+							$check=1;
+							break;
+						}
 
-					$sql2 = "UPDATE tb_barang SET stock = stock - ".$data[$i]["qty"]." where id =".$data[$i]["id_item"]."";
-					if ($conn->query($sql2) === TRUE) {
+						$sql4 = "SELECT stock FROM tb_barang WHERE id in(".$data[$i]["id_item"].");";
+						$result4 = $conn->query($sql4);
 
-					} else {
-						echo "Error: " . $sql2s . "<br>" . $conn->error;
-						$check=1;
-						break;
+						$stock_awal=$result4->fetch_array()[0];
+
+						$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$data[$i]["id_item"].", ".$stock_awal.", ".$data[$i]["qty"].", ".($stock_awal-$data[$i]["qty"]).", 0)";
+						if ($conn->query($sql3) === TRUE) {
+						} else {
+							echo "Error: " . $sql3 . "<br>" . $conn->error;
+							$check=1;
+							break;
+						}
+
+						$sql2 = "UPDATE tb_barang SET stock = stock - ".$data[$i]["qty"]." where id =".$data[$i]["id_item"]."";
+						if ($conn->query($sql2) === TRUE) {
+
+						} else {
+							echo "Error: " . $sql2 . "<br>" . $conn->error;
+							$check=1;
+							break;
+						}
 					}
+				}
+				else
+				{
+					$_SESSION["message"]="Transaksi gagal, pastikan quantity tidak melebihi stock tersedia dan silahkan ulangi transaksi";
+					$check=2;
 				}
 
 				if($deposit!="" && $check==0)
@@ -146,7 +183,7 @@
 					$_SESSION["invoice"]=$invoice;
 					$_SESSION["message"]="Transaksi Berhasil";
 				}
-				else
+				else if($check==1)
 				{
 					$conn->rollback();
 					$_SESSION["message"]="Transaksi gagal, silahkan ulangi transaksi";

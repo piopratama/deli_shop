@@ -36,6 +36,7 @@
 			$data[$i]["price"]=$row["price"];
 			$data[$i]["unit"]=$row["unit"];
 			$data[$i]["qty"]=$qty;
+			$data[$i]["stock"]=$row["stock"];
 			$data[$i]["discount"]=$discount;
 			$data[$i]["total_price"]=$row["price"]*$qty-$row["price"]*$qty*$discount/100.0;
 			$i=$i+1;

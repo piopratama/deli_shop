@@ -16,7 +16,7 @@
 	
 	$invoice=$_POST['invoice'];
 	require 'koneksi.php';
-	$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+	$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."' and tb_transaksi.statuss=0;";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		$sum=0;
@@ -26,6 +26,7 @@
 
 		}
 		$sum=$sum+0*$sum;
+		$sum=Round($sum/1000)*1000;
 		echo $sum;
 	}
 ?>

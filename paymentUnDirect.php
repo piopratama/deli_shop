@@ -17,7 +17,7 @@ else
 	}
 }
 require 'koneksi.php';
-$sql = "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice;";
+$sql = "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice order by tnggl2 asc;";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -203,6 +203,9 @@ $result = $conn->query($sql);
 							}
 						});
 				});
+				$("#printBtn").click(function(){
+					$(".status").html("paid");
+				})
 			});
 		</script>
 	</body>

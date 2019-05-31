@@ -29,7 +29,7 @@ $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM
 
 $customer= mysqli_query($conn, "SELECT nm_transaksi, SUM(total_price) AS total_price FROM tb_transaksi WHERE statuss=1 GROUP BY nm_transaksi;");
 
-$debt = mysqli_query($conn, "SELECT nm_transaksi, total_price, deposit FROM tb_transaksi tt INNER JOIN tb_deposit td ON tt.invoice=td.invoice WHERE statuss=0 GROUP BY tt.invoice;");
+$debt = mysqli_query($conn, "SELECT nm_transaksi, SUM(total_price) AS total_price, SUM(deposit) AS deposit FROM tb_transaksi tt INNER JOIN (SELECT invoice, SUM(deposit) AS deposit FROM tb_deposit GROUP BY invoice) td ON tt.invoice=td.invoice WHERE statuss=0 GROUP BY tt.invoice;");
 
 $debtCustomerOption = mysqli_query($conn, "SELECT id, nm_transaksi, invoice FROM tb_transaksi where statuss='0' group by invoice;");
 
@@ -264,7 +264,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<tbody>
 								<?php 
 								$no=1;
-								foreach ($debt as $d) {?>
+								foreach ($debt as $d) { ?>
 								<tr>
 									<td><?php echo $d["nm_transaksi"];?></td>
 									<td><?php echo rupiah($d["total_price"]);?></td>
@@ -473,10 +473,11 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					var status=$("#status").val();
 					var startDate=$("#date_start").val();
 					var stopDate=$("#date_end").val();
+					var invoice=$("#dept").val();
 					$.ajax({
 						type: "post",
 						url: "export_excel_admin.php",
-						data: {status: status, startDate: startDate, stopDate: stopDate},
+						data: {status: status, startDate: startDate, stopDate: stopDate, debt: invoice},
 						success: function (data) {
 							
 						}
