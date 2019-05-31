@@ -27,11 +27,26 @@ $purchase=$_POST['purchase_price'];
 $barcode=$_POST['barcode'];
 $date=date('Y-m-d H:i:s');
 
+$check=FALSE;
 
+$conn->autocommit(FALSE);
+$conn->query("START TRANSACTION");
 $result=mysqli_query($conn, "UPDATE tb_barang SET item='$name', price='$price', stock='$stock', unit='$unit', supplier='$supplier', barcode='$barcode', kategori='$category', `date`='$date', pur_price='$purchase' WHERE id='$id'");
-if(!$result)
+$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$id.", ".$stock.", 0, ".$stock.", 1)";
+if ($conn->query($sql3) === TRUE) {
+    $check=TRUE;
+} else {
+    echo "Error: " . $sql2s . "<br>" . $conn->error;
+}
+if(!$result || !$check)
 {
     $_SESSION["message"]="Transaksi gagal, silahkan ulangi transaksi";
+    $conn->rollback();
 }
+else
+{
+    $conn->commit();
+}
+
 header("location:stock.php");
 ?>

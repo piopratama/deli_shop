@@ -34,7 +34,7 @@ $date=date('Y-m-d H:i:s');
 $date_db = date("Y-m-d", strtotime($date));
 $customer='';
 
-$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."';";
+$sql = "SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."' order by tnggl2 asc;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) 

@@ -17,15 +17,17 @@ else
 }
 include_once 'koneksi.php';
 
-$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE DATE(tnggl)=CURDATE()");
+$barang = mysqli_query($conn, "SELECT tb_transaksi.invoice, nm_transaksi, Date(tnggl) as tnggl, Date(tnggl2) as tnggl2, (SELECT nama FROM tb_employee WHERE id=id_employee) AS nama_pegawai, (SELECT item FROM tb_barang WHERE id=id_item ) AS item, qty, discount, total_price, statuss FROM tb_transaksi WHERE DATE(tnggl)=CURDATE()");
 
 $kategori= mysqli_query($conn, "SELECT TK.nm_kategori, SUM(TT.total_price) AS income FROM tb_transaksi TT INNER JOIN tb_barang TB ON TT.id_item=TB.id INNER JOIN tb_kategori TK ON TB.kategori=TK.id WHERE DATE(tnggl)=CURDATE() AND TT.statuss=1 GROUP BY TK.nm_kategori;");
 
-$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE invoice IN (SELECT invoice FROM tb_transaksi WHERE tb_transaksi.statuss=0 AND date(tnggl)=CURDATE()) AND `date`=CURDATE();");
+$depositArr= mysqli_query($conn, "SELECT SUM(deposit) AS deposit FROM tb_deposit WHERE `date`=CURDATE();");
 
 $method= mysqli_query($conn, "SELECT method,SUM(payment+deposit) AS payment FROM tb_deposit WHERE `date`=CURDATE() GROUP BY method;");
 
 $paidTrans= mysqli_query($conn,"SELECT SUM(total_price) AS total_price FROM tb_transaksi WHERE DATE(tnggl)=CURDATE() AND statuss=1;");
+
+$barang_terjual=mysqli_query($conn,"SELECT TB.item, TB.stock, ROUND(SUM(TT.qty),4) AS qty, TB.unit FROM tb_barang TB INNER JOIN tb_transaksi TT ON TB.id=TT.id_item WHERE DATE(tnggl2)=CURDATE() GROUP BY TB.id;");
 
 $deposit=0;
 $total_no_deposit=0;
@@ -104,7 +106,8 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<th>ID</th>
 								<th>Invoice</th>
 								<th>Name</th>
-								<th>Date</th>
+								<th>Date Order</th>
+								<th>Date Payment</th>
 								<th>Employee</th>
 								<th>Item</th>
 								<th>QTY</th>
@@ -121,6 +124,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 								<td><?php echo $no ?></td>
 								<td><?php echo $data["invoice"];?></td>
 								<td><?php echo ($data["nm_transaksi"]=="" ? "Direct Pay": $data["nm_transaksi"]);?></td>
+								<td><?php echo $data["tnggl2"];?></td>
 								<td><?php echo $data["tnggl"];?></td>
 								<td><?php echo $data["nama_pegawai"];?></td>
 								<td><?php echo $data["item"];?></td>
@@ -159,7 +163,29 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							</div>
 						</div>
 					</div>
-					<h1> TABEL REPORT CATEGORY</h1>
+					<h1> TABEL JUMLAH BARANG TERJUAL </h1>
+					<table id="example4" class="table table-bordered" style="width: 100%;">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Jumlah Terjual</th>
+								<th>Sisa Stock</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							foreach ($barang_terjual as $i) {?>
+							<tr>
+								<td><?php echo $i["item"];?></td>
+								<td><?php echo $i["qty"]." ".$i["unit"];?></td>
+								<td><?php echo $i["stock"]." ".$i["unit"];;?></td>
+							</tr>
+							<?php 
+							}
+							?>							
+						</tbody>
+					</table>
+					<h1> TABEL REPORT CATEGORY </h1>
 					<h3>Only Paid Transaction (Does't Include Deposit)</h3>
 					<table id="example2" class="table table-bordered" style="width: 100%;">
 						<thead>
@@ -216,7 +242,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 					</div>
 					<div class="form-group fontsize">
 						<label for="">Total Income</label>
-						<div class="border border-primary form-control"><?php echo "Rp.".rupiah(ROUND(($total_no_deposit+$deposit)/1000)*1000); ?></div>
+						<div class="border border-primary form-control"><?php echo "Rp.".rupiah(ROUND(($total_income)/1000)*1000); ?></div>
 					</div>
 					<a href="export_excel.php" type="button" class="btn btn-success" >Print</a><br>
 				</div>
@@ -234,6 +260,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 				var oTable=$("#example").dataTable();
 				var oTable=$("#example2").dataTable();
 				var oTable=$("#example3").dataTable();
+				var oTable=$("#example4").dataTable();
 			});
 		</script>
 	</body>

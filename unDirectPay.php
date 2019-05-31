@@ -314,6 +314,19 @@ $api = $conn->query($sql2);
 						}
 					});
 				});
+
+				$("#deposit").keyup(function(){
+					$("#printBtn").attr('disabled', 'disabled');
+					$("#printItem").attr('disabled', 'disabled');
+					if($(this).val()!="")
+					{
+						if($(this).val()>0)
+						{
+							$("#printBtn").removeAttr('disabled');
+							$("#printItem").removeAttr('disabled');
+						}
+					}
+				})
 				
 				$("#invoice").change(function(event) {
 					var invoice=$(this).val();
@@ -370,7 +383,7 @@ $api = $conn->query($sql2);
 				$("#printItem").click(function(event) {
 					var mydate = formatDate(new Date($("#date").val()));
 					var grandTotalCheck=$("#grandTotal").val();
-					if(grandTotalCheck!="" && grandTotalCheck!="0")
+					if((grandTotalCheck!="" && grandTotalCheck!="0") || ($("#deposit").val()!="" && $("#deposit").val()>0))
 					{
 						var printer = new Recta(api.toString(), port.toString());
 						//var printer = new Recta('4590384132', '1811');
@@ -441,6 +454,28 @@ $api = $conn->query($sql2);
 							}
 							if($("#deposit").val()!="")
 							{
+								var grand_total_history=$("#grand_total_history").val();
+								var grand_total=$("#grandTotal").val();
+								var deposit=$("#deposit").val();
+								var deposit_history=$("#deposit_history").val();
+
+								if(grand_total_history=="")
+								{
+									grand_total_history=0;
+								}
+								if(grand_total=="")
+								{
+									grand_total=0;
+								}
+								if(deposit=="")
+								{
+									deposit=0;
+								}
+								if(deposit_history=="")
+								{
+									deposit_history=0;
+								}
+								var remaining_pay=parseFloat(grand_total_history)+parseFloat(grand_total)-parseFloat(deposit)-parseFloat(deposit_history);
 								printer.text("Deposit : "+numberToRupiah(parseFloat($("#deposit").val()))).bold(true);
 							}
 							printer.cut()

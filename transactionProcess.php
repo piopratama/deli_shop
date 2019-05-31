@@ -115,10 +115,23 @@
 						break;
 					}
 
+					$sql4 = "SELECT stock FROM tb_barang WHERE id in(".$data[$i]["id_item"].");";
+					$result4 = $conn->query($sql4);
+
+					$stock_awal=$result4->fetch_array()[0];
+
+					$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$data[$i]["id_item"].", ".$stock_awal.", ".$data[$i]["qty"].", ".($stock_awal-$data[$i]["qty"]).", 0)";
+					if ($conn->query($sql3) === TRUE) {
+					} else {
+						echo "Error: " . $sql3 . "<br>" . $conn->error;
+						$check=1;
+						break;
+					}
+
 					$sql2 = "UPDATE tb_barang SET stock = stock - ".$data[$i]["qty"]." where id =".$data[$i]["id_item"]."";
 					if ($conn->query($sql2) === TRUE) {
 					} else {
-						echo "Error: " . $sql2s . "<br>" . $conn->error;
+						echo "Error: " . $sql2 . "<br>" . $conn->error;
 						$check=1;
 						break;
 					}
@@ -161,7 +174,7 @@
 	$conn->close();
 	if($mode!=1)
 	{
-		header("location:directPay.php");
+		//header("location:directPay.php");
 	}
 	else
 	{
