@@ -31,8 +31,14 @@ $check=FALSE;
 
 $conn->autocommit(FALSE);
 $conn->query("START TRANSACTION");
+$sql4 = "SELECT stock FROM tb_barang WHERE id in(".$id.");";
+$result4 = $conn->query($sql4);
+
 $result=mysqli_query($conn, "UPDATE tb_barang SET item='$name', price='$price', stock='$stock', unit='$unit', supplier='$supplier', barcode='$barcode', kategori='$category', `date`='$date', pur_price='$purchase' WHERE id='$id'");
-$sql3 = "INSERT INTO tb_stock values('".$data[$i]["tnggl"]."', ".$id.", ".$stock.", 0, ".$stock.", 1)";
+
+$stock_awal=$result4->fetch_array()[0];
+
+$sql3 = "INSERT INTO tb_stock values('".$date."', ".$id.", ".$stock_awal.", ".($stock-$stock_awal).", ".$stock.", 2, '".$_SESSION['username']."')";
 if ($conn->query($sql3) === TRUE) {
     $check=TRUE;
 } else {

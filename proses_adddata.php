@@ -28,13 +28,29 @@
 
 	// include database connection file
 	include 'koneksi.php';
-											
+							
+	$conn->autocommit(FALSE);
+	$conn->query("START TRANSACTION");
+
 	// Insert user data into table
 	$result = mysqli_query($conn, "INSERT INTO tb_barang(item,price,stock,unit,kategori,supplier,pur_price,barcode, `date`) VALUES('$name','$price','$stock','$unit','$kategori','$supplier','$purchase','$barcode', '$date')");
 	
-	if(!$result)
+	$id=$conn->insert_id;
+
+	$sql3 = "INSERT INTO tb_stock values('".$date."', ".$id.", 0, ".$stock.", ".$stock.", 1, '".$_SESSION['username']."')";
+	if ($conn->query($sql3) === TRUE) {
+		$check=TRUE;
+	} else {
+		echo "Error: " . $sql2s . "<br>" . $conn->error;
+	}
+	if(!$result || !$check)
 	{
 		$_SESSION["message"]="Transaksi gagal, silahkan ulangi transaksi";
-	}			
+		$conn->rollback();
+	}
+	else
+	{
+		$conn->commit();
+	}		
 	header("location:stock.php");
 ?>
