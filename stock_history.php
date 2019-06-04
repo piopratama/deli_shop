@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-$title="Supplier";
+$title="Stock History";
 
 if(empty($_SESSION['username'])){
 	header("location:index.php");
@@ -21,7 +21,25 @@ else
 
 
 include_once 'koneksi.php';
-$history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, TS.stock_akhir, TS.status, TS.username from tb_stock TS inner join tb_barang TB on TS.item=TB.id");
+$myItem="";
+if(isset($_POST['itemFilter']))
+{
+    if($_POST['itemFilter']=="0")
+    {
+        $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, TS.stock_akhir, TS.status, TS.username, TB.unit from tb_stock TS inner join tb_barang TB on TS.item=TB.id order by TS.date asc");
+    }
+    else
+    {
+        $myItem=$_POST['itemFilter'];
+        $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, TS.stock_akhir, TS.status, TS.username, TB.unit from tb_stock TS inner join tb_barang TB on TS.item=TB.id where TB.id=".$myItem." order by TS.date asc");
+    }
+}
+else
+{
+    $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, TS.stock_akhir, TS.status, TS.username, TB.unit from tb_stock TS inner join tb_barang TB on TS.item=TB.id order by TS.date asc");
+}
+
+$barang = mysqli_query($conn, "SELECT * from tb_barang");
 
 ?>
     <?php include("./templates/header.php"); ?>
@@ -59,28 +77,35 @@ $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, 
         <div class="container">
             <div class="row">
                 <div class="col-md-12" id="mytable">
+                <a href="administrator.php" style="margin:0 5px 10px 0" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a>
+                    <form action="" method="POSt" style="margin-bottom:20px;">
+                        <div class="form-group">
+                          <label for="">Select Item</label>
+                          <select name="itemFilter" id="itemFilter" class="form-control" style="width:300px;">
+                            <option value="0">-- Select All --</option>
+                            <?php
+                                while($row = $barang->fetch_assoc())
+                                {
+                                    if($myItem==$row['id'])
+                                    {
+                            ?>
+                                        <option value="<?php echo $row['id'] ?>" selected="selected"><?php echo $row['item']; ?></option>
+                            <?php
+                                    }
+                                    else
+                                    {
+                            ?>
+                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['item']; ?></option>
+                            <?php
+                                    }
+                                }
+                            ?>
+                          </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 <table id="example" class="table table-bordered" style="width: 100%;">
                     <h1>STOCK HISTORY</h1>
-
-                    <div style="border-bottom:1px solid #bcbaba; margin-bottom:10px; background-color:#b5b2ac; padding:0 0 0 10px">
-						Status:
-						<select name="status" id="status">
-							<option value="">Select Status</option>
-							<option value="1">Paid</option>
-							<option value="0">Unpaid</option>
-						</select>
-						Debt Customer:
-						<select name="debt" id="debt">
-							<option value="">--Select Dept Customer--</option>
-							<?php 
-							foreach ($debtCustomerOption as $dc){
-							?>
-							<option value="<?php echo $dc['invoice']?>"><?php echo $dc['nm_transaksi']?></option>
-							<?php } ?>
-						</select>
-						<button type="submit" class="btn btn-success" style="margin-left:10px;">Print</button>
-					</div>                   
-                    <a href="administrator.php" style="margin:0 5px 10px 0" type="button" class="btn btn-danger glyphicon glyphicon-arrow-left" ></a>
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -89,6 +114,7 @@ $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, 
                             <th>Stock Awal</th>
                             <th>Qty</th>
                             <th>Stock Akhir</th>
+                            <th>Unit</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -103,19 +129,24 @@ $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, 
                             <td><?php echo $data["stock_awal"];?></td>
                             <td><?php echo $data["qty"];?></td>
                             <td><?php echo $data["stock_akhir"];?></td>
+                            <td><?php echo $data["unit"];?></td>
                             <td>
                             <?php 
                             if($data["status"]==0)
                             {
-                                echo("Transaksi");
+                                echo("Transaksi Direct");
                             }
                             else if($data["status"]==1)
                             {
                                 echo("Insert Data");
                             }
-                            else
+                            else if($data["status"]==2)
                             {
                                 echo("Update Data");
+                            }
+                            else
+                            {
+                                echo("Transaction Undirect");
                             }
                             ?></td>
                         </tr>
@@ -207,6 +238,8 @@ $history = mysqli_query($conn, "SELECT TS.date, TB.item, TS.stock_awal, TS.qty, 
 					$("#id_delete").val($(this).attr('id'));
                     $("#exampleModal2").modal('show');
 				});
+
+                $("#itemFilter").select2();
 			});
 		</script>
 	</body>

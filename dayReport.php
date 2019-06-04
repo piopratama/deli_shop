@@ -159,7 +159,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							<div class="form-group fontsize">
 								<label for="">Unpaid Transaction Income</label>
 								<div class="form-control"
-								><?php echo "Rp.".rupiah($deposit); ?></div>
+								><?php echo "Rp.".rupiah(ROUND($deposit/1000)*1000); ?></div>
 							</div>
 						</div>
 					</div>
@@ -222,7 +222,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($method as $j) {?>
 							<tr>
 								<td><?php echo $j["method"];?></td>
-								<td><?php echo rupiah($j["payment"]);?></td>
+								<td><?php echo rupiah(ROUND($j["payment"]/1000)*1000);?></td>
 								<?php $total_income=$total_income+$j["payment"]; ?>
 							</tr>
 							<?php $no++; }?>							
