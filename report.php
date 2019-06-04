@@ -72,7 +72,6 @@ if($where=="Where")
 $sql=$sql." ".$where." GROUP BY T1.invoice order by T1.tnggl desc";
 $sql=trim($sql);
 $transactionData = $conn->query($sql);
-echo $sql;
 $totalTransaction=0;
 ?>
 <!DOCTYPE html>
@@ -175,6 +174,7 @@ $totalTransaction=0;
 							<th>Invoice</th>
 							<th>Name</th>
 							<th>Total Deposit</th>
+							<th>Total Paid</th>
 							<th>Total</th>
 							<th>Total Dept</th>
 							<th>Status</th>
@@ -194,6 +194,7 @@ $totalTransaction=0;
 							<td><?php echo ($row["nama"] == "" ?  "Direct Pay": $row["nama"]); ?></td>
 							<td><?php echo rupiah(Round($row["deposit"]/1000)*1000); ?></td>
 							<td><?php echo rupiah(Round($row["payment"]/1000)*1000); ?></td>
+							<td><?php echo rupiah(Round($row["total_price"]/1000)*1000); ?></td>
 							<td><?php echo rupiah(Round($row["dept"]/1000)*1000); ?></td>
 							<td><?php echo ($row["payment"] == 0 ?  "Progress": "Finished"); ?></td>
 							<td>
