@@ -200,7 +200,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_employee");
 							foreach ($kategori as $i) {?>
 							<tr>
 								<td><?php echo $i["nm_kategori"];?></td>
-								<td><?php echo rupiah($i["income"]);?></td>
+								<td><?php echo rupiah(ROUND($i["income"]));?></td>
 								<?php $total_no_deposit=$total_no_deposit+$i["income"]; ?>
 							</tr>
 							<?php $no++; }?>							
