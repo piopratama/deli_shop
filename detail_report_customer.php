@@ -1,6 +1,6 @@
 <?php
 session_start();
-$title="Report";
+$title="Detail Report Customer";
 
 if(empty($_SESSION['username'])){
 	header("location:index.php");
@@ -17,61 +17,12 @@ else
 }
 include_once 'koneksi.php';
 $invoice = $_GET['invoice'];
-$sql="SELECT T1.id, T1.invoice, T1.nm_transaksi as nama, DATE(T1.tnggl) as tnggl, SUM(TD.deposit) AS deposit, SUM(TD.payment) AS payment, T1.total_price, (T1.total_price-SUM(TD.deposit)-SUM(TD.payment)) as dept FROM 
-(SELECT id, nm_transaksi, invoice, tnggl, tnggl2, statuss, SUM(total_price) as total_price FROM tb_transaksi GROUP BY invoice) AS T1 INNER JOIN tb_deposit TD ON 
-T1.invoice = TD.invoice";
-$startDate="";
-$endDate="";
-$status="";
-$where="";
-if(isset($_POST['submit']))
-{
-	if($_POST['submit']=="submit")
-	{
-		$startDate=$_POST['startDate'];
-		$endDate=$_POST['endDate'];
-		$status=$_POST['status'];
+$sql="SELECT * FROM tb_transaksi INNER JOIN tb_barang ON tb_barang.id=tb_transaksi.id_item INNER JOIN tb_employee ON tb_employee.id=tb_transaksi.id_employee WHERE invoice='".$invoice."' order by tnggl2 asc;";
+$sql2 = "SELECT sum(deposit) as deposit, sum(payment) as payment FROM tb_deposit WHERE invoice='".$invoice."'";
 
-		$where="Where";
-		if($startDate!="")
-		{
-			$where=$where." DATE(TD.date)>='".$startDate."'";
-		}
-
-		if($endDate!="")
-		{
-			if($where=="Where")
-			{
-				$where=$where." DATE(TD.date)<='".$endDate."'";
-			}
-			else
-			{
-				$where=$where." and DATE(TD.date)<='".$endDate."'";
-			}
-		}
-
-		if($status!="")
-		{
-			if($where=="Where")
-			{
-				$where=$where." T1.statuss='".$status."'";
-			}
-			else
-			{
-				$where=$where." and T1.statuss='".$status."'";
-			}
-		}
-	}
-}
-
-if($where=="Where")
-{
-	$where="";
-}
-
-$sql=$sql." ".$where." GROUP BY T1.invoice order by T1.tnggl desc";
 $sql=trim($sql);
 $transactionData = $conn->query($sql);
+$transactionData2 = $conn->query($sql2);
 $totalTransaction=0;
 ?>
 <!DOCTYPE html>
@@ -129,37 +80,14 @@ $totalTransaction=0;
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<a class="btn btn-danger glyphicon glyphicon-arrow-left" href="administrator.php"></a>
-				<a class="btn btn-danger" href="administrator.php">Transaction Report</a>
-				<a class="btn btn-danger" href="administrator.php">Category Report</a>
+				<a class="btn btn-danger" href="report.php">Transaction Report</a>
+				<a class="btn btn-danger" href="category_report.php">Category Report</a>
 			</div>
 		</div>
 		<hr>
 		<div class="row">
 			<div class="col-md-12">
 				<h2>Transaction Report</h2>
-				<form class="form-inline" method="POST" action="">
-					<div class="form-group">
-						<label for="">Start Date : </label>
-						<input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date" 
-							value="<?php echo ($startDate!="" ? $startDate:""); ?>">
-					</div>
-					<div class="form-group">
-						<label for="">End Date : </label>
-						<input type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date" 
-							value="<?php echo ($endDate!="" ? $endDate:""); ?>">
-					</div>
-					<div class="form-group">
-						<label for="">Status : </label>
-						<select class="form-control" name="status" id="status">
-							<option value="" <?php echo $status=="" ? "selected":""; ?>>-- Select Status --</option>
-							<option value="1" <?php echo $status=="1" ? "selected":""; ?>>Finished</option>
-							<option value="0" <?php echo $status=="0" ? "selected":""; ?>>UnFinished</option>
-						</select>
-					</div>
-					<button type="submit" name="submit" class="btn btn-submit" value="submit">Submit</button>
-					<button type="submit" name="submit" class="btn btn-submit" value="print">Print</button>
-				</form>
 			</div>
 		</div>
 		<hr>
@@ -169,16 +97,15 @@ $totalTransaction=0;
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>Created Date</th>
-							<th>Payment Date</th>
+							<th>Date</th>
 							<th>Invoice</th>
-							<th>Name</th>
-							<th>Total Deposit</th>
-							<th>Total Paid</th>
+							<th>Customet</th>
+							<th>Employee</th>
+							<th>Item</th>
+							<th>Qty</th>
+							<th>Discount(%)</th>
+							<th>Price</th>
 							<th>Total</th>
-							<th>Total Dept</th>
-							<th>Status</th>
-							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -188,22 +115,19 @@ $totalTransaction=0;
 						?>
 						<tr>
 							<td><?php echo $i; ?></td>
-							<td><?php echo explode(" ",$row["invoice"])[0]; ?></td>
-							<td><?php echo ($row["payment"] == 0 ?  "-": $row["tnggl"]); ?></td>
+							<td><?php echo $row["tnggl2"]; ?></td>
 							<td><?php echo $row["invoice"]; ?></td>
-							<td><?php echo ($row["nama"] == "" ?  "Direct Pay": $row["nama"]); ?></td>
-							<td><?php echo rupiah(Round($row["deposit"]/1000)*1000); ?></td>
-							<td><?php echo rupiah(Round($row["payment"]/1000)*1000); ?></td>
-							<td><?php echo rupiah(Round($row["total_price"]/1000)*1000); ?></td>
-							<td><?php echo rupiah(Round($row["dept"]/1000)*1000); ?></td>
-							<td><?php echo ($row["payment"] == 0 ?  "Progress": "Finished"); ?></td>
-							<td>
-								<button type="button" class="btn btn-primary">History</button>
-							</td>
+							<td><?php echo ($row["nm_transaksi"] == "" ?  "Direct Pay": $row["nm_transaksi"]); ?></td>
+							<td><?php echo $row["nama"]; ?></td>
+							<td><?php echo $row["item"]; ?></td>
+							<td><?php echo $row["qty"]; ?></td>
+							<td><?php echo $row["discount"]; ?></td>
+							<td><?php echo $row["price"]; ?></td>
+							<td><?php echo round($row["total_price"]/1000)*1000; ?></td>
 						</tr>
 						<?php
 						$i=$i+1;
-						$totalTransaction=$totalTransaction+$row["payment"]+$row["deposit"];
+						$totalTransaction=$totalTransaction+$row["total_price"];
 						} 
 						?>
 					</tbody>
@@ -215,8 +139,14 @@ $totalTransaction=0;
 			<div class="col-md-4"></div>
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<label>Total Income</label>
-				<input type="text" name="totalTransaction" id="totalTransaction" value="<?php echo "Rp.".rupiah(ROUND($totalTransaction/1000)*1000); ?>" readonly="readonly" class="form-control">
+				<label>Total</label>
+				<input type="text" name="total" id="total" value="<?php echo "Rp.".rupiah(ROUND($totalTransaction/1000)*1000); ?>" readonly="readonly" class="form-control"><br>
+				<?php while($row2 = $transactionData2->fetch_assoc()) { ?>
+				<label>Deposit</label>
+				<input type="text" name="deposit" id="deposit" value="<?php echo "Rp.".rupiah($row2["deposit"]); ?>" readonly="readonly" class="form-control"><br>
+				<label>Debt</label>
+				<input type="text" name="debt" id="debt" value="<?php echo "Rp.".rupiah((ROUND($totalTransaction/1000)*1000)-$row2["deposit"]); ?>" readonly="readonly" class="form-control"><br>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
