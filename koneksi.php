@@ -1,8 +1,4 @@
 <?php
-	/*$servername = "sql130.main-hosting.eu";
-	$username = "u610112734_deli";
-	$password = "deli_123PP";
-	$dbname = "u610112734_deli";*/
 	$servername = "localhost";
 	$username = "root";
 	$password = "";

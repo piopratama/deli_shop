@@ -16,7 +16,7 @@ else
 	}
 }
 include_once 'koneksi.php';
-
+$invoice = $_GET['invoice'];
 $sql="SELECT T1.id, T1.invoice, T1.nm_transaksi as nama, DATE(T1.tnggl) as tnggl, SUM(TD.deposit) AS deposit, SUM(TD.payment) AS payment, T1.total_price, (T1.total_price-SUM(TD.deposit)-SUM(TD.payment)) as dept FROM 
 (SELECT id, nm_transaksi, invoice, tnggl, tnggl2, statuss, SUM(total_price) as total_price FROM tb_transaksi GROUP BY invoice) AS T1 INNER JOIN tb_deposit TD ON 
 T1.invoice = TD.invoice";
@@ -198,7 +198,7 @@ $totalTransaction=0;
 							<td><?php echo rupiah(Round($row["dept"]/1000)*1000); ?></td>
 							<td><?php echo ($row["payment"] == 0 ?  "Progress": "Finished"); ?></td>
 							<td>
-								<button type="button" class="btn btn-primary"><a href="detail_report_customer.php?id=<?php echo $row["invoice"];?>">History</a></button>
+								<button type="button" class="btn btn-primary">History</button>
 							</td>
 						</tr>
 						<?php
