@@ -19,7 +19,7 @@ include_once 'koneksi.php';
 
 $sql="SELECT T1.id, T1.invoice, T1.nm_transaksi as nama, DATE(T1.tnggl) as tnggl, SUM(TD.deposit) AS deposit, SUM(TD.payment) AS payment, T1.total_price, (T1.total_price-SUM(TD.deposit)-SUM(TD.payment)) as dept FROM 
 (SELECT id, nm_transaksi, invoice, tnggl, tnggl2, statuss, SUM(total_price) as total_price FROM tb_transaksi GROUP BY invoice) AS T1 INNER JOIN tb_deposit TD ON 
-T1.invoice = TD.invoice";
+T1.invoice = TD.invoice inner join tb_barang TB";
 $startDate="";
 $endDate="";
 $status="";
@@ -73,6 +73,8 @@ $sql=$sql." ".$where." GROUP BY T1.invoice order by T1.tnggl desc";
 $sql=trim($sql);
 $transactionData = $conn->query($sql);
 $totalTransaction=0;
+
+echo $sql;
 ?>
 <!DOCTYPE html>
 <html>
